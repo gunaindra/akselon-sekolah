@@ -130,7 +130,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li class="external">
-							<h3>Pemberitahuan Masuk</h3>
+							<h3>Notification</h3>
 							
 						</li>
 						<li>
