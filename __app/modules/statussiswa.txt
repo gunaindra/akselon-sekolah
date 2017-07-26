@@ -1,0 +1,9 @@
+Status :
+
+ 1 = > Pendaftaran Online
+ 2 => Siswa Aktif 
+ 
+ 99 => Menunggu Proses Pembayaran
+ 98 => Di Proses
+ 97 => Dikembalikan
+ 96 => Tidak Di Terima
