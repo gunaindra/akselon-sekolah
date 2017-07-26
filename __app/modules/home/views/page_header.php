@@ -114,7 +114,7 @@
 				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 				<li class="" >
 						<a href="<?php echo site_url("pengaturan/tahun"); ?>" style="color:white">
-						<span class=" 	glyphicon glyphicon-off"></span> Tahun Akademik <?php echo $sekolah->ajaran; ?>/<?php echo $sekolah->ajaran+1; ?> </a>
+						<span class=" 	glyphicon glyphicon-off"></span> Academic Year <?php echo $sekolah->ajaran; ?>/<?php echo $sekolah->ajaran+1; ?> </a>
 			     </li>
 				  
 				  <li class="">
