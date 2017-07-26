@@ -10,12 +10,12 @@ class Acuan_model extends CI_Model {
   
   public function indukmenu(){
 		
-		return $this->db->query("select a.id as id_menu, a.nama as menu, a.link,a.icon,b.* FROM tm_menu a INNER JOIN kepegawaian.hak_akses b ON b.tmmenu_id=a.id  where b.tmgrup_id='".$_SESSION['grup']."' and parent_id='0' order  by a.urutan asc");
+		return $this->db->query("select a.id as id_menu, a.nama as menu, a.link,a.icon,b.* FROM tm_menu a INNER JOIN hak_akses b ON b.tmmenu_id=a.id  where b.tmgrup_id='".$_SESSION['grup']."' and parent_id='0' order by a.urutan asc");
 	}
 	
 	public function submenu($tmmenu_id){
 		
-		return $this->db->query("select a.nama as menu, a.link,a.icon,b.* FROM tm_menu a INNER JOIN kepegawaian.hak_akses b ON b.tmmenu_id=a.id  where b.tmgrup_id='".$_SESSION['grup']."' and parent_id='".$tmmenu_id."' order  by a.urutan asc");
+		return $this->db->query("select a.nama as menu, a.link,a.icon,b.* FROM tm_menu a INNER JOIN hak_akses b ON b.tmmenu_id=a.id  where b.tmgrup_id='".$_SESSION['grup']."' and parent_id='".$tmmenu_id."' order  by a.urutan asc");
 	}
 	
    public function formatuang($jumlah){
@@ -357,7 +357,7 @@ class Acuan_model extends CI_Model {
 	public function get_kondisi($id,$where,$table,$kolom){
 		
 		$this->db->where($where,$id);
-		$sql = $this->db->get($table)->row();
+		return $sql = $this->db->get($table);
 		if(count($sql)>0):
 		return $sql->$kolom;
 		else:

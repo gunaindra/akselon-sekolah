@@ -2,8 +2,8 @@
 	<ul class="page-sidebar-menu page-sidebar-menu-light" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
 			
   <?php 
-    $segment1 = $this->uri->segment(4);
-    $segment2 = $this->uri->segment(5);
+    $segment1 = $this->uri->segment(1);
+    $segment2 = $this->uri->segment(2);
 	
 	$segment1  .= (!empty($segment2)) ? "/".$segment2 :"";
 	

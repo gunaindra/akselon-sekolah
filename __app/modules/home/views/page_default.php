@@ -59,7 +59,7 @@
 						</div>
 						<div class="details">
 							<div class="number">
-								 <?php echo  $this->db->count_all("kepegawaian.tm_pegawai"); ?>
+								 <?php echo  $this->db->count_all("tm_pegawai"); ?>
 							</div>
 							<div class="desc">
 								 Data Pegawai
