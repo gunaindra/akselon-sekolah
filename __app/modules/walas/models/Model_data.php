@@ -18,7 +18,7 @@ class Model_data extends CI_Model {
 		
 		
 	    $this->db->select("*");
-        $this->db->from('view.v_ruang');
+        $this->db->from('v_ruang');
 		$this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
 		
 		

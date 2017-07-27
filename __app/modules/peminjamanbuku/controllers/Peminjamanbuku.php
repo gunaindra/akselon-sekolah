@@ -34,9 +34,9 @@ class Peminjamanbuku extends CI_Controller {
 	   $tmbuku_id    = $this->input->get_post("tmbuku_id",true);
 	   $harus_kembali= $this->input->get_post("harus_kembali",true);
 	   
-	   if(count($this->Acuan_model->get_where("perpus.tr_buku",array("tmsiswa_id"=>$tmsiswa_id,"tmbuku_id"=>$tmbuku_id,"status"=>1))) ==0){
+	   if(count($this->Acuan_model->get_where("tr_buku",array("tmsiswa_id"=>$tmsiswa_id,"tmbuku_id"=>$tmbuku_id,"status"=>1))) ==0){
 		
-	     $this->Acuan_model->insert("perpus.tr_buku",array("tmsiswa_id"=>$tmsiswa_id,"tmbuku_id"=>$tmbuku_id,"harus_kembali"=>$harus_kembali,"tgl_pinjam"=>date("Y-m-d"),"status"=>1,"i_entry"=>$_SESSION['user_id'],"d_entry"=>date("Y-m-d H:i:s")));
+	     $this->Acuan_model->insert("tr_buku",array("tmsiswa_id"=>$tmsiswa_id,"tmbuku_id"=>$tmbuku_id,"harus_kembali"=>$harus_kembali,"tgl_pinjam"=>date("Y-m-d"),"status"=>1,"i_entry"=>$_SESSION['user_id'],"d_entry"=>date("Y-m-d H:i:s")));
 				
         $this->Acuan_model->log($_SESSION['nama']." Melakukan Peminjaman Buku ");
 				
@@ -53,7 +53,7 @@ class Peminjamanbuku extends CI_Controller {
 	
 	public function batalpinjam(){
 		
-		$this->Acuan_model->hapus("perpus.tr_buku",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tr_buku",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

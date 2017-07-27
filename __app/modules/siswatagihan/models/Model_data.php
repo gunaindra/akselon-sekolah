@@ -10,7 +10,7 @@ class Model_data extends CI_Model {
 
 	
 	
-	 private $table ="akademik.tm_siswa";
+	 private $table ="tm_siswa";
 
 		
 		
@@ -22,7 +22,7 @@ class Model_data extends CI_Model {
 		$tmruang_id	    = trim($this->input->get_post("tmruang_id"));
 		
 	    $this->db->select("*");
-        $this->db->from('view.v_siswa');
+        $this->db->from('v_siswa');
 		$this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
 		$this->db->where("status",2);
 		$this->db->where('ajaran',$ajaran);
@@ -51,7 +51,7 @@ class Model_data extends CI_Model {
        $tmkeuangan_id = $this->input->get_post("tmkeuangan_id");
 	   
 	   $this->db->select("id");
-	   $this->db->from("akademik.tr_keuangan");
+	   $this->db->from("tr_keuangan");
 	   $this->db->where("ajaran",$ajaran);
 	   $this->db->where("tmsiswa_id",$tmsiswa_id);
 	   $this->db->where("tmkeuangan_id",$tmkeuangan_id);
@@ -67,7 +67,7 @@ class Model_data extends CI_Model {
 		   $tmjenjang_id  = $this->input->get_post("tmjenjang_id");
 		   $tmkeuangan_id = $this->input->get_post("tmkeuangan_id");
 		   $jumlah        = trim($this->input->get_post("jumlah"));
-		   $id        	  = $this->Acuan_model->id("akademik.tr_keuangan");
+		   $id        	  = $this->Acuan_model->id("tr_keuangan");
            
 		    
 			
@@ -84,7 +84,7 @@ class Model_data extends CI_Model {
 			
 			
 		  
-			$this->db->insert("akademik.tr_keuangan");
+			$this->db->insert("tr_keuangan");
 		   
 			$this->Acuan_model->log($_SESSION['nama']." Membuat Tagihan Siswa  ");
 				

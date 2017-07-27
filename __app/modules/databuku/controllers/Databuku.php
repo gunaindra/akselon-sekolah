@@ -81,7 +81,7 @@ class Databuku extends CI_Controller {
 		 
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("perpus.tm_buku",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_buku",array("id"=>$id));
 			}
 		 $this->load->view('form',$data);
 	}
@@ -124,7 +124,7 @@ class Databuku extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("perpus.tm_buku",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_buku",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

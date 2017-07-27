@@ -7,18 +7,9 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table    ="tm_sekolah";
+	private $table    ="tm_sekolah";
 
 
-		
-		
-	
-	
-	
-
-	
-	
-	
 	public function update($id) {
         
            

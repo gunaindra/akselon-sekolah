@@ -101,10 +101,8 @@ class Datasiswa extends CI_Controller {
 	public function akun(){
 		
 		 $id = $this->input->get_post("id",TRUE);
-		 $data = array();
 			   
 		    if(!empty($id)){
-				
 				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
 			}
 		 $this->load->view('akun',$data);
@@ -160,9 +158,9 @@ class Datasiswa extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("akademik.tm_siswa",array("id"=>$this->input->get_post("id")));
-		$this->Acuan_model->hapus("akademik.tr_kelas",array("tmsiswa_id"=>$this->input->get_post("id")));
-		$this->Acuan_model->hapus("akademik.tm_penanggungjawab",array("tmsiswa_id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_siswa",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tr_kelas",array("tmsiswa_id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_penanggungjawab",array("tmsiswa_id"=>$this->input->get_post("id")));
 		
 		
 	}
@@ -200,7 +198,7 @@ class Datasiswa extends CI_Controller {
 												
 												if(!empty($foto)){
 													
-													$this->Acuan_model->update("akademik.tm_siswa",array("foto"=>$foto),"id='".$id."'");
+													$this->Acuan_model->update("tm_siswa",array("foto"=>$foto),"id='".$id."'");
 												}else{
 													
 													header('Content-Type: application/json');
@@ -233,7 +231,7 @@ class Datasiswa extends CI_Controller {
 												
 												unlink(FCPATH."__statics/img/siswa/".$_FILES['files']['name']);
 							                    
-												$this->Acuan_model->update("akademik.tm_siswa",array("foto"=>$image),"id='".$id."'");
+												$this->Acuan_model->update("tm_siswa",array("foto"=>$image),"id='".$id."'");
 											}
 											
 			

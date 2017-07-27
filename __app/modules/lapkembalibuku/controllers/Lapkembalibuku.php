@@ -48,8 +48,8 @@ class Lapkembalibuku extends CI_Controller {
 				$no = $i++;
 				$records["data"][] = array(
 					$no,
-					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","akademik.tm_siswa","nis"),					
-					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","akademik.tm_siswa","nama"),					
+					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","tm_siswa","nis"),					
+					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","tm_siswa","nama"),					
 					$val['nama'],					
 					$this->Acuan_model->formattanggalstring($val['tgl_pinjam']),					
 					$this->Acuan_model->formattanggalstring($val['tgl_kembali']),					

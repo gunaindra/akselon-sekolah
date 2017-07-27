@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table ="akademik.tr_absensiguru";
+	 private $table ="tr_absensiguru";
 
 		
 		

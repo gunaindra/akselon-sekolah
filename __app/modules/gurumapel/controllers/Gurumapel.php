@@ -87,7 +87,7 @@ class Gurumapel extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("kepegawaian.tm_pegawai",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_pegawai",array("id"=>$id));
 			}
 		
 		 $this->load->view('form',$data);
@@ -100,7 +100,7 @@ class Gurumapel extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("kepegawaian.tm_pegawai",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_pegawai",array("id"=>$id));
 			}
 		 
 		 $this->load->view('formedit',$data);
@@ -111,7 +111,7 @@ class Gurumapel extends CI_Controller {
 		$tmpegawai_id   = $this->input->get_post("tmpegawai_id",true);
 		$tmpelajaran_id = $this->input->get_post("tmpelajaran_id",true);
 		                      if(!empty($tmpelajaran_id)){
-								  $this->Acuan_model->insert("kepegawaian.tr_gurumapel",array("tmpelajaran_id"=>$tmpelajaran_id,"tmpegawai_id"=>$tmpegawai_id));
+								  $this->Acuan_model->insert("tr_gurumapel",array("tmpelajaran_id"=>$tmpelajaran_id,"tmpegawai_id"=>$tmpegawai_id));
 								}
 								
 					                         $mapel = $this->Acuan_model->get_wherearray("v_gurumapel",array("tmpegawai_id"=>$tmpegawai_id));
@@ -147,7 +147,7 @@ class Gurumapel extends CI_Controller {
 							$tmpelajaran_id = isset($_POST['tmpelajaran_id'.$a]) ? $_POST['tmpelajaran_id'.$a] :"" ;
 							
 								if(!empty($tmpelajaran_id)){
-								  $this->Acuan_model->insert("kepegawaian.tr_gurumapel",array("tmpelajaran_id"=>$tmpelajaran_id,"tmpegawai_id"=>$tmpegawai_id));
+								  $this->Acuan_model->insert("tr_gurumapel",array("tmpelajaran_id"=>$tmpelajaran_id,"tmpegawai_id"=>$tmpegawai_id));
 								}
 							
 						}
@@ -171,14 +171,14 @@ class Gurumapel extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("kepegawaian.tr_gurumapel",array("tmpegawai_id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tr_gurumapel",array("tmpegawai_id"=>$this->input->get_post("id")));
 		
 		
 	}
 	
 	public function hapusmapel(){
 		
-		$this->Acuan_model->hapus("kepegawaian.tr_gurumapel",array("id"=>$this->input->get_post("datanya")));
+		$this->Acuan_model->hapus("tr_gurumapel",array("id"=>$this->input->get_post("datanya")));
 		
 		
 		

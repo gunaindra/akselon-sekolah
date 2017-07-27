@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table    ="perpus.tm_buku";
+	 private $table    ="tm_buku";
 
 
 		

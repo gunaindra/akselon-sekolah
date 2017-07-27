@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table ="kepegawaian.tr_gurumapel";
+	 private $table ="tr_gurumapel";
 
 		
 		
@@ -18,9 +18,9 @@ class Model_data extends CI_Model {
 		
 		
 	    $this->db->select("*");
-        $this->db->from('kepegawaian.tm_pegawai');
+        $this->db->from('tm_pegawai');
 		$this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
-		$this->db->where("id in (select distinct(tmpegawai_id) from kepegawaian.tr_gurumapel where tmsekolah_id='".$_SESSION['tmsekolah_id']."')");
+		$this->db->where("id in (select distinct(tmpegawai_id) from tr_gurumapel where tmsekolah_id='".$_SESSION['tmsekolah_id']."')");
 		
          if($paging==true){
 				     $this->db->limit($_REQUEST['length'],$_REQUEST['start']);
@@ -43,10 +43,10 @@ class Model_data extends CI_Model {
 		
 		
 	    $this->db->select("*");
-        $this->db->from('kepegawaian.tm_pegawai');
+        $this->db->from('tm_pegawai');
 		$this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
 		$this->db->where("status_jabatan","guru");
-		$this->db->where("id not in (select distinct(tmpegawai_id) from kepegawaian.tr_gurumapel where tmsekolah_id='".$_SESSION['tmsekolah_id']."')");
+		$this->db->where("id not in (select distinct(tmpegawai_id) from tr_gurumapel where tmsekolah_id='".$_SESSION['tmsekolah_id']."')");
 		
 		
          if($paging==true){

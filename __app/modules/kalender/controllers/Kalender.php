@@ -79,7 +79,7 @@ class Kalender extends CI_Controller {
 		 
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("akademik.tm_kalender",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_kalender",array("id"=>$id));
 			}
 		 $this->load->view('form',$data);
 	}
@@ -123,7 +123,7 @@ class Kalender extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("akademik.tm_kalender",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_kalender",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

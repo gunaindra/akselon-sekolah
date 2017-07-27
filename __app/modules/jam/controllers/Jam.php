@@ -75,7 +75,7 @@ class Jam extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("akademik.tm_jam",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_jam",array("id"=>$id));
 			}
 		 $this->load->view('form',$data);
 	}
@@ -121,7 +121,7 @@ class Jam extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("akademik.tm_jam",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_jam",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

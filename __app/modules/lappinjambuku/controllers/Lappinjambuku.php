@@ -48,8 +48,8 @@ class Lappinjambuku extends CI_Controller {
 				$no = $i++;
 				$records["data"][] = array(
 					$no,
-					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","akademik.tm_siswa","nis"),					
-					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","akademik.tm_siswa","nama"),					
+					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","tm_siswa","nis"),					
+					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","tm_siswa","nama"),					
 					$val['nama'],					
 					$this->Acuan_model->formattanggalstring($val['tgl_pinjam']),					
 					$this->Acuan_model->formattanggalstring($val['harus_kembali']),					
@@ -78,7 +78,7 @@ class Lappinjambuku extends CI_Controller {
 		 
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("perpus.tm_buku",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_buku",array("id"=>$id));
 			}
 		 $this->load->view('form',$data);
 	}
@@ -121,7 +121,7 @@ class Lappinjambuku extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("perpus.tm_buku",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_buku",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

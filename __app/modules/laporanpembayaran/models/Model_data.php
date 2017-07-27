@@ -10,7 +10,7 @@ class Model_data extends CI_Model {
 
 	
 	
-	 private $table ="akademik.tm_siswa";
+	 private $table ="tm_siswa";
 
 		
 		
@@ -26,7 +26,7 @@ class Model_data extends CI_Model {
 		$this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
 		$this->db->where("status",2);
 		$this->db->where('ajaran',$ajaran);
-		$this->db->where("id in (select distinct(tmsiswa_id) from akademik.tr_keuangan where status='2')");
+		$this->db->where("id in (select distinct(tmsiswa_id) from tr_keuangan where status='2')");
          if($paging==true){
 				     $this->db->limit($_REQUEST['length'],$_REQUEST['start']);
 					 
@@ -69,7 +69,7 @@ class Model_data extends CI_Model {
 			   }
 			 
 		 }
-		return $this->db->get("akademik.tr_keuangan");
+		return $this->db->get("tr_keuangan");
 		
 		
 	}

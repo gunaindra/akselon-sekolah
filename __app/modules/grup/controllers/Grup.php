@@ -81,7 +81,7 @@ class Grup extends CI_Controller {
 		 
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("kepegawaian.tm_grup",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_grup",array("id"=>$id));
 			}
 		 $this->load->view('form',$data);
 	}
@@ -124,7 +124,7 @@ class Grup extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("kepegawaian.tm_grup",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_grup",array("id"=>$this->input->get_post("id")));
 		
 		
 	}
@@ -136,7 +136,7 @@ class Grup extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("kepegawaian.tm_grup",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_grup",array("id"=>$id));
 				$data['datamenu'] = $this->Acuan_model->get(array("table"=>"tm_menu","order"=>"id","by"=>"asc"),null)->result();
 			}
 		 $this->load->view('privelege',$data);
@@ -149,11 +149,11 @@ class Grup extends CI_Controller {
 		  if($status==1){
 			  
 			   $this->Acuan_model->log($_SESSION['nama']." Atur Role User");
-			   $this->Acuan_model->insert("kepegawaian.hak_akses",array("tmmenu_id"=>$tmmenu_id,"tmgrup_id"=>$tmuser_id));
+			   $this->Acuan_model->insert("hak_akses",array("tmmenu_id"=>$tmmenu_id,"tmgrup_id"=>$tmuser_id));
 			  
 		  }else{
 			  $this->Acuan_model->log($_SESSION['nama']." Hapus Role User");
-			  $this->Acuan_model->hapus("kepegawaian.hak_akses",array("tmmenu_id"=>$tmmenu_id,"tmgrup_id"=>$tmuser_id));
+			  $this->Acuan_model->hapus("hak_akses",array("tmmenu_id"=>$tmmenu_id,"tmgrup_id"=>$tmuser_id));
 			  
 		  }
 		
@@ -166,9 +166,9 @@ class Grup extends CI_Controller {
 		$tmmenu_id = $this->input->get_post("tmmenu_id");
 		$kolom     = $this->input->get_post("kolom");
 		 
-			  if(count($this->Acuan_model->get_where("kepegawaian.hak_akses",array("tmmenu_id"=>$tmmenu_id,"tmgrup_id"=>$tmuser_id))) >0){
+			  if(count($this->Acuan_model->get_where("hak_akses",array("tmmenu_id"=>$tmmenu_id,"tmgrup_id"=>$tmuser_id))) >0){
 			  
-			   $this->Acuan_model->update("kepegawaian.hak_akses",array($kolom=>$status),"tmmenu_id='".$tmmenu_id."' and tmgrup_id='".$tmuser_id."'");
+			   $this->Acuan_model->update("hak_akses",array($kolom=>$status),"tmmenu_id='".$tmmenu_id."' and tmgrup_id='".$tmuser_id."'");
 			  }else{
 				  
 				  echo "Error";

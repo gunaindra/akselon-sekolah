@@ -82,8 +82,8 @@ class Siswapembayaran extends CI_Controller {
 		   
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("view.v_siswa",array("id"=>$id));
-				$data['data']     = $this->Acuan_model->get_wherearray("akademik.tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
+				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
+				$data['data']     = $this->Acuan_model->get_wherearray("tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
 			}
 		 $this->load->view('form',$data);
 	}

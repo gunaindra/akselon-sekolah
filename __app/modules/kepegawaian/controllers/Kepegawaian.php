@@ -82,7 +82,7 @@ class Kepegawaian extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("kepegawaian.tm_pegawai",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_pegawai",array("id"=>$id));
 			}
 		 $data['pendidikan'] = $this->Acuan_model->get(array("table"=>"tm_pendidikan","order"=>"id","by"=>"asc"),null)->result(); 
 		 $this->load->view('form',$data);
@@ -127,7 +127,7 @@ class Kepegawaian extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("kepegawaian.tm_pegawai",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_pegawai",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

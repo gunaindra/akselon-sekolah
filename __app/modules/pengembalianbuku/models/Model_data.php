@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table ="akademik.tm_siswa";
+	 private $table ="tm_siswa";
 
 		
 		
@@ -19,11 +19,11 @@ class Model_data extends CI_Model {
 		$tmruang_id	    = trim($this->input->get_post("tmruang_id"));
 		
 	    $this->db->select("*");
-        $this->db->from('view.v_siswa');
+        $this->db->from('v_siswa');
 		$this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
 		$this->db->where("status",2);
 		$this->db->where('ajaran',$ajaran);
-		$this->db->where("id in(select DISTINCT(tmsiswa_id) from perpus.tr_buku where status='1')");
+		$this->db->where("id in(select DISTINCT(tmsiswa_id) from tr_buku where status='1')");
          if($paging==true){
 				     $this->db->limit($_REQUEST['length'],$_REQUEST['start']);
 					 
@@ -43,8 +43,8 @@ class Model_data extends CI_Model {
 	public function get_peminjaman($tmsiswa_id){ 
 		
 		$this->db->select("a.*,b.*,a.id as trbuku_id");
-		$this->db->from("perpus.tr_buku a");
-		$this->db->join("perpus.tm_buku b","ON a.tmbuku_id=b.id","LEFT JOIN");
+		$this->db->from("tr_buku a");
+		$this->db->join("tm_buku b","ON a.tmbuku_id=b.id","LEFT JOIN");
 		$this->db->where("a.status",1);
 	
 		$this->db->where("a.tmsiswa_id",$tmsiswa_id);

@@ -82,7 +82,7 @@ class Siswatagihan extends CI_Controller {
 		   
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("view.v_siswa",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
 				$data['item']     = $this->Acuan_model->get_wherearray("tm_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id));
 				$data['data']     = $this->Acuan_model->get_wherearray("akademik.tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
 			}
@@ -103,8 +103,8 @@ class Siswatagihan extends CI_Controller {
         if ($this->Model_data->validasi() == 0) {
 			
 		        $this->Model_data->insert();
-			    $data['dataform'] = $this->Acuan_model->get_where("view.v_siswa",array("id"=>$tmsiswa_id));
-				$data['data']     = $this->Acuan_model->get_wherearray("akademik.tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
+			    $data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$tmsiswa_id));
+				$data['data']     = $this->Acuan_model->get_wherearray("tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
                 $this->load->view('page_item',$data);
 			
 	     } else {
@@ -120,7 +120,7 @@ class Siswatagihan extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("akademik.tr_keuangan",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tr_keuangan",array("id"=>$this->input->get_post("id")));
 		
 		
 		

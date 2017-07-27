@@ -79,9 +79,9 @@ class Users extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("kepegawaian.tm_pegawai",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_pegawai",array("id"=>$id));
 			}
-		 $data['group'] = $this->Acuan_model->get(array("table"=>"kepegawaian.tm_grup","order"=>"id","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result(); 
+		 $data['group'] = $this->Acuan_model->get(array("table"=>"tm_grup","order"=>"id","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result(); 
 		 $this->load->view('form',$data);
 	}
 	

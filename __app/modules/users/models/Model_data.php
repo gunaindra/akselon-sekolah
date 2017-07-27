@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table ="kepegawaian.tm_pegawai";
+	 private $table ="tm_pegawai";
 
 		
 		

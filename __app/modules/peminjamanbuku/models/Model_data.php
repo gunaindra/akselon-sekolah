@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table    ="perpus.tm_buku";
+	 private $table    ="tm_buku";
 
 
 		
@@ -36,8 +36,8 @@ class Model_data extends CI_Model {
 	public function get_peminjaman($tmsiswa_id){ 
 		
 		$this->db->select("a.*,b.*,a.id as trbuku_id");
-		$this->db->from("perpus.tr_buku a");
-		$this->db->join("perpus.tm_buku b","ON a.tmbuku_id=b.id","LEFT JOIN");
+		$this->db->from("tr_buku a");
+		$this->db->join("tm_buku b","ON a.tmbuku_id=b.id","LEFT JOIN");
 		$this->db->where("a.status",1);
 	
 		$this->db->where("a.tmsiswa_id",$tmsiswa_id);

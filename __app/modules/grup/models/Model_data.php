@@ -7,7 +7,7 @@ class Model_data extends CI_Model {
 		date_default_timezone_set("Asia/Jakarta");
     }
 
-	 private $table    ="kepegawaian.tm_grup";
+	 private $table    ="tm_grup";
 
 
 		
@@ -83,7 +83,7 @@ class Model_data extends CI_Model {
 		  
 		  $this->db->where("tmgrup_id",$tmgrup_id);
 		  $this->db->where("tmmenu_id",$tmmenu_id);
-		  $sql = $this->db->get("kepegawaian.hak_akses")->num_rows();
+		  $sql = $this->db->get("hak_akses")->num_rows();
 		    return ($sql >0) ? "checked" :"";
 		  
 		  
@@ -93,7 +93,7 @@ class Model_data extends CI_Model {
 		  $this->db->select($kolom);
 		  $this->db->where("tmgrup_id",$tmgrup_id);
 		  $this->db->where("tmmenu_id",$tmmenu_id);
-		  $sql = $this->db->get("kepegawaian.hak_akses")->row();
+		  $sql = $this->db->get("hak_akses")->row();
 		  if(count($sql) >0){
 		    return ($sql->$kolom ==1) ? "checked" :"";
 		  }else{

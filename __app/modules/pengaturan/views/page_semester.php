@@ -54,7 +54,7 @@
 				
             </thead>
 			<?php 
-			  $sekolah = $this->Acuan_model->get_where("public.tm_sekolah",array("id"=>$_SESSION['tmsekolah_id']));
+			  $sekolah = $this->Acuan_model->get_where("tm_sekolah",array("id"=>$_SESSION['tmsekolah_id']));
 			?>
             <tbody id="loaddata">
                <?php 
@@ -63,9 +63,7 @@
                         ?>
                         <tr id="row">
                             <td> <?php echo $i++; ?> </td>
-                            <td> Semester <?php echo $a; ?>   </td>
-                            
-                           
+                            <td> Semester <?php echo $a; ?>   </td>                           
                             <td> 
                            <input type="radio" style="cursor:pointer" class="form-control aktifkan" <?php if($sekolah->semester==$a){ echo  "checked"; } ?> name="semester" value="<?php echo $a; ?>" >
                            </td>

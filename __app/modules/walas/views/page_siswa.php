@@ -121,7 +121,7 @@
 									   
 									      <option value="">- Pilih -</option>
 										     <?php 
-												   $walas = $this->Acuan_model->get_wherearray("kepegawaian.tm_pegawai",array("tmsekolah_id"=>$_SESSION['tmsekolah_id'],"status_jabatan"=>'guru'));
+												   $walas = $this->Acuan_model->get_wherearray("tm_pegawai",array("tmsekolah_id"=>$_SESSION['tmsekolah_id'],"status_jabatan"=>'guru'));
 												   
 												      foreach($walas as $rw){
 														  
