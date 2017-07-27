@@ -36,7 +36,6 @@ class Model_data extends CI_Model {
 
 	
 	 public function insert() {
-        
             $this->db->set('d_entry', date('Y-m-d H:i:s'));
 			$this->db->set('i_entry', $_SESSION['user_id']);
 			$this->db->set('tmsekolah_id', $_SESSION['tmsekolah_id']);

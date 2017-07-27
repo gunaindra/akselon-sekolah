@@ -89,7 +89,6 @@ class Kepegawaian extends CI_Controller {
 	}
 	
 	public function save(){
-     
         $this->form_validation->set_message('required', '{field} Wajib di isi.');
        
 				$config = array(
