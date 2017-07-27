@@ -94,19 +94,29 @@ class Home extends CI_Controller {
 		 /* $password_h = password_hash($this->input->post('sebagai'), PASSWORD_BCRYPT);
 		  
 		  $row      = $this->Home_model->cek_login($username)->row_array();  */
-		  
-		  $staff = $this->Acuan_model->get_where2("tm_pegawai",array("username"=>$username,"password"=>$password))->row_array(); 
-		  
-			   if(count($staff) >0){
-				  
+
+        // search pegawai
+        $logged_in_user = $this->Acuan_model->get_where2("tm_pegawai",array("username"=>$username,"password"=>$password))->row_array();
+
+        if (!empty($logged_in_user)) {
+            $logged_in_user['status'] = 'staff';
+        } else {
+            // if pegawai now exists search siswa
+            $logged_in_user = $this->Acuan_model->get_where2("tm_siswa",array("nis"=>$username,"password"=>$password))->row_array();
+            $logged_in_user['grup'] = 3;
+            $logged_in_user['status'] = 'siswa';
+        }
+
+			   if(count($logged_in_user) >0){
+
 					   
 					   
 					   $session = array(
-						'tmsekolah_id'     => $staff['tmsekolah_id'],
-						'user_id'          => $staff['id'],
-						'nama'             => $staff['nama'],
-						'grup'             => $staff['grup'],
-						'status'            => 'staff');
+						'tmsekolah_id'     => $logged_in_user['tmsekolah_id'],
+						'user_id'          => $logged_in_user['id'],
+						'nama'             => $logged_in_user['nama'],
+						'grup'             => $logged_in_user['grup'],
+						'status'            => $logged_in_user['status']);
 						
 						
 						$this->session->sess_expiration = '1000000';
