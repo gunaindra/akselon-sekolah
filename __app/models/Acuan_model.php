@@ -56,7 +56,7 @@ class Acuan_model extends CI_Model {
 	public function get_where($table,$where){
 		
 		$this->db->where($where);
-		return $this->db->get($table);
+		return $this->db->get($table)->row();
 		
 	}
 	public function get_wherearray($table,$where){
