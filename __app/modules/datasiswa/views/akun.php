@@ -50,9 +50,7 @@
 												   
 												     <tr>
 													    <td width="20%"> NIS (Nomor Induk Sekolah)</td>
-													    <td> <?php 
-													    echo ($dataform);
-													    $dataform->nis; ?></td>
+													    <td> <?php echo $dataform->nis; ?></td>
 													 </tr>
 													  <tr>
 													    <td> Password </td>

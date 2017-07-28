@@ -81,11 +81,11 @@ class Model_data extends CI_Model {
 			$this->db->set('tmguru_id',$tmguru_id);
 			$this->db->set('tmjam_id',$tmjam_id);
 			
-			$this->db->set('id',$this->Acuan_model->id("akademik.tr_jadwal"));
+			$this->db->set('id',$this->Acuan_model->id("tr_jadwal"));
 			
 			
 		  
-			$this->db->insert("akademik.tr_jadwal");
+			$this->db->insert("tr_jadwal");
 		   
 			
 				

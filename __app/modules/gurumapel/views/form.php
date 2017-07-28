@@ -51,7 +51,7 @@
 											   <select class="form-control" id="tmpelajaran_id">
 											     <option value=""> -Pilih- </option>
 												 <?php 
-												   $pelajaran = $this->Acuan_model->get_wherearray("public.tm_pelajaran",array("tmsekolah_id"=>$_SESSION['tmsekolah_id'],"status !="=>3));
+												   $pelajaran = $this->Acuan_model->get_wherearray("tm_pelajaran",array("tmsekolah_id"=>$_SESSION['tmsekolah_id'],"status !="=>3));
 												   
 												      foreach($pelajaran as $row){
 														  

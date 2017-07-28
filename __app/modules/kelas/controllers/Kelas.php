@@ -74,7 +74,7 @@ class Kelas extends CI_Controller {
 		
 		 $id = $this->input->get_post("id",TRUE);
 		 $data = array();
-		 $data['jenjang'] = $this->Acuan_model->get(array("table"=>"public.tm_jenjang","order"=>"urutan","by"=>"asc"),null)->result(); 
+		 $data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),null)->result(); 
 		    if(!empty($id)){
 				
 				$data['dataform'] = $this->Acuan_model->get_where("tm_kelas",array("id"=>$id));
@@ -120,7 +120,7 @@ class Kelas extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("public.tm_kelas",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_kelas",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

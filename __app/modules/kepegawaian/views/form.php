@@ -138,13 +138,16 @@
 					<script type="text/javascript">
 					function AnEventHasOccurred() {
 					var sel = document.getElementById("selectone");
-					var y = "5";
+					var y = "1";
 					var x =  sel.options[sel.selectedIndex].value;
 						if(x=="pemimpin"){
 							y = "1";
 						}
 						else if(x=="guru"){
 							y = "4";
+						}
+						else if(x=="staff"){
+							y = "5";
 						}
 				    document.getElementById("grup").value = y;
 					}

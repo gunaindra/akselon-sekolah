@@ -108,48 +108,48 @@ class Pengaturan extends CI_Controller {
 			
 			$id   = $this->input->get_post("id",true);
 			
-			                             if ( ! $this->upload->do_upload('gambar'))
-											{
-												
-												if(!empty($id)){						
-														
-														$this->Model_data->update($id);
-												 }else{
-													 
-													 header('Content-Type: application/json');
-                                                     echo json_encode(array('error' => true, 'message' => $this->upload->display_errors('', '')));
-												 }
-																				
-											}else{
-												
-												$this->load->library('image_lib');
-												$image = "logo".time().".".pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);;
-												$this->image_lib->clear();
-												$config['image_library'] = 'gd2';
-												$config['source_image'] = $this->upload->upload_path.$this->upload->file_name;
-												$config['new_image'] = $image;
-												$config['quality'] = '100%';
-												$config['create_thumb'] = false;
-												$config['maintain_ratio'] = false;
-												$config['thumb_marker'] = '';
-												$config['width'] = 500;
-												$config['height'] = 500;
-												$this->image_lib->initialize($config);
+     if ( ! $this->upload->do_upload('gambar'))
+		{
+			
+			if(!empty($id)){						
+					
+					$this->Model_data->update($id);
+			 }else{
+				 
+				 header('Content-Type: application/json');
+                 echo json_encode(array('error' => true, 'message' => $this->upload->display_errors('', '')));
+			 }
 											
-											
-												$this->load->library('image_lib', $config);
-												if ( ! $this->image_lib->resize()){
-													$this->session->set_flashdata('message', $this->image_lib->display_errors('', ''));
-												 }
-												
-												  unlink(FCPATH."__statics/img/logo/".$_FILES['gambar']['name']);
-												  $this->db->set("logo",$image);
-												 if(!empty($id)){						
-														
-														$this->Model_data->update($id);
-												 }
-												
-											}
+		}else{
+			
+			$this->load->library('image_lib');
+			$image = "logo".time().".".pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);;
+			$this->image_lib->clear();
+			$config['image_library'] = 'gd2';
+			$config['source_image'] = $this->upload->upload_path.$this->upload->file_name;
+			$config['new_image'] = $image;
+			$config['quality'] = '100%';
+			$config['create_thumb'] = false;
+			$config['maintain_ratio'] = false;
+			$config['thumb_marker'] = '';
+			$config['width'] = 500;
+			$config['height'] = 500;
+			$this->image_lib->initialize($config);
+		
+		
+			$this->load->library('image_lib', $config);
+			if ( ! $this->image_lib->resize()){
+				$this->session->set_flashdata('message', $this->image_lib->display_errors('', ''));
+			 }
+			
+			  unlink(FCPATH."__statics/img/logo/".$_FILES['gambar']['name']);
+			  $this->db->set("logo",$image);
+			 if(!empty($id)){						
+					
+					$this->Model_data->update($id);
+			 }
+			
+		}
 												
 			
 				

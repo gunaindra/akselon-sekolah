@@ -43,7 +43,7 @@ class Penetapanruang extends CI_Controller {
 			);
 			
 			
-			$this->Acuan_model->update("akademik.tr_kelas",$data,"tmsiswa_id='".$_POST['tmsiswa_id'.$a.'']."' and ajaran='".$ajaran."'");
+			$this->Acuan_model->update("tr_kelas",$data,"tmsiswa_id='".$_POST['tmsiswa_id'.$a.'']."' and ajaran='".$ajaran."'");
 		
 			
 		}

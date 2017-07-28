@@ -75,7 +75,7 @@ class Pekerjaan extends CI_Controller {
 		 $data = array();
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("public.tm_pekerjaan",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("tm_pekerjaan",array("id"=>$id));
 			}
 		 $this->load->view('form',$data);
 	}
@@ -117,7 +117,7 @@ class Pekerjaan extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("public.tm_pekerjaan",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tm_pekerjaan",array("id"=>$this->input->get_post("id")));
 		
 		
 	}

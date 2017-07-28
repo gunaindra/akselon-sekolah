@@ -10,7 +10,7 @@ class Model_datasiswa extends CI_Model {
 
 	
 	
-	 private $table ="akademik.tm_siswa";
+	 private $table ="tm_siswa";
 
 		
 		
@@ -67,7 +67,7 @@ class Model_datasiswa extends CI_Model {
 	 public function save_persyaratan($data){
 		
 		
-		$this->db->insert("akademik.tr_persyaratan",$data);
+		$this->db->insert("tr_persyaratan",$data);
 		
 	}
 	

@@ -10,7 +10,7 @@ class Model_datasiswa extends CI_Model {
 
 	
 	
-	 private $table ="akademik.tm_siswa";
+	 private $table ="tm_siswa";
 
 		
 		

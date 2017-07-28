@@ -84,7 +84,7 @@ class Siswatagihan extends CI_Controller {
 				
 				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
 				$data['item']     = $this->Acuan_model->get_wherearray("tm_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id));
-				$data['data']     = $this->Acuan_model->get_wherearray("akademik.tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
+				$data['data']     = $this->Acuan_model->get_wherearray("tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
 			}
 		 $this->load->view('form',$data);
 	}

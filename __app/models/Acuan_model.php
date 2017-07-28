@@ -358,6 +358,7 @@ class Acuan_model extends CI_Model {
 		
 		$this->db->where($where,$id);
 		return $sql = $this->db->get($table);
+		echo json_encode($sql);
 		if(count($sql)>0):
 		return $sql->$kolom;
 		else:

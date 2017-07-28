@@ -160,7 +160,7 @@ class Daftaronline extends CI_Controller {
 						else
 						{
 							
-							$id 			= $this->Acuan_model->id("akademik.tr_persyaratan");
+							$id 			= $this->Acuan_model->id("tr_persyaratan");
 						
 							$data = array("tmpersyaratan_id"=>$tmpersyaratan_id,
 							"file"=>$newName,
@@ -192,7 +192,7 @@ class Daftaronline extends CI_Controller {
 	public function approv(){
 		
 		
-		$this->Acuan_model->update("akademik.tm_siswa",array("status"=>$_POST['val'],"d_update"=>date("Y-m-d H:i:s"),"i_update"=>$_SESSION["user_id"]),"id='".$_POST["id"]."'");
+		$this->Acuan_model->update("tm_siswa",array("status"=>$_POST['val'],"d_update"=>date("Y-m-d H:i:s"),"i_update"=>$_SESSION["user_id"]),"id='".$_POST["id"]."'");
 	    $this->Acuan_model->log($_SESSION['nama']." Melakukan Verifikasi Data Siswa ");
 	}
 	

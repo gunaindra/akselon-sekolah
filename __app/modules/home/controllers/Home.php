@@ -97,7 +97,6 @@ class Home extends CI_Controller {
 
         // search pegawai
         $logged_in_user = $this->Acuan_model->get_where2("tm_pegawai",array("username"=>$username,"password"=>$password))->row_array();
-
         if (!empty($logged_in_user)) {
             $logged_in_user['status'] = 'staff';
         } else {
@@ -106,6 +105,7 @@ class Home extends CI_Controller {
             $logged_in_user['grup'] = 3;
             $logged_in_user['status'] = 'siswa';
         }
+
 
 			   if(count($logged_in_user) >0){
 

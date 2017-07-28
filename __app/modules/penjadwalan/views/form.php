@@ -91,7 +91,7 @@
 							     <select class="form-control" id="jam">
 								  <option value=""> Pilih Jam </option>
 								    <?php 
-									  $jam   =  $this->Acuan_model->get_where2("akademik.tm_jam",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
+									  $jam   =  $this->Acuan_model->get_where2("tm_jam",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
 									  
 										   foreach($jam as $j){
 											   
@@ -111,7 +111,7 @@
 							    <select class="form-control onchange "  id="mapel" url="<?php echo site_url("penjadwalan/changeguru"); ?>" target="tmguru_id">
 								  <option value=""> Pilih Pelajaran </option>
 								    <?php 
-									  $jam   =  $this->Acuan_model->get_where2("public.tm_pelajaran",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
+									  $jam   =  $this->Acuan_model->get_where2("tm_pelajaran",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
 									  
 										   foreach($jam as $j){
 											   
@@ -171,9 +171,9 @@
 									     <tr id="row<?php echo $row->id; ?>">
 											 <td><?php echo $no++; ?></td>
 											 <td><?php echo $hari[$row->hari]; ?></td>
-											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmjam_id,"id","akademik.tm_jam","nama"); ?></td>
-											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmpelajaran_id,"id","public.tm_pelajaran","nama"); ?></td>
-											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmguru_id,"id","kepegawaian.tm_pegawai","nama"); ?></td>
+											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmjam_id,"id","tm_jam","nama"); ?></td>
+											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmpelajaran_id,"id","tm_pelajaran","nama"); ?></td>
+											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmguru_id,"id","tm_pegawai","nama"); ?></td>
 											
 											 <td> <a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="<?php echo $row->id; ?>"  ><i class="fa fa-trash-o"></i></a> </td>
 									     </tr>

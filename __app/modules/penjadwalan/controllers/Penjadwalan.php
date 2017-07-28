@@ -79,7 +79,7 @@ class Penjadwalan extends CI_Controller {
 		    if(!empty($id)){
 				
 				$data['dataform'] = $this->Acuan_model->get_where("v_ruang",array("id"=>$id));
-				$data['datagrid']     = $this->Model_data->getdatapel("akademik.tr_jadwal",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id,"tmruang_id"=>$data['dataform']->tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
+				$data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id,"tmruang_id"=>$data['dataform']->tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
 			}
 		 $this->load->view('form',$data);
 	}
@@ -104,7 +104,7 @@ class Penjadwalan extends CI_Controller {
        // if ($this->Model_data->validasi() == 0) {
 			
 		        $this->Model_data->insert();
-			   $data['datagrid']     = $this->Model_data->getdatapel("akademik.tr_jadwal",array("tmjenjang_id"=>$tmjenjang_id,"tmkelas_id"=>$tmkelas_id,"tmruang_id"=>$tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
+			   $data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$tmjenjang_id,"tmkelas_id"=>$tmkelas_id,"tmruang_id"=>$tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
                 $this->load->view('page_item',$data);
 			
 	   /*  } else {
@@ -120,26 +120,29 @@ class Penjadwalan extends CI_Controller {
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("akademik.tr_jadwal",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tr_jadwal",array("id"=>$this->input->get_post("id")));
 		
 		
 		
 	}
 	
 	public function changeguru(){
-		
-		 $guru   =  $this->Acuan_model->get_where2("kepegawaian.tr_gurumapel",array("tmpelajaran_id"=>$_POST['id']))->result();
-									     if(count($guru) >0){
-										   foreach($guru as $j){
-											   
-											   ?><option value="<?php echo $j->tmpegawai_id ?>" ><?php echo $this->Acuan_model->get_kondisi($j->tmpegawai_id,"id","kepegawaian.tm_pegawai","nama") ?></option><?php 
-											   
-										    }
-										   }else{
-											   ?>
-											   <option value="0" > Belum ditentukan </option>
-										   <?php 
-										   }
+		$guru   =  $this->Acuan_model->get_where2("tr_gurumapel",array("tmpelajaran_id"=>$_POST['id']))->result();
+		 if(count($guru) >0){
+		   foreach($guru as $j){
+			echo json_encode($j);
+			   
+			   ?><option value="<?php echo $j->tmpegawai_id ?>" >
+			   <?php 
+			   	$id = $j->tmpegawai_id;
+			   	echo $this->Acuan_model->get_kondisi("9","id","tm_pegawai","nama");?></option><?php 
+			   
+		    }
+		   }else{
+			   ?>
+			   <option value="0" > Belum ditentukan </option>
+		   <?php 
+		   }
 		
 	}
 	
