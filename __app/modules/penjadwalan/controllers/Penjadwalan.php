@@ -154,10 +154,9 @@ class Penjadwalan extends CI_Controller {
 		   foreach($guru as $j){
 			echo json_encode($j);
 			   
-			   ?><option value="<?php echo $j->tmpegawai_id ?>" >
-			   <?php 
-			   	$id = $j->tmpegawai_id;
-			   	echo $this->Acuan_model->get_kondisi("9","id","tm_pegawai","nama");?></option><?php 
+			  ?><option value="<?php echo $j->tmpegawai_id ?>" ><?php
+			   $a=$this->Model_data->get_kondisi_namaguru($j->tmpegawai_id);
+			   echo $a; ?></option><?php 
 			   
 		    }
 		   }else{

@@ -42,6 +42,17 @@ class Model_data extends CI_Model {
 		
 	
 	}
+
+
+	public function get_kondisi_namaguru($id){
+
+		$this->db->select('nama')->from('tm_pegawai')->where('id',$id);
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+		return $query->row()->nama;
+		}
+		return false;
+	}
 	
 	public function getdatapel($table,$where){
 		
