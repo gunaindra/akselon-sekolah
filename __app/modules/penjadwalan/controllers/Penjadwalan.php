@@ -81,7 +81,29 @@ class Penjadwalan extends CI_Controller {
 				$data['dataform'] = $this->Acuan_model->get_where("v_ruang",array("id"=>$id));
 				$data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id,"tmruang_id"=>$data['dataform']->tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
 			}
-		 $this->load->view('form',$data);
+
+        $name_of_days  = [
+            '1' => 'Senin',
+            '2' => 'Selasa',
+            '3' => 'Rabu',
+            '4' => 'Kamis',
+            '5' => 'Jumat',
+            '6' => 'Sabtu',
+            '7' => 'Minggu'
+        ];
+
+        foreach ($data['datagrid'] as $key => $val) {
+            $jam = $this->Acuan_model->get_where('tm_jam', ['id' => $val->tmjam_id]);
+            $pelajaran = $this->Acuan_model->get_where('tm_pelajaran', ['id' => $val->tmpelajaran_id]);
+            $guru = $this->Acuan_model->get_where('tm_pegawai', ['id' => $val->tmguru_id]);
+
+            $val->nama_hari = $name_of_days[$val->hari];
+            $val->jam = isset($jam->nama) ? $jam->nama : '';
+            $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
+            $val->guru = isset($guru->nama) ? $guru->nama : '';
+        }
+
+        $this->load->view('form',$data);
 	}
 	
 	
