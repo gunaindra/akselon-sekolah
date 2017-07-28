@@ -23,10 +23,10 @@ if(count($datagrid) >0){
 		?>
 	     <tr id="row<?php echo $row->id; ?>">
 			 <td><?php echo $no++; ?></td>
-			 <td><?php echo $hari[$row->hari]; ?></td>
-			 <td><?php echo $this->Acuan_model->get_kondisi($row->tmjam_id,"id","tm_jam","nama"); ?></td>
-			 <td><?php echo $this->Acuan_model->get_kondisi($row->tmpelajaran_id,"id","tm_pelajaran","nama"); ?></td>
-			 <td><?php echo $this->Acuan_model->get_kondisi($row->tmguru_id,"id","tm_pegawai","nama"); ?></td>
+             <td><?php echo $row->nama_hari; ?></td>
+             <td><?php echo $row->jam; ?></td>
+             <td><?php echo $row->pelajaran; ?></td>
+             <td><?php echo $row->guru; ?></td>
 			
 			 <td> <a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="<?php echo $row->id; ?>"  ><i class="fa fa-trash-o"></i></a> </td>
 	     </tr>

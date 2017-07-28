@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Penjadwalan extends CI_Controller {
 
+    protected $name_of_days  = [
+        '1' => 'Senin',
+        '2' => 'Selasa',
+        '3' => 'Rabu',
+        '4' => 'Kamis',
+        '5' => 'Jumat',
+        '6' => 'Sabtu',
+        '7' => 'Minggu'
+    ];
+
 	 public function __construct()
       {
         parent::__construct();
@@ -82,22 +92,12 @@ class Penjadwalan extends CI_Controller {
 				$data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id,"tmruang_id"=>$data['dataform']->tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
 			}
 
-        $name_of_days  = [
-            '1' => 'Senin',
-            '2' => 'Selasa',
-            '3' => 'Rabu',
-            '4' => 'Kamis',
-            '5' => 'Jumat',
-            '6' => 'Sabtu',
-            '7' => 'Minggu'
-        ];
-
         foreach ($data['datagrid'] as $key => $val) {
             $jam = $this->Acuan_model->get_where('tm_jam', ['id' => $val->tmjam_id]);
             $pelajaran = $this->Acuan_model->get_where('tm_pelajaran', ['id' => $val->tmpelajaran_id]);
             $guru = $this->Acuan_model->get_where('tm_pegawai', ['id' => $val->tmguru_id]);
 
-            $val->nama_hari = $name_of_days[$val->hari];
+            $val->nama_hari = $this->name_of_days[$val->hari];
             $val->jam = isset($jam->nama) ? $jam->nama : '';
             $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
             $val->guru = isset($guru->nama) ? $guru->nama : '';
@@ -127,7 +127,19 @@ class Penjadwalan extends CI_Controller {
 			
 		        $this->Model_data->insert();
 			   $data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$tmjenjang_id,"tmkelas_id"=>$tmkelas_id,"tmruang_id"=>$tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
-                $this->load->view('page_item',$data);
+
+        foreach ($data['datagrid'] as $key => $val) {
+            $jam = $this->Acuan_model->get_where('tm_jam', ['id' => $val->tmjam_id]);
+            $pelajaran = $this->Acuan_model->get_where('tm_pelajaran', ['id' => $val->tmpelajaran_id]);
+            $guru = $this->Acuan_model->get_where('tm_pegawai', ['id' => $val->tmguru_id]);
+
+            $val->nama_hari = $this->name_of_days[$val->hari];
+            $val->jam = isset($jam->nama) ? $jam->nama : '';
+            $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
+            $val->guru = isset($guru->nama) ? $guru->nama : '';
+        }
+
+        $this->load->view('page_item',$data);
 			
 	   /*  } else {
             if ($this->input->post()) {
