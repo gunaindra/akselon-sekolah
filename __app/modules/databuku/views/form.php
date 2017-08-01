@@ -36,7 +36,7 @@
 											 <label class="col-md-3 control-label" style="text-align:left"> Judul Buku <span class="required">*</span></label>
 											 <div class="col-md-9">
 												
-													<input type="text"  name="f[nama]" value="<?php echo isset($dataform->nama) ? $dataform->nama:"";  ?>" placeholder="ex : Menguasai AngularJs dalam 1 menit" class="form-control"  >
+													<input type="text"  name="f[nama]" value="<?php echo isset($dataform->nama) ? $dataform->nama:"";  ?>" class="form-control"  >
 																						
 											</div>
 									 </div>

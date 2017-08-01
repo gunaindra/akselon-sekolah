@@ -69,6 +69,7 @@
 											<th> Penerbit </th>
 											<th> Tahun </th>
 											<th> ISBN </th>
+											<th> Barcode </th>
 											<th width="15%"> Aksi</th>
 									   </tr>
 									</thead>

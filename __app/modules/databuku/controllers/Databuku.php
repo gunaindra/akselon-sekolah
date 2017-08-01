@@ -24,51 +24,60 @@ class Databuku extends CI_Controller {
 
 	}
 	
-	
+	function bikin_barcode($kode)
+	{
+		$this->load->library('zend');
+		 
+		$this->zend->load('Zend/Barcode');
+		  
+		 
+		Zend_Barcode::render('code39', 'image', array('text'=>$kode), array());
+	}
+	 
+
     public function grid(){
-		
-		  $iTotalRecords = $this->Model_data->getdata(false)->num_rows();
-		  
-		  $iDisplayLength = intval($_REQUEST['length']);
-		  $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
-		  $iDisplayStart = intval($_REQUEST['start']);
-		  $sEcho = intval($_REQUEST['draw']);
-		  
-		  $records = array();
-		  $records["data"] = array(); 
+		$iTotalRecords = $this->Model_data->getdata(false)->num_rows();
 
-		  $end = $iDisplayStart + $iDisplayLength;
-		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-		  
-		  $datagrid = $this->Model_data->getdata(true)->result_array();
-		   
-		   $i= ($iDisplayStart +1);
-		   foreach($datagrid as $val) {
+		$iDisplayLength = intval($_REQUEST['length']);
+		$iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
+		$iDisplayStart = intval($_REQUEST['start']);
+		$sEcho = intval($_REQUEST['draw']);
+
+		$records = array();
+		$records["data"] = array(); 
+
+		$end = $iDisplayStart + $iDisplayLength;
+		$end = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+		$datagrid = $this->Model_data->getdata(true)->result_array();
+		$kode='123';
+		$i= ($iDisplayStart +1);
+		foreach($datagrid as $val) {
+			$no = $i++;
+			$records["data"][] = array(
+				$no,
+				$val['nama'],					
+				$val['subjek'],					
+				$val['pengarang'],					
+				$val['penerbit'],					
+				$val['tahun_terbit'],					
+				$val['isbn'],	
+				'<img src="'.base_url().'databuku/bikin_barcode/'.$val['barcode'].'">',
+				'
+				<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("databuku/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
 				
-				$no = $i++;
-				$records["data"][] = array(
-					$no,
-					$val['nama'],					
-					$val['subjek'],					
-					$val['pengarang'],					
-					$val['penerbit'],					
-					$val['tahun_terbit'],					
-					$val['isbn'],					
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("databuku/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("databuku/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
-					
-					'
+		        <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("databuku/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
+				
+				'
 
-				  );
-			  }
-		
-		  $records["draw"] = $sEcho;
-		  $records["recordsTotal"] = $iTotalRecords;
-		  $records["recordsFiltered"] = $iTotalRecords;
-		  
-		  echo json_encode($records);
+			  );
+		  }
+
+		$records["draw"] = $sEcho;
+		$records["recordsTotal"] = $iTotalRecords;
+		$records["recordsFiltered"] = $iTotalRecords;
+
+		echo json_encode($records);
 	}
 	
 	
