@@ -50,10 +50,10 @@ class Keuangan extends CI_Controller {
 				$no = $i++;
 				$records["data"][] = array(
 					$no,
-					$this->Acuan_model->get_kondisi($val['tmjenjang_id'],"id","tm_jenjang","nama"),					
-					$this->Acuan_model->get_kondisi($val['tmkelas_id'],"id","tm_kelas","nama"),					
+					$this->Acuan_model->get_kondisi_a($val['tmjenjang_id'],"id","tm_jenjang","nama"),					
+					$this->Acuan_model->get_kondisi_a($val['tmkelas_id'],"id","tm_kelas","nama"),					
 					$val['nama'],					
-					$this->Acuan_model->formatuang($val['jumlah'])."/".$val['kategori'],					
+					$this->Acuan_model->formatuang($val['jumlah'])."/".$val['kategori'],
 								
 					'
 					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("keuangan/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
@@ -68,7 +68,7 @@ class Keuangan extends CI_Controller {
 		  $records["draw"] = $sEcho;
 		  $records["recordsTotal"] = $iTotalRecords;
 		  $records["recordsFiltered"] = $iTotalRecords;
-		  
+		  // die(var_dump($records));
 		  echo json_encode($records);
 	}
 	
