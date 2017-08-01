@@ -1,14 +1,12 @@
 	<div class="page-bar">
 				<ul class="page-breadcrumb">
 					<li>
-						<i class="icon-notebook"></i>
-						<a href="javascript:void(0)">Keg. Belajar Mengajar</a>
+						<i class="icon-graduation"></i>
+						<a href="javascript:void(0)">Keg. Belajar Mengajar </a>
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="<?php echo site_url("rekabsenguru"); ?>">Absen Guru
-							<?php echo json_decode($this->session->userdata("user_id")); ?>
-						</a>
+						<a href="<?php echo site_url("absenguru"); ?>"><?php echo $title; ?></a>
 					</li>
 				</ul>
 			
@@ -18,21 +16,21 @@
 		<div class="portlet box red">
 						<div class="portlet-title">
 							<div class="caption">
-								 <?php echo $title; ?>
+								 <?php echo $title; ?> dan Murid
 							</div>
 							<div class="tools">
-								<a href="javascript:;" class="collapse">
+								<a href="javascript:;" class="collapse tooltips" data-container="body" data-placement="top" title="Collapse">
 								</a>
-								<a href="javascript:;" class="reload">
+								<a href="javascript:;" class="reload tooltips" data-container="body" data-placement="top" title="Mulai Ulang">
 								</a>
-								<a href="javascript:;" class="remove">
+								<a href="javascript:;" class="remove tooltips" data-container="body" data-placement="top" title="Hapus">
 								</a>
 								
 								
 							</div>
 							<div class="actions">
 								
-								<a class="btn btn-icon-only btn-default btn-sm fullscreen" href="javascript:;" data-original-title="" title="">
+								<a class="btn btn-icon-only btn-default btn-sm fullscreen tooltips" data-container="body" data-placement="top" title="Layar Penuh" href="javascript:;" >
 								</a>
 								
 							</div>
@@ -42,30 +40,40 @@
 					
 							<div class="row">
 								<div class="col-md-12 col-sm-12">
-								  <div class="col-md-3">
-								 	  </div>
-								  <div class="col-md-9">
+								  <div class="col-md-2">
+								   
+								  </div>
+								  <div class="col-md-10">
 									<form class="navbar-form navbar-right" role="search" method="post" id="formcaridatatables" action="javascript:void(0)">
 										<div class="form-group">
-										<input type="text" readonly class="form-control" id="tgl" name="tgl" value="<?php echo  date("Y-m-d") ; ?>">							
-											    <script type="text/javascript">
-												 $(document).ready(function () {
-													 $('#tgl').datepicker({
-														 changeMonth: true,
-														 changeYear: true,
-														 autoclose: true,
-														 dateFormat: 'yy-mm-dd',
-																																
-													 });
-												});
-                                                </script>
-												
-										</div>		
-										<div class="form-group">
-											<input type="text" size="30" name="keyword" id="keyword" class="form-control" placeholder="Nama Siswa " value="<?php echo isset($keyword) ? $keyword :""; ?>" placeholder=" ">
-											
+											     <select class="form-control onchange "  id="tmjenjang_id" url="<?php echo site_url("ruang/selectkelas"); ?>" target="tmkelas_id">
+												     <option value="">- Pilih Jenjang -</option>
+													   <?php 
+													  
+													     foreach($jenjang as $row){
+															 
+															 ?><option value='<?php echo $row->id; ?>' <?php echo (isset($dataform)) ?  ($dataform->tmjenjang_id==$row->id) ? "selected":"" :"" ?>><?php echo $row->nama; ?></option>"<?php 
+														 }
+													    ?>
+												  </select>
 										</div>
-										<button type="submit" class="btn btn-success tooltips" data-container="body" data-placement="bottom" title="Lakukan Pencarian" id="searchcustom"><span class="glyphicon glyphicon-search"></span></button>
+										<div class="form-group">
+											  <select class="form-control tmkelas_id onchange" id="tmkelas_id" url="<?php echo site_url("ruang/selectruang"); ?>" target="tmruang_id">
+												     <option value="">- Pilih Kelas -</option>
+													 
+												  </select>		
+										</div>
+										
+										<div class="form-group">
+											  <select class="form-control tmruang_id" id="tmruang_id">
+												     <option value="">- Pilih Ruang -</option>
+													 
+												  </select>		
+										</div>
+										
+										
+										
+										<button type="submit" class="btn btn-success tooltips" data-container="body" data-placement="bottom" title="Cari" id="searchcustom"><span class="glyphicon glyphicon-search"></span></button>
 									</form>
 								 </div>
 								</div>
@@ -77,11 +85,14 @@
 
 									<thead>
 										<tr>
-											<th width="5%"> No </th>
-											<th> Tanggal</th>
-											<th> Nama Siswa</th>
-											<th> Status Absensi</th>
+											<th width="2%"> No </th>
+											<th> Jenjang </th>
+											<th> Kelas </th>
+											<th> Ruang </th>				
 											
+											<th width="20%"> Jadwal Pelajaran </th>
+											
+										
 									   </tr>
 									</thead>
 									<tbody>
@@ -100,50 +111,25 @@
 					"serverSide": true,
 					"searching": false,
 					"responsive": true,
-					 "dom": 'Bfrtip',
+					"lengthMenu": [[10, 25, 50, 800000000], [10, 25, 50, "All"]],
+					 "dom": 'Blfrtip',
+					 "sPaginationType": "full_numbers",
 					"buttons": [
 					
 
-							{
-							extend: 'pdfHtml5',
-							exportOptions: {
-							 columns: [ 0, 1, 2,3]
-							},
-							customize: function (doc) {
-							doc.content[1].table.widths = 
-								Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-						  }
-						},
-							{
-							extend: 'excelHtml5',
-							exportOptions: {
-							 columns: [ 0, 1, 2,3 ]
-							}
-						},
-							{
-							extend: 'copyHtml5',
-							exportOptions: {
-							 columns: [ 0, 1, 2 ,3]
-							}
-						},
-							{
-							extend: 'csvHtml5',
-							exportOptions: {
-							 columns: [ 0, 1, 2 ,3]
-							}
-						},
 						
 						
 						'colvis'
 					],
-					
 					"ajax":{
-						url :"<?php echo site_url("rekabsensiswa/grid"); ?>", 
+						url :"<?php echo site_url("absenguru/grid"); ?>", 
 						type: "post", 
 						"data": function ( data ) {
 						
-						data.keyword = $('#keyword').val();
-						data.tanggal = $('#tgl').val();
+					
+						data.tmjenjang_id = $('#tmjenjang_id').val();
+						data.tmkelas_id = $('#tmkelas_id').val();
+						data.tmruang_id = $('#tmruang_id').val();
 				
 						
 						
@@ -161,7 +147,77 @@
 			   dataTable.ajax.reload(null,false);	        
 		  
         });
+		
+		$(document).on('change', '#tmjenjang_id,#tmkelas_id,#tmruang_id', function (event, messages) {			
+			 
+			   dataTable.ajax.reload(null,false);	        
+		  
+        });
+		
 	
+	$(document).off('click', '#simpanjadwal').on('click', '#simpanjadwal', function (event, messages) {	
+      var hari         = $("#hari").val();
+      var jam          = $("#jam").val();
+      var mapel        = $("#mapel").val();
+      var tmguru_id    = $("#tmguru_id").val();
+      var tmjenjang_id = $("#tmjenjang_id").val();
+      var tmkelas_id   = $("#tmkelas_id").val();
+      var tmruang_id   = $("#tmruang_id").val();
+	  
+	  
+	  
+	  
+	  if(hari =="" || jam =="" || mapel=="" || tmguru_id==""){
+		  
+		  alertify.alert("Pastikan anda telah memilih semua item");
+		  return false;
+	  }
+	    loading();
+		
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url("absenguru/save"); ?>",
+            data: {"tmjenjang_id":tmjenjang_id,
+			"tmkelas_id":tmkelas_id,
+			"tmruang_id":tmruang_id,
+			"hari":hari,
+			"tmjam_id":jam,
+			"mapel":mapel,
+			"tmguru_id":tmguru_id},
+			success: function (response, status, xhr) {
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct == "application/json") {
+                    
+                     alertify.alert(response.message);
+					
+					
+                } else {
+                   
+				  $("#loaddata").html(response)
+				   
+                }
 				
+				jQuery.unblockUI({ });
+            }
+        });
+	
+   });	
+   
+   $(document).off('click', '.deleteone').on('click', '.deleteone', function (event, messages) {			
+	
+	    var id     = $(this).attr("datanya");
+	 
+	
+	    alertify.confirm("Apakah anda yakin akan menghapus data ini ?",function(){
+		 loading();
+			 $.post("<?php echo site_url("absenguru/hapus"); ?>",{id:id},function(data){
+				 
+				 $("#row"+id).remove();
+				 
+					jQuery.unblockUI({ });
+			 })
+	    })
+	
+   });	
 		
 </script>

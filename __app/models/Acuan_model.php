@@ -358,7 +358,6 @@ class Acuan_model extends CI_Model {
 		
 		$this->db->where($where,$id);
 		return $sql = $this->db->get($table);
-		echo json_encode($sql);
 		if(count($sql)>0):
 		return $sql->$kolom;
 		else:
@@ -366,6 +365,19 @@ class Acuan_model extends CI_Model {
 		endif;
 		
 	}
+
+	public function get_kondisi_a($id,$where,$table,$kolom){
+		
+		$this->db->where($where,$id);
+		$sql = $this->db->get($table);
+		if(count($sql)>0):
+		return $sql->row()->$kolom;
+		else:
+		return "";
+		endif;
+		
+	}
+
 	
 	public function get_kondisi_student($id,$where,$table,$kolom,$ajaran){
 		$ajaranaktif = $this->Acuan_model->tahun_aktif();

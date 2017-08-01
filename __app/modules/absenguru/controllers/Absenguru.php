@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Absenguru extends CI_Controller {
 
+    protected $name_of_days  = [
+        '1' => 'Senin',
+        '2' => 'Selasa',
+        '3' => 'Rabu',
+        '4' => 'Kamis',
+        '5' => 'Jumat',
+        '6' => 'Sabtu',
+        '7' => 'Minggu'
+    ];
+
 	 public function __construct()
       {
         parent::__construct();
@@ -16,16 +26,16 @@ class Absenguru extends CI_Controller {
       } 
 	public function index($offset=null)
 	{  
-		
-		$data['title'] 		= "Absen Guru ";
+	
+		$data['title'] 		= "Absen Guru";
 		$data['konten'] 	= "page";
+		 
 		$this->load->view('home/page_header',$data);
 	
 
 	}
 	
-	
-    public function grid(){
+	public function grid(){
 		
 		  $iTotalRecords = $this->Model_data->getdata(false)->num_rows();
 		  
@@ -48,10 +58,15 @@ class Absenguru extends CI_Controller {
 				$no = $i++;
 				$records["data"][] = array(
 					$no,
-					$val['tanggal'],					
-					$val['nama'],					
-					$status[$val['status']],					
-					
+					$val['jenjang'],					
+					$val['kelas'],					
+					$val['ruang'],					
+									
+								
+					'
+					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Buat Jadwal " urlnya = "'.site_url("absenguru/form").'"    datanya="'.$val['id'].'" ><i class="fa  fa-file-text-o "></i> Masuk Kelas  </a> 
+				
+					'
 
 				  );
 			  }
@@ -64,60 +79,117 @@ class Absenguru extends CI_Controller {
 	}
 	
 	
-
+	
 	
 	public function form(){
-		
+		 $ajaran = $this->Acuan_model->ajaran();
 		 $id = $this->input->get_post("id",TRUE);
 		 $data = array();
+		   
 		    if(!empty($id)){
 				
-				$data['dataform'] = $this->Acuan_model->get_where("tm_pelajaran",array("id"=>$id));
+				$data['dataform'] = $this->Acuan_model->get_where("v_ruang",array("id"=>$id));
+				$data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id,"tmruang_id"=>$data['dataform']->tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
 			}
-		 $this->load->view('form',$data);
+
+       
+        foreach ($data['datagrid'] as $key => $val) {
+	        	// if($val->tmguru_id== $_SESSION['nama'];)
+	            $jam = $this->Acuan_model->get_where('tm_jam', ['id' => $val->tmjam_id]);
+	            $pelajaran = $this->Acuan_model->get_where('tm_pelajaran', ['id' => $val->tmpelajaran_id]);
+	            $guru = $this->Acuan_model->get_where('tm_pegawai', ['id' => $val->tmguru_id]);
+
+	            $val->nama_hari = $this->name_of_days[$val->hari];
+	            $val->jam = isset($jam->nama) ? $jam->nama : '';
+	            $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
+	            $val->guru = isset($guru->nama) ? $guru->nama : '';
+	            $val->idguru = $val->tmguru_id;
+        }
+
+        $this->load->view('form',$data);
 	}
+	
+	
+	
 	
 	public function save(){
-     
-        $this->form_validation->set_message('required', '{field} Wajib di isi.');
-       
-				$config = array(
-					array('field' => 'f[nama]', 'label' => 'Nama Pelajaran  ', 'rules' => 'trim|required'),
-				);
-				$this->form_validation->set_rules($config);
 		
+       $ajaran        = $this->Acuan_model->ajaran();
+       $semester      = $this->Acuan_model->semester();
+     
+       $tmjenjang_id  = $this->input->get_post("tmjenjang_id");
+       $tmkelas_id    = $this->input->get_post("tmkelas_id");
+       $tmruang_id    = $this->input->get_post("tmruang_id");
+       $hari          = $this->input->get_post("hari");
+       $tmjam_id      = $this->input->get_post("tmjam_id");
+       $tmpelajaran_id= $this->input->get_post("mapel");
+       $tmguru_id     = $this->input->get_post("tmguru_id");
 	
         
-        if ($this->form_validation->run() == true) {
+       // if ($this->Model_data->validasi() == 0) {
 			
-			$id   = $this->input->get_post("id",true);
+		        $this->Model_data->insert();
+			   $data['datagrid']     = $this->Model_data->getdatapel("tr_jadwal",array("tmjenjang_id"=>$tmjenjang_id,"tmkelas_id"=>$tmkelas_id,"tmruang_id"=>$tmruang_id,"ajaran"=>$this->Acuan_model->ajaran(),"semester"=>$this->Acuan_model->semester()))->result();
+
+        foreach ($data['datagrid'] as $key => $val) {
+            $jam = $this->Acuan_model->get_where('tm_jam', ['id' => $val->tmjam_id]);
+            $pelajaran = $this->Acuan_model->get_where('tm_pelajaran', ['id' => $val->tmpelajaran_id]);
+            $guru = $this->Acuan_model->get_where('tm_pegawai', ['id' => $val->tmguru_id]);
+
+            $val->nama_hari = $this->name_of_days[$val->hari];
+            $val->jam = isset($jam->nama) ? $jam->nama : '';
+            $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
+            $val->guru = isset($guru->nama) ? $guru->nama : '';
+        }
+
+        $this->load->view('page_item',$data);
 			
-				if(empty($id)){
-						$this->Model_data->insert();
-				}else{
-						$this->Model_data->update($id);
-				}
-			  
-			   
-	     } else {
+	   /*  } else {
             if ($this->input->post()) {
                 header('Content-Type: application/json');
-                echo json_encode(array('error' => true, 'message' => validation_errors()));
+                echo json_encode(array('error' => true, 'message' => "Item Tagihan siswa ybs Sudah tersedia di database,silahkan pilih item lain"));
             } 
-        }	
+        }	 */
 	
 	
 	}
-	
-	
 	
 	
 	public function hapus(){
 		
-		$this->Acuan_model->hapus("tm_pelajaran",array("id"=>$this->input->get_post("id")));
+		$this->Acuan_model->hapus("tr_jadwal",array("id"=>$this->input->get_post("id")));
+		
+		
+		
+	}
+	public function getsiswa(){
+		
+		$this->Acuan_model->hapus("tr_jadwal",array("id"=>$this->input->get_post("id")));
+		
 		
 		
 	}
 	
-
+	
+	public function changeguru(){
+		$guru   =  $this->Acuan_model->get_where2("tr_gurumapel",array("tmpelajaran_id"=>$_POST['id']))->result();
+		 if(count($guru) >0){
+		   foreach($guru as $j){
+			echo json_encode($j);
+			   
+			  ?><option value="<?php echo $j->tmpegawai_id ?>" ><?php
+			   $a=$this->Model_data->get_kondisi_namaguru($j->tmpegawai_id);
+			   echo $a; ?></option><?php 
+			   
+		    }
+		   }else{
+			   ?>
+			   <option value="0" > Belum ditentukan </option>
+		   <?php 
+		   }
+		
+	}
+	
+	
+	
 }
