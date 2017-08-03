@@ -38,13 +38,13 @@ class Home extends CI_Controller {
 				$kelas = $this->Acuan_model->get(array("table"=>"tm_kelas","order"=>"urutan","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($kelas as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2' and tmkelas_id='".$row->id."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
-						$grid[] = $tempo;	   
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
+						$grid[] = $tempo;
 					}
 				}
 				else{
@@ -53,8 +53,7 @@ class Home extends CI_Controller {
 					$grid[] = $tempo;
 				}
 				
-				
-				
+  				
 					 $data['statistik'] = "Persentase Siswa";
 					 $data['header']    = "Kelas";
 					 $data['categorie_xAxis'] = " Siswa";

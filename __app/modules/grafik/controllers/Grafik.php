@@ -76,7 +76,7 @@ class Grafik extends CI_Controller {
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
 				foreach($jenis as $index=>$row){
-					$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and agama='".$row."'")->num_rows();
 					$data['json_anggota'] .=",".$pm;
 					$data["categorie_xAxis"] .=",'".$row."'";
 					$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
@@ -123,12 +123,12 @@ class Grafik extends CI_Controller {
 				$kelas = $this->Acuan_model->get(array("table"=>"tm_kelas","order"=>"urutan","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($kelas as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and tmkelas_id='".$row->id."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
 						$grid[] = $tempo;	   
 					}
 				}
@@ -168,13 +168,14 @@ class Grafik extends CI_Controller {
 				$ruang = $this->Acuan_model->get(array("table"=>"tm_ruang","order"=>"urutan","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($ruang as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and tmruang_id='".$row->id."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
-						$grid[] = $tempo;	   
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
+						$grid[] = $tempo;
+
 					}
 				}
 				else{
@@ -213,13 +214,13 @@ class Grafik extends CI_Controller {
 				$array = $this->Acuan_model->get(array("table"=>"tm_pekerjaan","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($array as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and pekerjaan_ayah='".$row->nama."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
-						$grid[] = $tempo;	   
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
+						$grid[] = $tempo;
 					}
 				}
 				else{
@@ -258,13 +259,13 @@ class Grafik extends CI_Controller {
 				$array = $this->Acuan_model->get(array("table"=>"tm_pendidikan","order"=>"id","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($array as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and pendidikan_ayah='".$row->nama."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
-						$grid[] = $tempo;	   
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
+						$grid[] = $tempo;
 					}
 				}
 				else{
@@ -303,13 +304,13 @@ class Grafik extends CI_Controller {
 				$array = $this->Acuan_model->get(array("table"=>"tm_pekerjaan","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($array as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and pekerjaan_ibu='".$row->nama."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
-						$grid[] = $tempo;	   
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
+						$grid[] = $tempo;
 					}
 				}
 				else{
@@ -349,13 +350,13 @@ class Grafik extends CI_Controller {
 				$jumlah   = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and status='2'")->num_rows();
 				  
 				if($jumlah>0){
-					foreach($jenis as $index=>$row){
-						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and sex='".$row."'")->num_rows();
+					foreach($array as $index=>$row){
+						$pm = $this->Acuan_model->get(array("table"=>"v_siswa","order"=>"nama","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."' and ajaran='".$this->Acuan_model->ajaran()."' and status='2' and pendidikan_ibu='".$row->nama."'")->num_rows();
 						$data['json_anggota'] .=",".$pm;
-						$data["categorie_xAxis"] .=",'".$row."'";
-						$tempo = array("INDEXES"=>$row,"Jumlah"=>$pm);
-						$pie          .=",['".$row."',".(($pm/$jumlah)*100)."]";
-						$grid[] = $tempo;	   
+						$data["categorie_xAxis"] .=",'".$row->nama."'";
+						$tempo = array("INDEXES"=>$row->nama,"Jumlah"=>$pm);
+						$pie          .=",['".$row->nama."',".(($pm/$jumlah)*100)."]";
+						$grid[] = $tempo;
 					}
 				}
 				else{
