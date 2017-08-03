@@ -205,6 +205,13 @@ $(function () {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php 
+                                        if(json_encode($grid)==0){?>
+                                            <tr>
+                                                <td colspan="4"><center>No Record(s)</center> </td>
+                                            </tr>
+                                        <?php }else{
+                                    ?>
                                     <?php if ($grid): ?>
                                         <?php $i=1; 
                                         $total=0;
@@ -218,10 +225,11 @@ $(function () {
                                     <?php endif; ?>
 
                                      <tr>
-                                                <td colspan="2" align="right"> Subtotal </td>
-                                               
-                                                <td> <?php echo $total ?> </td>
-                                            </tr>
+                                        <td colspan="2" align="right"> Subtotal </td>
+                                       
+                                        <td> <?php echo $total ?> </td>
+                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
