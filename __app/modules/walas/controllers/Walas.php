@@ -29,6 +29,14 @@ class Walas extends CI_Controller {
 	
 	
 	public function setting(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'walas');
+
+        if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
+
         $ajaran        = $this->Acuan_model->ajaran();
         $tmpegawai_id  = $this->input->get_post("id",TRUE);
         $tmruang_id    = $this->input->get_post("tmruang_id",TRUE);

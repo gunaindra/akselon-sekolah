@@ -29,7 +29,7 @@ class Penjadwalan extends CI_Controller {
 	
 		$data['title'] 		= "Penjadwalan Pelajaran";
 		$data['konten'] 	= "page";
-		 
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -51,22 +51,26 @@ class Penjadwalan extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'penjadwalan');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (!empty($privileges)) {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Buat Jadwal " urlnya = "'.site_url("penjadwalan/form").'"    datanya="'.$val['id'].'" ><i class="fa  fa-file-text-o "></i> Penjadwalan  </a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
 					$no,
 					$val['jenjang'],					
 					$val['kelas'],					
-					$val['ruang'],					
-									
-								
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Buat Jadwal " urlnya = "'.site_url("penjadwalan/form").'"    datanya="'.$val['id'].'" ><i class="fa  fa-file-text-o "></i> Penjadwalan  </a> 
-				
-					'
+					$val['ruang'],
+
+
+                    $actions
 
 				  );
 			  }
@@ -102,6 +106,8 @@ class Penjadwalan extends CI_Controller {
             $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
             $val->guru = isset($guru->nama) ? $guru->nama : '';
         }
+
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'penjadwalan');
 
         $this->load->view('form',$data);
 	}

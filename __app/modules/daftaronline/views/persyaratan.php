@@ -60,7 +60,7 @@
 												   $no=1;
 												   foreach($dataform as $r){
 													   
-													   $row = $this->Acuan_model->get_where("akademik.tr_persyaratan","tmsiswa_id='".$tmsiswa_id."' AND tmpersyaratan_id='".$r->id."'");
+													   $row = $this->Acuan_model->get_where("tr_persyaratan","tmsiswa_id='".$tmsiswa_id."' AND tmpersyaratan_id='".$r->id."'");
 												?>
 													  
 														 <tr>

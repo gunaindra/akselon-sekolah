@@ -845,4 +845,15 @@ SELECT 	COUNT(
 				) AS 'total' FROM tm_siswa WHERE status_persyaratan='2' and ajaran='".$this->tahun_aktif()."'")->row();
 		
 	}
+
+	public function getPrivilege($group_id, $link) {
+        $this->db->select('*');
+        $this->db->from('hak_akses');
+        $this->db->join('tm_menu', 'hak_akses.tmmenu_id = tm_menu.id');
+        $this->db->where('hak_akses.tmgrup_id',$group_id);
+        $this->db->where('tm_menu.link',$link);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
 }

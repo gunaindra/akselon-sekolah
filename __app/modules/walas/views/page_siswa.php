@@ -12,6 +12,8 @@
 			
 			</div>
 		<div id="showform"> </div>
+<div class="alertmsg">
+</div>
 
 		<div class="portlet box red">
 						<div class="portlet-title">
@@ -157,14 +159,23 @@
 		$(document).off("change",".walas").on("change",".walas",function(){
 			var id         = $(this).val();
 			var tmruang_id = $(this).attr("data-id");
+			var oldstatus = $("#status"+tmruang_id).html();
+
 			if(id ==""){
 				alertify.alert("Tetntukan Walikelas");
 				return false;
 			}
 			  $("#status"+tmruang_id).html("<i class='label label-warning'> Sedang Merubah.. </i>");
 			  
-			    $.post("<?php echo site_url("walas/setting"); ?>",{id:id,tmruang_id:tmruang_id},function(){
-					
+			    $.post("<?php echo site_url("walas/setting"); ?>",{id:id,tmruang_id:tmruang_id},function(rsp){
+                    if (rsp.error) {
+                        $('.alertmsg').html(rsp.alert);
+                        $.post('walas/cari', function(data){
+                            $("#loaddata").html(data);
+                        });
+                        return;
+                    }
+
 					 $("#status"+tmruang_id).html("<i class='label label-info'> Ditetapkan </i>");
 					
 			  	})

@@ -43,10 +43,29 @@ class Daftaronline extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_datasiswa->getdata(true)->result_array();
-		   
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'daftaronline');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Persyaratan " urlnya = "'.site_url("daftaronline/persyaratan").'"  datanya="'.$val['id'].'[split]'.$val['tmjenjang_id'].'"  ><i class="fa fa-file-archive-o "></i></a>';
+               }
+
+               if(!empty($privileges)) {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Lengkap " urlnya = "'.site_url("daftaronline/detail").'"   datanya="'.$val['id'].'"><i class="fa fa-user"></i></a>';
+               }
+
+               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("datasiswa/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"  ><i class="fa fa-trash-o"></i></a>';
+               }
+
+               $action_approval = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $action_approval .= '<a href="javascript:;" class="btn btn-success approv tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("daftaronline/approv").'" title="Verifikasi" datanya="'.$val['id'].'"  data-toggle="modal" data-target="#verifikasimodal"><i class="fa fa-check-square-o "></i></a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -57,19 +76,10 @@ class Daftaronline extends CI_Controller {
 					$val['nama'],					
 					$val['sex'],					
 				
-					'<div class="label label-danger"><i class="label label-info">'.$this->Acuan_model->status($val['status']).'</i></div>',	
-                    				
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Persyaratan " urlnya = "'.site_url("daftaronline/persyaratan").'"  datanya="'.$val['id'].'[split]'.$val['tmjenjang_id'].'"  ><i class="fa fa-file-archive-o "></i>  </a> 
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Lengkap " urlnya = "'.site_url("daftaronline/detail").'"   datanya="'.$val['id'].'"><i class="fa fa-user"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-success hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("datasiswa/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"  ><i class="fa fa-trash-o"></i></a>
-					
-					',
-					'
-                    <a href="javascript:;" class="btn btn-success approv tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("daftaronline/approv").'" title="Verifikasi" datanya="'.$val['id'].'"  data-toggle="modal" data-target="#verifikasimodal"><i class="fa fa-check-square-o "></i></a>
-					
-					'
+					'<div class="label label-danger"><i class="label label-info">'.$this->Acuan_model->status($val['status']).'</i></div>',
+
+                    $actions,
+                    $action_approval
 
 				  );
 			  }

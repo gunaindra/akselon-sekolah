@@ -19,6 +19,8 @@ class Gurumapel extends CI_Controller {
 	
 		$data['title'] 		= "Data Guru Mata Pelajaran";
 		$data['konten'] 	= "page";
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'gurumapel');
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -42,6 +44,8 @@ class Gurumapel extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'gurumapel');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
@@ -54,18 +58,24 @@ class Gurumapel extends CI_Controller {
 					}
 				   $mapel .="</ol>";  
 				$no = $i++;
+
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("gurumapel/formedit").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i></a>';
+               }
+
+               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("gurumapel/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>';
+               }
+
 				$records["data"][] = array(
 					$no,
 					$val['nama'],					
 					ucwords($val['status_pegawai']),	
-					$mapel,	
-                  				
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("gurumapel/formedit").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("gurumapel/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
-					
-					'
+					$mapel,
+
+                    $actions
 
 				  );
 			  }
@@ -130,6 +140,13 @@ class Gurumapel extends CI_Controller {
 	}
 	
 	public function save(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'gurumapel');
+
+        if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+            return;
+        }
      
         $this->form_validation->set_message('required', '{field} Wajib di isi.');
        
@@ -170,6 +187,13 @@ class Gurumapel extends CI_Controller {
 	
 	
 	public function hapus(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'gurumapel');
+
+        if (!isset($privileges->c_delete) || $privileges->c_delete != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
 		
 		$this->Acuan_model->hapus("tr_gurumapel",array("tmpegawai_id"=>$this->input->get_post("id")));
 		

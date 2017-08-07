@@ -19,6 +19,8 @@ class Kepegawaian extends CI_Controller {
 	
 		$data['title'] 		= "Data Pegawai";
 		$data['konten'] 	= "page";
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'kepegawaian');
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -41,9 +43,20 @@ class Kepegawaian extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'kepegawaian');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("kepegawaian/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i></a>';
+               }
+
+               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("kepegawaian/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -54,13 +67,8 @@ class Kepegawaian extends CI_Controller {
 					$val['email'],					
 					ucwords($val['status_pegawai']),	
                     $val['username'],						
-                    $val['password'],						
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("kepegawaian/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("kepegawaian/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
-					
-					'
+                    $val['password'],
+                    $actions
 
 				  );
 			  }
@@ -97,16 +105,28 @@ class Kepegawaian extends CI_Controller {
 					
 				);
 				$this->form_validation->set_rules($config);
-		
-	
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'kepegawaian');
         
         if ($this->form_validation->run() == true) {
 			
 			$id   = $this->input->get_post("id",true);
 			
 				if(empty($id)){
+                    if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->insert();
 				}else{
+                    if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->update($id);
 				}
 			  
@@ -125,6 +145,13 @@ class Kepegawaian extends CI_Controller {
 	
 	
 	public function hapus(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'kepegawaian');
+
+        if (!isset($privileges->c_delete) || $privileges->c_delete != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
 		
 		$this->Acuan_model->hapus("tm_pegawai",array("id"=>$this->input->get_post("id")));
 		

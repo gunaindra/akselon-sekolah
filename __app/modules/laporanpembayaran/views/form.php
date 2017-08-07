@@ -95,7 +95,7 @@
 												   <tr id="row<?php echo $no; ?>">
 													<td ><?php echo $no; ?></td>
 													<td ><input type='hidden' name='id<?php echo $no; ?>' value='<?php echo $datval->id; ?>'>
-													<input type='hidden' name='tmkeuangan_id<?php echo $no; ?>' value='<?php echo $datval->tmkeuangan_id; ?>'><?php echo $this->Acuan_model->get_kondisi($datval->tmkeuangan_id,"id","tm_keuangan","nama"); ?></td>
+													<input type='hidden' name='tmkeuangan_id<?php echo $no; ?>' value='<?php echo $datval->tmkeuangan_id; ?>'><?php echo $this->Acuan_model->get_kondisi_a($datval->tmkeuangan_id,"id","tm_keuangan","nama"); ?></td>
 													<td style="width:5%"><?php echo $this->Acuan_model->formatuang($datval->tagihan); ?></td>
 													<td><?php echo $this->Acuan_model->formatuang($datval->dibayar); ?> </td>
 													<td><input  type="checkbox" class="form-control" name="item[]" value="<?php echo $datval->id; ?>">

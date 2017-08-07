@@ -12,6 +12,8 @@
 			
 			</div>
 		<div id="showform"> </div>
+    <div class="alertmsg">
+    </div>
 
 		<div class="portlet box red">
 						<div class="portlet-title">
@@ -41,7 +43,9 @@
 							<div class="row">
 								<div class="col-md-12 col-sm-12">
 								  <div class="col-md-3">
-								    <a href="javascript:void(0);" id="tambahdata"  urlnya="<?php echo site_url("keuangan/form"); ?>"class="btn btn-success tooltips" data-container="body" data-placement="right" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Data</a>
+                                      <?php if (isset($privileges->c_create) && $privileges->c_create == '1'): ?>
+                                        <a href="javascript:void(0);" id="tambahdata"  urlnya="<?php echo site_url("keuangan/form"); ?>"class="btn btn-success tooltips" data-container="body" data-placement="right" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Data</a>
+                                      <?php endif; ?>
 								  </div>
 								  <div class="col-md-9">
 									<form class="navbar-form navbar-right" role="search" method="post" id="formcaridatatables" action="javascript:void(0)">

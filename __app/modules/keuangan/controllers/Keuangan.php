@@ -19,7 +19,8 @@ class Keuangan extends CI_Controller {
 	
 		$data['title'] 		= "Master Keuangan";
 		$data['konten'] 	= "page";
-		$data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result(); 
+		$data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result();
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'keuangan');
 		
 		$this->load->view('home/page_header',$data);
 	
@@ -43,9 +44,20 @@ class Keuangan extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'keuangan');
 		 
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("keuangan/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a>';
+               }
+
+               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("keuangan/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -54,13 +66,8 @@ class Keuangan extends CI_Controller {
 					$this->Acuan_model->get_kondisi_a($val['tmkelas_id'],"id","tm_kelas","nama"),					
 					$val['nama'],					
 					$this->Acuan_model->formatuang($val['jumlah'])."/".$val['kategori'],
-								
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("keuangan/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("keuangan/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
-					
-					'
+
+                    $actions
 
 				  );
 			  }
@@ -102,16 +109,28 @@ class Keuangan extends CI_Controller {
 					
 				);
 				$this->form_validation->set_rules($config);
-		
-	
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'keuangan');
         
         if ($this->form_validation->run() == true) {
 			
 			$id   = $this->input->get_post("id",true);
 			
 				if(empty($id)){
+                    if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->insert();
 				}else{
+                    if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->update($id);
 				}
 			  
@@ -130,6 +149,13 @@ class Keuangan extends CI_Controller {
 	
 	
 	public function hapus(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'keuangan');
+
+        if (!isset($privileges->c_delete) || $privileges->c_delete != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
 		
 		$this->Acuan_model->hapus("tm_keuangan",array("id"=>$this->input->get_post("id")));
 		

@@ -57,92 +57,94 @@
 						
 						
 						  </div>
-						  
-						  
-						
-						  
+
+
+
+
 						  <div id="jikareguler">
-						  <center><h4> Buat Jadwal Pelajaran </h4></center>
-						  
-						    <div class="table-responsive">
-						    <table class="table table-hover">
-							  <tr>
-							   <td>
-							     <select class="form-control" id="hari">
-								  <option value=""> Pilih Hari </option>
-								    <?php 
-									  $data['hari']   = array("1"=>"Senin","2"=>"Selasa","3"=>"Rabu","4"=>"Kamis","5"=>"Jumat","6"=>"Sabtu","7"=>"Minggu");
-									  
-										   foreach($data['hari'] as $index=>$hr){
-											   
-											   ?><option value="<?php echo $index ?>" ><?php echo $hr ?></option><?php 
-											   
-										   }
-										   
-									   
-									  ?>
-								 
-								 </select>
+                              <?php if (isset($privileges->c_create) && $privileges->c_create == '1'): ?>
+                                  <center><h4> Buat Jadwal Pelajaran </h4></center>
+
+                                    <div class="table-responsive">
+                                    <table class="table table-hover">
+                                      <tr>
+                                       <td>
+                                         <select class="form-control" id="hari">
+                                          <option value=""> Pilih Hari </option>
+                                            <?php
+                                              $data['hari']   = array("1"=>"Senin","2"=>"Selasa","3"=>"Rabu","4"=>"Kamis","5"=>"Jumat","6"=>"Sabtu","7"=>"Minggu");
+
+                                                   foreach($data['hari'] as $index=>$hr){
+
+                                                       ?><option value="<?php echo $index ?>" ><?php echo $hr ?></option><?php
+
+                                                   }
 
 
-							   </td>
-							   
-							      <td>
-							     <select class="form-control" id="jam">
-								  <option value=""> Pilih Jam </option>
-								    <?php 
-									  $jam   =  $this->Acuan_model->get_where2("tm_jam",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
-									  
-										   foreach($jam as $j){
-											   
-											   ?><option value="<?php echo $j->id ?>" ><?php echo $j->nama ?></option><?php 
-											   
-										   }
-										   
-									   
-									  ?>
-								 
-								 </select>
+                                              ?>
+
+                                         </select>
 
 
-							   </td>
-							   
-							    <td>
-							    <select class="form-control onchange "  id="mapel" url="<?php echo site_url("penjadwalan/changeguru"); ?>" target="tmguru_id">
-								  <option value=""> Pilih Pelajaran </option>
-								    <?php 
-									  $jam   =  $this->Acuan_model->get_where2("tm_pelajaran",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
-									  
-										   foreach($jam as $j){
-											   
-											   ?><option value="<?php echo $j->id ?>" ><?php echo $j->nama ?></option><?php 
-											   
-										   }
-										   
-									   
-									  ?>
-								 
-								 </select>
+                                       </td>
+
+                                          <td>
+                                         <select class="form-control" id="jam">
+                                          <option value=""> Pilih Jam </option>
+                                            <?php
+                                              $jam   =  $this->Acuan_model->get_where2("tm_jam",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
+
+                                                   foreach($jam as $j){
+
+                                                       ?><option value="<?php echo $j->id ?>" ><?php echo $j->nama ?></option><?php
+
+                                                   }
 
 
-							   </td>
-							   
-							    <td>
-							    <select class="form-control  tmguru_id"  id="tmguru_id" >
-								  <option value=""> Pilih Guru  </option>
-								    
-								 
-								 </select>
+                                              ?>
+
+                                         </select>
 
 
-							   </td>
-						
-						      <td> <button type="button" class="btn green" id="simpanjadwal"><i class="fa fa-save"></i> Tambah  </button></td>
-						      </tr>
-							 </table>
-						
-						
-						  </div>
+                                       </td>
+
+                                        <td>
+                                        <select class="form-control onchange "  id="mapel" url="<?php echo site_url("penjadwalan/changeguru"); ?>" target="tmguru_id">
+                                          <option value=""> Pilih Pelajaran </option>
+                                            <?php
+                                              $jam   =  $this->Acuan_model->get_where2("tm_pelajaran",array("tmsekolah_id"=>$_SESSION['tmsekolah_id']))->result();
+
+                                                   foreach($jam as $j){
+
+                                                       ?><option value="<?php echo $j->id ?>" ><?php echo $j->nama ?></option><?php
+
+                                                   }
+
+
+                                              ?>
+
+                                         </select>
+
+
+                                       </td>
+
+                                        <td>
+                                        <select class="form-control  tmguru_id"  id="tmguru_id" >
+                                          <option value=""> Pilih Guru  </option>
+
+
+                                         </select>
+
+
+                                       </td>
+
+                                      <td> <button type="button" class="btn green" id="simpanjadwal"><i class="fa fa-save"></i> Tambah  </button></td>
+                                      </tr>
+                                     </table>
+
+
+                                  </div>
+                              <?php endif; ?>
 						  
 						  <div class="table-responsive" id="loaddata">
                              <?php 
@@ -174,7 +176,11 @@
 											 <td><?php echo $row->pelajaran; ?></td>
 											 <td><?php echo $row->guru; ?></td>
 											
-											 <td> <a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="<?php echo $row->id; ?>"  ><i class="fa fa-trash-o"></i></a> </td>
+											 <td>
+                                             <?php if (isset($privileges->c_delete) && $privileges->c_delete == '1'): ?>
+                                                 <a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="<?php echo $row->id; ?>"  ><i class="fa fa-trash-o"></i></a>
+                                             <?php endif; ?>
+                                             </td>
 									     </tr>
 										<?php 
 										 }

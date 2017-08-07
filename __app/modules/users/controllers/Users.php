@@ -19,6 +19,8 @@ class Users extends CI_Controller {
 	
 		$data['title'] 		= "Data Users";
 		$data['konten'] 	= "page";
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'users');
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -41,9 +43,16 @@ class Users extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'users');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title=" Grup" urlnya = "'.site_url("users/form").'"  datanya="'.$val['id'].'"><i class="fa fa-codepen"></i> Atur Group Users  </a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -52,12 +61,8 @@ class Users extends CI_Controller {
 					
                     $val['username'],						
                     $val['password'],						
-                    (empty($val['grup'])) ? "<i class='label label-info'>Belum ditentukan</i>" : $this->Acuan_model->get_kondisi($val['grup'],"id","kepegawaian.tm_grup","nama"),						
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title=" Grup" urlnya = "'.site_url("users/form").'"  datanya="'.$val['id'].'"><i class="fa fa-codepen"></i> Atur Group Users  </a> 
-					
-                  	
-					'
+                    (empty($val['grup'])) ? "<i class='label label-info'>Belum ditentukan</i>" : $this->Acuan_model->get_kondisi($val['grup'],"id","kepegawaian.tm_grup","nama"),
+                    $actions
 
 				  );
 			  }
@@ -95,16 +100,28 @@ class Users extends CI_Controller {
 					
 				);
 				$this->form_validation->set_rules($config);
-		
-	
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'users');
         
         if ($this->form_validation->run() == true) {
 			
 			$id   = $this->input->get_post("id",true);
 			
 				if(empty($id)){
+                    if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->insert();
 				}else{
+                    if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->update($id);
 				}
 			  

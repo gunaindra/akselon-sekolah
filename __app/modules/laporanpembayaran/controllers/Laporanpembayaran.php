@@ -50,9 +50,16 @@ class Laporanpembayaran extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'laporanpembayaran');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (!empty($privileges)) {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Cetak " urlnya = "'.site_url("laporanpembayaran/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-print "></i> Cetak Kwitansi  </a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -64,11 +71,8 @@ class Laporanpembayaran extends CI_Controller {
 					$val['nama'],					
 					$val['sex'],					
 					$val['nama_ayah'],					
-					$val['nama_ibu'],					
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Cetak " urlnya = "'.site_url("laporanpembayaran/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-print "></i> Cetak Kwitansi  </a> 
-				
-					'
+					$val['nama_ibu'],
+                    $actions
 
 				  );
 			  }

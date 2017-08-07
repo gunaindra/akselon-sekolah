@@ -19,8 +19,9 @@ class Datasiswa extends CI_Controller {
 	
 		$data['title'] 		= "Data Siswa";
 		$data['konten'] 	= "page";
-		$data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),null)->result(); 
-		 
+		$data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),null)->result();
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'datasiswa');
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -42,9 +43,27 @@ class Datasiswa extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_datasiswa->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'datasiswa');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+
+               // non siswa can see this if allowed but siswa can only see his/her login details
+               if (!empty($privileges) && ($this->session->userdata['grup'] != 3 || ($this->session->userdata['grup'] == 3 && $this->session->userdata['grup'] == $val['id']))) {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Akun" urlnya = "'.site_url("datasiswa/akun").'"  datanya="'.$val['id'].'" ><i class="fa fa-user"></i></a>';
+               }
+
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Foto Siswa" urlnya = "'.site_url("datasiswa/formfoto").'"  datanya="'.$val['id'].'" ><i class="fa fa-camera"></i></a>';
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("datasiswa/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-pencil"></i></a>';
+               }
+
+               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("datasiswa/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"  ><i class="fa fa-trash-o"></i></a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -56,16 +75,8 @@ class Datasiswa extends CI_Controller {
 					$val['nama'],					
 					$val['sex'],					
 					$val['nama_ayah'],					
-					$val['nama_ibu'],					
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Akun" urlnya = "'.site_url("datasiswa/akun").'"  datanya="'.$val['id'].'" ><i class="fa fa-user"></i>  </a> 
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Foto Siswa" urlnya = "'.site_url("datasiswa/formfoto").'"  datanya="'.$val['id'].'" ><i class="fa fa-camera"></i>  </a> 
-					
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("datasiswa/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-pencil"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-success hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("datasiswa/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"  ><i class="fa fa-trash-o"></i></a>
-					
-					'
+					$val['nama_ibu'],
+                    $actions
 
 				  );
 			  }
@@ -131,16 +142,28 @@ class Datasiswa extends CI_Controller {
 					
 				);
 				$this->form_validation->set_rules($config);
-		
-	
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'datasiswa');
         
         if ($this->form_validation->run() == true) {
 			
 			$id   = $this->input->get_post("id",true);
 			
 				if(empty($id)){
+                    if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_datasiswa->insert();
 				}else{
+                    if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_datasiswa->update($id);
 				}
 			  
@@ -157,6 +180,13 @@ class Datasiswa extends CI_Controller {
 	
 	
 	public function hapus(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'datasiswa');
+
+        if (!isset($privileges->c_delete) || $privileges->c_delete != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
 		
 		$this->Acuan_model->hapus("tm_siswa",array("id"=>$this->input->get_post("id")));
 		$this->Acuan_model->hapus("tr_kelas",array("tmsiswa_id"=>$this->input->get_post("id")));

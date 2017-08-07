@@ -19,6 +19,8 @@ class Berita extends CI_Controller {
 	
 		$data['title'] 		= "Berita  ";
 		$data['konten'] 	= "page";
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'berita');
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -41,9 +43,20 @@ class Berita extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'berita');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("berita/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a>';
+               }
+
+               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("berita/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -51,14 +64,9 @@ class Berita extends CI_Controller {
 					'<img src="'.base_url().'__statics/img/berita/'.$val['gambar'].'" style="height:70px;width:70px" class="img-responsive img-circle">',
 					$val['judul'],					
 					$val['isi'],					
-					$this->Acuan_model->formattimestamp($val['d_entry']),					
-								
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("berita/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
-					
-                    <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("berita/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
-					
-					'
+					$this->Acuan_model->formattimestamp($val['d_entry']),
+
+                    $actions
 
 				  );
 			  }
@@ -101,8 +109,8 @@ class Berita extends CI_Controller {
 					$config['overwrite'] = true;
 					$config['remove_spaces'] = true;					
 					$this->load->library('upload', $config);
-					
-					
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'berita');
         
         if ($this->form_validation->run() == true) {
 			
@@ -110,8 +118,13 @@ class Berita extends CI_Controller {
 			
 			                             if ( ! $this->upload->do_upload('gambar'))
 											{
-												
-												if(!empty($id)){						
+
+												if(!empty($id)){
+                                                    if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                                                        header('Content-Type: application/json');
+                                                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                                                        return;
+                                                    }
 														
 														$this->Model_data->update($id);
 												 }else{
@@ -144,10 +157,20 @@ class Berita extends CI_Controller {
 												
 												  unlink(FCPATH."__statics/img/berita/".$_FILES['gambar']['name']);
 												  $this->db->set("gambar",$image);
-												 if(!empty($id)){						
+												 if(!empty($id)){
+                                                     if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                                                         header('Content-Type: application/json');
+                                                         echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                                                         return;
+                                                     }
 														
 														$this->Model_data->update($id);
 												 }else{
+                                                     if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+                                                         header('Content-Type: application/json');
+                                                         echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                                                         return;
+                                                     }
 													 
 													    $this->Model_data->insert();
 												 }
@@ -172,6 +195,13 @@ class Berita extends CI_Controller {
 	
 	
 	public function hapus(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'berita');
+
+        if (!isset($privileges->c_delete) || $privileges->c_delete != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
 		
 		$this->Acuan_model->hapus("tm_berita",array("id"=>$this->input->get_post("id")));
 		

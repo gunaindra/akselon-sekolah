@@ -120,10 +120,10 @@
 										?>
 									     <tr id="row<?php echo $row->id; ?>">
 											 <td><?php echo $no++; ?></td>
-											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmkeuangan_id,"id","tm_keuangan","nama"); ?></td>
+											 <td><?php echo $this->Acuan_model->get_kondisi_a($row->tmkeuangan_id,"id","tm_keuangan","nama"); ?></td>
 											 <td><?php echo $this->Acuan_model->formatuang($row->tagihan); ?> </td>
 											 <td><span class="label label-info"><?php echo $status[$row->status]; ?> </span> </td>
-											 <td> <?php echo ($row->status !=2) ? '<a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="'.$row->id.'"  ><i class="fa fa-trash-o"></i></a>' :'<span class="label label-warning"> Tidakk Tersedia </span>'; ?> </td>
+											 <td> <?php echo ($row->status !=2 && isset($privileges->c_delete) && $privileges->c_delete == '1') ? '<a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="'.$row->id.'"  ><i class="fa fa-trash-o"></i></a>' :'<span class="label label-warning"> Tidakk Tersedia </span>'; ?> </td>
 									     </tr>
 										<?php 
 										 }

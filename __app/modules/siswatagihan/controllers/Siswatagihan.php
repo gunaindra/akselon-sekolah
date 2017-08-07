@@ -42,9 +42,16 @@ class Siswatagihan extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'siswatagihan');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_create) && $privileges->c_create == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Tagihan " urlnya = "'.site_url("siswatagihan/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-money "></i> Buat Tagihan  </a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -56,11 +63,8 @@ class Siswatagihan extends CI_Controller {
 					$val['nama'],					
 					$val['sex'],					
 					$val['nama_ayah'],					
-					$val['nama_ibu'],					
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Tagihan " urlnya = "'.site_url("siswatagihan/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-money "></i> Buat Tagihan  </a> 
-				
-					'
+					$val['nama_ibu'],
+                    $actions
 
 				  );
 			  }
@@ -85,6 +89,7 @@ class Siswatagihan extends CI_Controller {
 				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
 				$data['item']     = $this->Acuan_model->get_wherearray("tm_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmkelas_id"=>$data['dataform']->tmkelas_id));
 				$data['data']     = $this->Acuan_model->get_wherearray("tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
+                $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'siswatagihan');
 			}
 		 $this->load->view('form',$data);
 	}
@@ -105,6 +110,7 @@ class Siswatagihan extends CI_Controller {
 		        $this->Model_data->insert();
 			    $data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$tmsiswa_id));
 				$data['data']     = $this->Acuan_model->get_wherearray("tr_keuangan",array("tmjenjang_id"=>$data['dataform']->tmjenjang_id,"tmsiswa_id"=>$data['dataform']->id,"ajaran"=>$ajaran));
+            $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'siswatagihan');
                 $this->load->view('page_item',$data);
 			
 	     } else {

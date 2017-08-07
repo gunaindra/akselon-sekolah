@@ -19,6 +19,8 @@ class Databuku extends CI_Controller {
 	
 		$data['title'] 		= "Data Buku ";
 		$data['konten'] 	= "page";
+        $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'databuku');
+
 		$this->load->view('home/page_header',$data);
 	
 
@@ -51,8 +53,21 @@ class Databuku extends CI_Controller {
 
 		$datagrid = $this->Model_data->getdata(true)->result_array();
 		$kode='123';
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'databuku');
+
 		$i= ($iDisplayStart +1);
 		foreach($datagrid as $val) {
+            // enable/disable actions based on privileges
+            $actions = '';
+            if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("databuku/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a>';
+            }
+
+            if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
+                $actions .= '<a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("databuku/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>';
+            }
+
 			$no = $i++;
 			$records["data"][] = array(
 				$no,
@@ -63,12 +78,7 @@ class Databuku extends CI_Controller {
 				$val['tahun_terbit'],					
 				$val['isbn'],	
 				'<img src="'.base_url().'databuku/bikin_barcode/'.$val['barcode'].'">',
-				'
-				<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("databuku/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i>  </a> 
-				
-		        <a href="javascript:;" class="btn btn-danger hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("databuku/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"><i class="fa fa-trash-o"></i></a>
-				
-				'
+                $actions
 
 			  );
 		  }
@@ -104,16 +114,28 @@ class Databuku extends CI_Controller {
 					
 				);
 				$this->form_validation->set_rules($config);
-		
-	
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'databuku');
         
         if ($this->form_validation->run() == true) {
 			
 			$id   = $this->input->get_post("id",true);
 			
 				if(empty($id)){
+                    if (!isset($privileges->c_create) || $privileges->c_create != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->insert();
 				}else{
+                    if (!isset($privileges->c_update) || $privileges->c_update != '1') {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('error' => true, 'message' => 'Anda tidak memiliki hak untuk mengakses fitur ini.'));
+                        return;
+                    }
+
 						$this->Model_data->update($id);
 				}
 			  
@@ -132,6 +154,13 @@ class Databuku extends CI_Controller {
 	
 	
 	public function hapus(){
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'databuku');
+
+        if (!isset($privileges->c_delete) || $privileges->c_delete != '1') {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true, 'alert' => '<div class="alert alert-danger">Anda tidak memiliki hak untuk mengakses fitur ini.</div>'));
+            return;
+        }
 		
 		$this->Acuan_model->hapus("tm_buku",array("id"=>$this->input->get_post("id")));
 		

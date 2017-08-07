@@ -416,7 +416,10 @@ $(document).on('submit', 'form#sendall', function (event, messages) {
 	alertify.confirm("Apakah anda yakin akan menghapus data ini ?",function(){
 		 loading();
 	 $.post(urlnya,{id:id},function(data){
-		 
+	     if (data.error) {
+	         $('.alertmsg').html(data.alert);
+         }
+
 		 dataTable.ajax.reload(null,false);
 		 
 			jQuery.unblockUI({ });

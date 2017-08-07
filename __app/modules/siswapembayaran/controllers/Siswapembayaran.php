@@ -42,9 +42,16 @@ class Siswapembayaran extends CI_Controller {
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
 		  $datagrid = $this->Model_data->getdata(true)->result_array();
+
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'siswapembayaran');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
+               // enable/disable actions based on privileges
+               $actions = '';
+               if (isset($privileges->c_create) && $privileges->c_create == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Tagihan " urlnya = "'.site_url("siswapembayaran/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-money "></i> Lakukan Pembayaran  </a>';
+               }
 				
 				$no = $i++;
 				$records["data"][] = array(
@@ -56,11 +63,8 @@ class Siswapembayaran extends CI_Controller {
 					$val['nama'],					
 					$val['sex'],					
 					$val['nama_ayah'],					
-					$val['nama_ibu'],					
-					'
-					<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Tagihan " urlnya = "'.site_url("siswapembayaran/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-money "></i> Lakukan Pembayaran  </a> 
-				
-					'
+					$val['nama_ibu'],
+                    $actions
 
 				  );
 			  }

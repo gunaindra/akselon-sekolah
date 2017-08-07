@@ -79,7 +79,7 @@
 										?>
 									     <tr id="row<?php echo $row->id; ?>">
 											 <td><?php echo $no++; ?></td>
-											 <td><?php echo $this->Acuan_model->get_kondisi($row->tmkeuangan_id,"id","tm_keuangan","nama"); ?></td>
+											 <td><?php echo $this->Acuan_model->get_kondisi_a($row->tmkeuangan_id,"id","tm_keuangan","nama"); ?></td>
 											 <td><?php echo $this->Acuan_model->formatuang($row->tagihan); ?> </td>
 											 <td><input type="text"  id="bayar" value="<?php echo ($row->dibayar !=0) ? $this->Acuan_model->formatuang2($row->dibayar) :""; ?>" class="form-control dibayar" data-id="<?php echo $row->id; ?>" data-tagihan="<?php echo $row->tagihan; ?>" onkeyup="FormatCurrency(this)"></td>
 											 <td id="sisa<?php echo $row->id; ?>"><?php echo $this->Acuan_model->formatuang(($row->tagihan-$row->dibayar)); ?> </td>
