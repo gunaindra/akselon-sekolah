@@ -152,10 +152,11 @@
 						
 						 $(document).off('click', '.kembalikan').on('click', '.kembalikan', function (event, messages) {
 							var id = $(this).attr("datanya");
-						   $.post("<?php echo site_url("pengembalianbuku/kembalikan"); ?>",{id:id},function(data){
-							   
-						
-							   $("#peminjaman"+id).remove();
+							var denda= $(this).attr("denda");
+							var status= $(this).attr("status");
+						   $.post("<?php echo site_url("pengembalianbuku/kembalikan"); ?>",{id:id, denda:denda, status:status},
+						   	function(data){
+							   	$("#peminjaman"+id).remove();
 						   })
 						});
 						

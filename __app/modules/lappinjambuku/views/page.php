@@ -66,6 +66,8 @@
 											<th> Judul Buku </th>
 											<th> Tanggal Pinjam </th>
 											<th> Harus Kembali </th>
+											<th> Denda </th>
+											<th> Bayar Denda </th>
 											<th> Status </th>
 											
 									   </tr>

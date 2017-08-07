@@ -48,16 +48,15 @@ class Lapkembalibuku extends CI_Controller {
 				$no = $i++;
 				$records["data"][] = array(
 					$no,
-					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","tm_siswa","nis"),					
-					$this->Acuan_model->get_kondisi($val['tmsiswa_id'],"id","tm_siswa","nama"),					
+					$this->Acuan_model->get_kondisi_a($val['tmsiswa_id'],"id","tm_siswa","nis"),					
+					$this->Acuan_model->get_kondisi_a($val['tmsiswa_id'],"id","tm_siswa","nama"),					
 					$val['nama'],					
 					$this->Acuan_model->formattanggalstring($val['tgl_pinjam']),					
 					$this->Acuan_model->formattanggalstring($val['tgl_kembali']),					
-					$this->Acuan_model->formattanggalstring($val['harus_kembali']),					
-				
-					'
-					<i class="label label-success"> Sudah dikembalikan </i>
-					'
+					$this->Acuan_model->formattanggalstring($val['harus_kembali']),		
+					'Rp'.$val['denda'],
+					'<i class="label label-success">'.$val['status_denda'].'</i>',
+					'<i class="label label-success"> Sudah dikembalikan </i>'
 
 				  );
 			  }

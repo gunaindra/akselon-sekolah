@@ -37,8 +37,9 @@ class Pengembalianbuku extends CI_Controller {
      
        
 	   $id     = $this->input->get_post("id",true);
-	  
-	    $this->Acuan_model->update("tr_buku",array("status"=>2,"tgl_kembali"=>date("Y-m-d")),"id='".$id."'");
+	   $denda  = $this->input->get_post("denda",true);
+	   $status_denda  = $this->input->get_post("status",true);
+	    $this->Acuan_model->update("tr_buku",array("status"=>2,"denda"=>$denda,"status_denda"=>$status_denda,"tgl_kembali"=>date("Y-m-d")),"id='".$id."'");
 	
 	}
 	

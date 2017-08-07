@@ -71,7 +71,11 @@
 											
 											 <div class="col-md-3">
 											 
-												<input type="text" readonly class="form-control" id="harus_kembali"  value="<?php echo  date("Y-m-d");  ?>">							
+												<input type="text" readonly class="form-control" id="harus_kembali"  value="<?php 
+												$date = date("Y-m-d");
+											 	$date = strtotime($date);
+											 	$date = strtotime("+7 day", $date);
+											 	echo date('Y-m-d', $date);  ?>">							
 											    <script type="text/javascript">
 												 $(document).ready(function () {
 													 $('#harus_kembali').datepicker({

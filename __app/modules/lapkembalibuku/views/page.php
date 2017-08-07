@@ -67,6 +67,8 @@
 											<th> Tanggal Pinjam </th>
 											<th> Tanggal Kembali </th>
 											<th> Harus Kembali </th>
+											<th> Denda </th>
+											<th> Status Denda </th>
 											<th> Status </th>
 											
 									   </tr>
