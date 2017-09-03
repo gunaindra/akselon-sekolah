@@ -47,9 +47,11 @@ class Walas extends CI_Controller {
 		  if(count($valid) ==0){
 			  
 			  $this->Model_data->insert();
+			  $this->Model_data->update_pegawai($tmpegawai_id);
 		  }else{
-			  
+
 			  $this->Model_data->update();
+			  $this->Model_data->update_pegawai($tmpegawai_id);
 			  
 		  }
 		

@@ -92,7 +92,26 @@ class Model_data extends CI_Model {
 		
 		
     }
-	
+	public function update_pegawai($id) {
+        
+            $this->db->set('d_update', date('Y-m-d H:i:s'));
+			$this->db->set('i_update', $_SESSION['user_id']);
+			
+			$this->db->where("id",$id);
+			$updateData=array("grup"=>"6");
+			$this->db->update("tm_pegawai",$updateData);
+			$this->Acuan_model->log($_SESSION['nama']." Update Data Pegawai");	
+				if ($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+				   
+				} else {
+					
+					$this->db->trans_commit();
+					
+				}
+		
+		
+    }
 	    
   public function selected($tmpegawai_id,$tmruang_id){
 	  

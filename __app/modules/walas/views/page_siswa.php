@@ -126,14 +126,13 @@
 												   $walas = $this->Acuan_model->get_wherearray("tm_pegawai",array("tmsekolah_id"=>$_SESSION['tmsekolah_id'],"status_jabatan"=>'guru'));
 												   
 												      foreach($walas as $rw){
-														  
-														  ?><option value="<?php echo $rw->id; ?>" <?php echo $this->Model_data->selected($rw->id,$row->tmruang_id); ?> ><?php echo $rw->nama; ?></option>
+														  ?><option value="<?php echo $rw->id; ?>" 
+														<?php echo $this->Model_data->selected($rw->id,$row->tmruang_id); ?> ><?php echo $rw->nama; ?></option>
+
 													  <?php 
 													  }
 												  
 												   ?>
-
-
 
 									</td>
 									<td id="status<?php echo $row->tmruang_id; ?>"> <?php echo ($this->Model_data->status($row->tmruang_id) !="") ? "<i class='label label-info'> Ditetapkan </i>" : "<i class='label label-info'> Belum </i>"; ?>  </td>
