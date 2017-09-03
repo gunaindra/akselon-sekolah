@@ -304,6 +304,14 @@ class Acuan_model extends CI_Model {
 		return $sql;
 	
 	}
+	public function get_mapel_byguru($id){
+		$this->db->select("*");
+		$this->db->where("id",$id);
+		$this->db->order_by("nama","asc");
+		$sql = $this->db->get("tm_pelajaran");
+		return $sql;
+	
+	}
 	
 	public function get_jenjang(){
 		
