@@ -159,6 +159,8 @@ class Ruang extends CI_Controller {
 	
 	// onchange
 	
+	
+
 	public function selectkelas(){
 		
 		$tmjenjang_id = $this->input->get_post("id");
@@ -178,8 +180,60 @@ class Ruang extends CI_Controller {
 		  
 		
 	}
+
+
+
+	public function selectruangkelas(){
+		
+		$tmpelajaran_id= $this->input->get_post("id");
+		// $kelas  	  = $this->Acuan_model->get_wherearray("tm_kelas",array("tmjenjang_id"=>$tmjenjang_id));
+
+		$this->db->select("*");
+        $this->db->from("tr_jadwal");
+        $this->db->join("tm_ruang","tm_ruang.id=tr_jadwal.tmruang_id","inner");
+        $this->db->group_by("tmruang_id");
+		$this->db->where("tmpelajaran_id",$tmpelajaran_id);
+		$kelas =  $this->db->get()->result();
+
+
+		  if(count($kelas) >0){
+			  echo "<option value=''>-Pilih Kelas-</option>";
+			  
+			  foreach($kelas as $row){
+				  
+				  echo "<option value='".$row->id."'>".$row->nama."</option>";
+			  }
+			  
+		  }else{
+			  
+			     echo "<option value=''>Tidak ditemukan</option>";
+		  }
+		  
+		
+	}
+
 	
 	public function selectruang(){
+		
+		$tmkelas_id   = $this->input->get_post("id");
+		$ruang  	  = $this->Acuan_model->get_wherearray("tm_ruang",array("tmkelas_id"=>$tmkelas_id));
+		  if(count($ruang) >0){
+			  echo "<option value=''>-Pilih Ruang-</option>";
+			  
+			  foreach($ruang as $row){
+				  
+				  echo "<option value='".$row->id."'>".$row->nama."</option>";
+			  }
+			  
+		  }else{
+			  
+			     echo "<option value=''>Tidak ditemukan</option>";
+		  }
+		  
+		
+	}
+
+	public function selectruang2(){
 		
 		$tmkelas_id   = $this->input->get_post("id");
 		$ruang  	  = $this->Acuan_model->get_wherearray("tm_ruang",array("tmkelas_id"=>$tmkelas_id));

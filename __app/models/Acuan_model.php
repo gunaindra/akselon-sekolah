@@ -194,6 +194,12 @@ class Acuan_model extends CI_Model {
 		return $sql->keterangan;
 	
 	}
+	public function get_kelas($id){
+		$this->db->select("nama");
+		$this->db->where("id",$id);
+		return $sql = $this->db->get("tm_kelas")->row();
+	
+	}
 	
 	public function get_video(){
 		

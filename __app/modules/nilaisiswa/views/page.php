@@ -40,37 +40,8 @@
 			<div class="portlet-body">
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
-					  <div class="col-md-3">
-		                  <?php if (isset($privileges->c_create) && $privileges->c_create == '1'): ?>
-		                    <a href="javascript:void(0);" id="tambahdata"  urlnya="<?php echo site_url("nilaisiswa/form"); ?>" class="btn btn-success tooltips" data-container="body" data-placement="right" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Data</a>
-		                  <?php endif; ?>
-					  </div>
-					  <div class="col-md-9">
-						<form class="navbar-form navbar-right" role="search" method="post" id="formcaridatatables" action="javascript:void(0)">
-							<div class="form-group">
-						     <select class="form-control onchange "  id="tmjenjang_id" url="<?php echo site_url("nilaisiswa/selectkelas"); ?>" target="tmkelas_id">
-							     <option value="">- Pilih Jenjang -</option>
-								   <?php 
-								  
-								     foreach($jenjang as $row){
-										 
-										 ?><option value='<?php echo $row->id; ?>' <?php echo (isset($dataform)) ?  ($dataform->tmjenjang_id==$row->id) ? "selected":"" :"" ?>><?php echo $row->nama; ?></option>"<?php 
-									 }
-								    ?>
-							  </select>
-							</div>
-							<div class="form-group">
-							  	<select class="form-control tmkelas_id" id="tmkelas_id">
-								    <option value="">- Pilih Kelas -</option>
-										 
-								</select>		
-							</div>
-							<div class="form-group">
-								<input type="text" size="30" name="keyword" id="keyword" class="form-control" placeholder="Cari disini " value="<?php echo isset($keyword) ? $keyword :""; ?>" placeholder=" ">
-								
-							</div>
-							<button type="submit" class="btn btn-success tooltips" data-container="body" data-placement="bottom" title="Cari" id="searchcustom"><span class="glyphicon glyphicon-search"></span></button>
-						</form>
+					  <div class="col-md-12">
+						
 					 </div>
 					</div>
 				</div>

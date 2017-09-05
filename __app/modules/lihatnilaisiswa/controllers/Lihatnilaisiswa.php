@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Lihatnilai extends CI_Controller {
+class Lihatnilaisiswa extends CI_Controller {
 
 	 public function __construct()
       {
         parent::__construct();
-		$this->load->model(array('Model_lihatnilai'));
+		$this->load->model(array('Model_lihatnilaisiswa'));
          if(!$this->session->userdata("tmsekolah_id")){
 			
 			redirect(base_url());
@@ -17,7 +17,7 @@ class Lihatnilai extends CI_Controller {
 	public function index($offset=null)
 	{  
 	
-		$data['title'] 		= "Data Siswa";
+		$data['title'] 		= "Lihat Nilai Siswa";
 		$data['konten'] 	= "page";
 		$data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),null)->result();
         $data['privileges'] = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'lihatnilai');
@@ -29,7 +29,7 @@ class Lihatnilai extends CI_Controller {
 	
 	public function grid(){
 		
-		  $iTotalRecords = $this->Model_lihatnilai->getdata(false)->num_rows();
+		  $iTotalRecords = $this->Model_lihatnilaisiswa->getdata(false)->num_rows();
 		  
 		  $iDisplayLength = intval($_REQUEST['length']);
 		  $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
@@ -42,7 +42,7 @@ class Lihatnilai extends CI_Controller {
 		  $end = $iDisplayStart + $iDisplayLength;
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
-		  $datagrid = $this->Model_lihatnilai->getdata(true)->result_array();
+		  $datagrid = $this->Model_lihatnilaisiswa->getdata(true)->result_array();
 
         $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'lihatnilai');
 		   
@@ -68,8 +68,7 @@ class Lihatnilai extends CI_Controller {
 				$no = $i++;
 				$records["data"][] = array(
 					$no,					
-					$val['nm_ruang'],					
-					$val['nm_siswa'],					
+					$val['pelajaran'],					
 					$val['nilai'],					
 					$val['status_nilai']
 
@@ -151,7 +150,7 @@ class Lihatnilai extends CI_Controller {
                         return;
                     }
 
-						$this->Model_lihatnilai->insert();
+						$this->Model_lihatnilaisiswa->insert();
 				}else{
                     if (!isset($privileges->c_update) || $privileges->c_update != '1') {
                         header('Content-Type: application/json');
@@ -159,7 +158,7 @@ class Lihatnilai extends CI_Controller {
                         return;
                     }
 
-						$this->Model_lihatnilai->update($id);
+						$this->Model_lihatnilaisiswa->update($id);
 				}
 			  
 			   
