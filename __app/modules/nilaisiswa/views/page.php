@@ -48,8 +48,7 @@
 
 
 			   <div class="table-container">
-				<table class="table table-striped table-bordered table-hover" id="datatableTable">
-
+					<table class="table table-striped table-bordered table-hover" id="datatableTable">
 						<thead>
 							<tr>
 								<th width="5%"> No </th>
@@ -61,7 +60,16 @@
 						<tbody>
 						</tbody>
 					</table>
-				  </div>
+				</div>
+				<div class="clear"><br></div>
+				<div class="alert alert-info">
+					<b> Keterangan/ Tata Cara Memasukan Nilai </b>
+					<ol type="square">
+					  <li>Pilih Kelas dan Ruangan </li>
+					  <li>Maka akan menampilkan siswa sesuai ruangan yang dipilih</li>
+					</ol>
+				</div>
+
 		    </div>
 </div>
 

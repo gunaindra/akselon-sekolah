@@ -83,9 +83,11 @@
 		 ?>
 		<div class="clear"><br></div>
 		<div class="alert alert-info">
-			<b> Keterangan </b>
+			<b> Keterangan/ Cara memasukan Nilai Siswa </b>
 			<ol type="square">
-			  <li> Masukan Nilai sesuai jenis nilai</li>
+			  <li>Pilih Jenis/Kategori nilai (UTS / UAS / TUGAS / DLL)</li>
+			  <li>Pilih Mata Pelajaran sesuai pelajaran yang anda pegang</li>
+			  <li>Masukan seluruh nilai siswa</li>
 			 </ol>
 		</div>
 	</div>

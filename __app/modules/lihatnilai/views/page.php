@@ -98,6 +98,14 @@
 									</tbody>
 								</table>
 							  </div>
+							  <div class="clear"><br></div>
+								<div class="alert alert-info">
+									<b> Keterangan/ Tata Cara Melihat Nilai </b>
+									<ol type="square">
+									  <li>Pilih Mata Pelajaran dan Kelas terlebih dahulu untuk mendapatkan nilai sesuai yang diinginkan</li>
+									  <li>Atau cari berdasarkan nama dengan mengisi Kolom Nama Siswa</li>
+									</ol>
+								</div>
 		                </div>
 </div>
 
