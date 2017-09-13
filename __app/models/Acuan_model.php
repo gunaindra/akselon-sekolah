@@ -870,4 +870,17 @@ SELECT 	COUNT(
 
         return $query->row();
     }
+
+    function insert_update($data, $where = [], $table, $key = 'id',$protect = true)
+    {
+        $query = $this->db->where($where)->from($table)->get();
+        if ($query->num_rows() == 0) {
+            $this->db->insert($table, $data);
+            return $this->db->insert_id();
+        } else {
+            $this->db->where($where, $protect);
+            $this->db->update($table, $data);
+            return $query->row()->{$key};
+        }
+    }
 }

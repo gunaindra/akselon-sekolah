@@ -42,8 +42,7 @@
 						
 						         <td style="font-weight:bold"  width="20%"> Ruang  </td>
 							     <td>:<?php echo isset($dataform->ruang) ? $dataform->ruang:"";  ?></td>
-								 <?php echo json_encode($dataform->tmruang_id); ?>
-								
+
 						
 						      </tr>
 							  <tr>
@@ -102,7 +101,14 @@
 											 <td><?php echo $row->pelajaran; ?></td>
 											 <td><?php echo $row->guru; ?></td>
 											
-											 <td> <a href="javascript:;" class="btn btn-success deleteone tooltips" data-container="body" data-placement="top"  title="Hapus Data" datanya="<?php echo $row->id; ?>"  ><i class="fa fa-trash-o"></i></a> </td>
+											 <td>
+                                                <?php if ($row->checked_in && !$row->checked_out) : ?>
+                                                    <a href="javascript:;" class="btn btn-success guru-absen-siswa tooltips" data-container="body" data-placement="top" title="Absen Siswa" data-id="<?php echo $row->id; ?>">Absen Siswa</a>
+                                                    <a href="javascript:;" class="btn btn-success guru-check-out tooltips" data-container="body" data-placement="top" title="Check out" data-id="<?php echo $row->id; ?>">Check out</a>
+                                                <?php elseif (!$row->checked_in) : ?>
+                                                    <a href="javascript:;" class="btn btn-success guru-check-in tooltips" data-container="body" data-placement="top" title="Check in" data-id="<?php echo $row->id; ?>">Check in</a>
+                                                <?php endif; ?>
+                                             </td>
 									     </tr>
 										<?php }
 										}

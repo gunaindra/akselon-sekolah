@@ -104,11 +104,109 @@ class Model_data extends CI_Model {
 		
 		
     }
-	
 
-	
-	
-	
-	
-	
+    public function verifyAccount($post) {
+        $id = $this->session->userdata['user_id'];
+        $query = $this->db->get_where('tm_pegawai', ['id' => $id, 'password' => $post['password']]);
+        if (empty($query->row())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function startAbsensiGuruJadwal($post) {
+        $post['date'] = date('Y-m-d');
+        $post['tmguru_id'] = $this->session->userdata['user_id'];
+        $post['start'] = date('Y-m-d H:i:s');
+
+	    $where = [
+	        'date' => $post['date'],
+            'tr_jadwal_id' => $post['jadwal_id'],
+            'tmguru_id' => $post['tmguru_id']
+        ];
+
+	    $data = [
+            'date' => $post['date'],
+	        'tr_jadwal_id' => $post['jadwal_id'],
+	        'tmguru_id' => $post['tmguru_id'],
+	        'start' => $post['start'],
+        ];
+
+	    return $this->Acuan_model->insert_update($data, $where, 'tr_absensigurujadwal');
+    }
+
+    public function getSiswaKelas($kelas_id) {
+        $query = $this->db->get_where('v_siswa', ['tmkelas_id' => $kelas_id]);
+
+        return $query->result();
+    }
+
+    public function saveAbsensiSiswa($post) {
+        $post['date'] = date('Y-m-d');
+
+	    foreach ($post['status'] as $key => $value) {
+            $where = [
+                'date' => $post['date'],
+                'tr_jadwal_id' => $post['jadwal_id'],
+                'tm_siswa_id' => $key
+            ];
+
+            $data = [
+                'date' => $post['date'],
+                'tr_jadwal_id' => $post['jadwal_id'],
+                'tm_siswa_id' => $key,
+                'status' => $value,
+            ];
+
+            $this->Acuan_model->insert_update($data, $where, 'tr_absensisiswajadwal');
+        }
+
+        return true;
+    }
+
+    public function getJadwalCheckedInStatus($jadwal_id) {
+	    $date = date('Y-m-d');
+	    $guru_id = $this->session->userdata['user_id'];
+
+	    $where = [
+	        'date' => $date,
+            'tr_jadwal_id' => $jadwal_id,
+            'tmguru_id' => $guru_id
+        ];
+
+        $query = $this->db->get_where('tr_absensigurujadwal', $where);
+        $result = $query->row();
+
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    public function endAbsensiGuruJadwal($post) {
+        $post['date'] = date('Y-m-d');
+        $post['tmguru_id'] = $this->session->userdata['user_id'];
+        $post['end'] = date('Y-m-d H:i:s');
+
+        $where = [
+            'date' => $post['date'],
+            'tr_jadwal_id' => $post['jadwal_id'],
+            'tmguru_id' => $post['tmguru_id']
+        ];
+
+        $data = [
+            'end' => $post['end'],
+            'bap' => $post['bap']
+        ];
+
+        return $this->Acuan_model->insert_update($data, $where, 'tr_absensigurujadwal');
+    }
+
+    public function getJadwal($jadwal_id) {
+        $query = $this->db->get_where('tr_jadwal', ['id' => $jadwal_id]);
+
+        return $query->row();
+    }
 }

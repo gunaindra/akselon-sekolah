@@ -218,6 +218,124 @@
 			 })
 	    })
 	
-   });	
-		
+   });
+
+       $(document).on('click','.guru-check-in',function(e) {
+           e.preventDefault();
+           var id = $(this).data('id');
+           var kelas_id = $('#tmkelas_id').val();
+
+           loading();
+
+           $.post('absenguru/checkin', {id: id, kelas_id: kelas_id}, function(data){
+               $("#showform").html(data).show();
+
+               $('html, body').animate({
+                   scrollTop: $("#showform").offset().top
+               }, 1000);
+               jQuery.unblockUI({ });
+           })
+
+       });
+
+       $(document).on('click','#guru-verify-account-submit',function(e) {
+           e.preventDefault();
+           loading();
+
+           $.post('absenguru/verifyAccount', $('#guru-verify-account').serialize(), function(data){
+               if (typeof data.status !== 'undefined' && !data.status) {
+                   $('#guru-verify-errorvalidation').html(data.errors);
+                   $('html, body').animate({
+                       scrollTop: $("#showform").offset().top
+                   }, 1000);
+                   jQuery.unblockUI({ });
+               } else {
+                   $("#showform").html(data).show();
+
+                   $('html, body').animate({
+                       scrollTop: $("#showform").offset().top
+                   }, 1000);
+                   jQuery.unblockUI({ });
+               }
+           })
+
+       });
+
+       $(document).on('click','#absen-siswa-submit',function(e) {
+           e.preventDefault();
+           loading();
+
+           $.post('absenguru/absenSiswa', $('#absen-siswa').serialize(), function(data){
+               if (typeof data.status !== 'undefined' && !data.status) {
+                   $('#absen-siswa-errorvalidation').html(data.errors);
+                   $('html, body').animate({
+                       scrollTop: $("#showform").offset().top
+                   }, 1000);
+                   jQuery.unblockUI({ });
+               } else {
+                   $("#showform").html(data).show();
+
+                   $('html, body').animate({
+                       scrollTop: $("#showform").offset().top
+                   }, 1000);
+                   jQuery.unblockUI({ });
+               }
+           })
+       });
+
+       $(document).on('click','.guru-check-out',function(e) {
+           e.preventDefault();
+           var jadwal_id = $(this).data('id');
+
+           loading();
+
+           $.post('absenguru/checkout', {jadwal_id: jadwal_id}, function(data){
+               $("#showform").html(data).show();
+
+               $('html, body').animate({
+                   scrollTop: $("#showform").offset().top
+               }, 1000);
+               jQuery.unblockUI({ });
+           })
+
+       });
+
+       $(document).on('click','#guru-bap-submit',function(e) {
+           e.preventDefault();
+           loading();
+
+           $.post('absenguru/saveBap', $('#guru-bap').serialize(), function(data){
+               if (typeof data.status !== 'undefined' && !data.status) {
+                   $('#guru-bap-errorvalidation').html(data.errors);
+                   $('html, body').animate({
+                       scrollTop: $("#showform").offset().top
+                   }, 1000);
+                   jQuery.unblockUI({ });
+               } else {
+                   $("#showform").html('');
+//                   $('html, body').animate({
+//                       scrollTop: $("#showform").offset().top
+//                   }, 1000);
+                   jQuery.unblockUI({ });
+               }
+           })
+       });
+
+       $(document).on('click','.guru-absen-siswa',function(e) {
+           e.preventDefault();
+           var jadwal_id = $(this).data('id');
+           var kelas_id = $('#tmkelas_id').val();
+
+           loading();
+
+           $.post('absenguru/editAbsenSiswa', {jadwal_id: jadwal_id, kelas_id: kelas_id}, function(data){
+               $("#showform").html(data).show();
+
+               $('html, body').animate({
+                   scrollTop: $("#showform").offset().top
+               }, 1000);
+               jQuery.unblockUI({ });
+           })
+       });
+
 </script>

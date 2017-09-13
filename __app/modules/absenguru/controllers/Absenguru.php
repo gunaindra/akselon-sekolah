@@ -104,6 +104,11 @@ class Absenguru extends CI_Controller {
 	            $val->pelajaran = isset($pelajaran->nama) ? $pelajaran->nama : '';
 	            $val->guru = isset($guru->nama) ? $guru->nama : '';
 	            $val->idguru = $val->tmguru_id;
+
+	            $jadwal_status = $this->Model_data->getJadwalCheckedInStatus($val->id);
+
+                $val->checked_in = !$jadwal_status ? false : true;
+                $val->checked_out = !$jadwal_status ? false : (empty($jadwal_status->end) ? false : true);
         }
 
         $this->load->view('form',$data);
@@ -189,7 +194,87 @@ class Absenguru extends CI_Controller {
 		   }
 		
 	}
-	
-	
-	
+
+	public function checkin() {
+	    $data['jadwal_id'] = $this->input->post('id');
+	    $data['kelas_id'] = $this->input->post('kelas_id');
+
+        $this->load->view('verify_account',$data);
+    }
+
+    public function verifyAccount() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('password', 'Password','trim|required');
+
+        if($this->form_validation->run() === FALSE) {
+            $errors = $this->form_validation->error_array();
+
+            $errormsg = '<div class="alert alert-danger" role="alert">';
+            foreach ($errors as $error) {
+                $errormsg .= '<p>' . $error . '</p>';
+            }
+            $errormsg .= '</div>';
+
+            json_output(['status' => false, 'errors' => $errormsg]);
+        }
+        else
+        {
+            $post = $this->input->post();
+
+            $data['jadwal_id'] = $this->input->post('jadwal_id');
+            $data['kelas_id'] = $this->input->post('kelas_id');
+
+            $verified = $this->Model_data->verifyAccount($post);
+
+            if (!$verified) {
+                json_output(['status' => false, 'errors' => '<div class="alert alert-danger" role="alert"><p>Invalid Password.</p></div>']);
+            }
+
+            $this->Model_data->startAbsensiGuruJadwal($post);
+
+            $data['siswa'] = $this->Model_data->getSiswaKelas($data['kelas_id']);
+
+            $this->load->view('absen_siswa',$data);
+        }
+    }
+
+    public function absenSiswa() {
+        $post = $this->input->post();
+
+        if (!isset($post['status'])) {
+            json_output(['status' => false, 'errors' => '<div class="alert alert-danger" role="alert"><p>Data Absensi kosong.</p></div>']);
+        }
+
+        $this->Model_data->saveAbsensiSiswa($post);
+
+        $jadwal = $this->Model_data->getJadwal($post['jadwal_id']);
+
+        $_POST['id'] = $jadwal->tmruang_id;
+        $this->form();
+    }
+
+    public function checkout() {
+        $data['jadwal_id'] = $this->input->post('jadwal_id');
+
+        $this->load->view('form_bap',$data);
+    }
+
+    public function saveBap() {
+        $post = $this->input->post();
+
+        if (empty($post['bap'])) {
+            json_output(['status' => false, 'errors' => '<div class="alert alert-danger" role="alert"><p>Silakan isi catatan Keg. Belajar Mengajar.</p></div>']);
+        }
+
+        return $this->Model_data->endAbsensiGuruJadwal($post);
+    }
+
+    public function editAbsenSiswa() {
+        $data['jadwal_id'] = $this->input->post('jadwal_id');
+        $data['kelas_id'] = $this->input->post('kelas_id');
+
+        $data['siswa'] = $this->Model_data->getSiswaKelas($data['kelas_id']);
+
+        $this->load->view('absen_siswa',$data);
+    }
 }
