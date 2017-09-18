@@ -97,34 +97,42 @@ class Home extends CI_Controller {
 
         // search pegawai
         $logged_in_user = $this->Acuan_model->get_where2("tm_pegawai",array("username"=>$username,"password"=>$password))->row_array();
-        if (!empty($logged_in_user)) {
-            $logged_in_user['status'] = 'staff';
-        } else {
+        if(!empty($logged_in_user)){
+        	$logged_in_user['status'] = 'staff';
+        }
+        else {
             // if pegawai now exists search siswa
             $logged_in_user = $this->Acuan_model->get_where2("tm_siswa",array("nis"=>$username,"password"=>$password))->row_array();
-            $logged_in_user['grup'] = 3;
-            $logged_in_user['status'] = 'siswa';
+             if(!empty($logged_in_user)){
+	            $logged_in_user['grup'] = 3;
+	            $logged_in_user['status'] = 'siswa';
+           	}else{
+            	$logged_in_user = $this->Acuan_model->get_where2("tm_penanggungjawab",array("username"=>$username,"password"=>$password))->row_array();
+            	$ortu = $this->Acuan_model->get_where2("v_siswa",array("username"=>$username,"passwordortu"=>$password))->row_array();
+            	
+            	$logged_in_user['grup'] = 7;
+            	$logged_in_user['status'] = 'orangtua';
+            	$logged_in_user['tmsekolah_id'] = $ortu["tmsekolah_id"];
+            	$logged_in_user['nama'] = $ortu["username"];
+            }
+            
         }
-
-
-			   if(count($logged_in_user) >0){
-
-					   
-					   
-					   $session = array(
-						'tmsekolah_id'     => $logged_in_user['tmsekolah_id'],
-						'user_id'          => $logged_in_user['id'],
-						'nama'             => $logged_in_user['nama'],
-						'grup'             => $logged_in_user['grup'],
-						'status'            => $logged_in_user['status']);
-						
-						
-						$this->session->sess_expiration = '1000000';
-						$this->session->set_userdata($session);
-				   
-				         redirect(base_url()."home/dashboard");
-					   
-					   
+           if(count($logged_in_user) >0){
+			   
+			   $session = array(
+				'tmsekolah_id'     => $logged_in_user['tmsekolah_id'],
+				'user_id'          => $logged_in_user['id'],
+				'nama'             => $logged_in_user['nama'],
+				'grup'             => $logged_in_user['grup'],
+				'status'            => $logged_in_user['status']);
+				
+			   // var_dump($session);die();
+				$this->session->sess_expiration = '1000000';
+				$this->session->set_userdata($session);
+		   
+		         redirect(base_url()."home/dashboard");
+			   
+			   
 				   
 				   
 				   
