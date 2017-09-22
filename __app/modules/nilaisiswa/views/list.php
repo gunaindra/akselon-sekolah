@@ -28,27 +28,34 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
 			  <div class="col-md-12">
-				<div class="form-group">
+				<div class="form-group col-md-12">
+					<lable><b>Jenis Nilai</b></lable>
 					<select class="form-control" name="nilaistatus" required>
 						<option value="0">- Pilih Jenis Nilai -</option>
-						<option value="ulangan">- ULANGAN -</option>
-						<option value="uts">- UTS-</option>
-						<option value="uas">- UAS -</option>
+						<option value="ULANGAN">- ULANGAN -</option>
+						<option value="TUGAS">- TUGAS -</option>
+						<option value="UTS">- UTS-</option>
+						<option value="UAS">- UAS -</option>
 					</select>	
 				</div>
-				<div class="form-group">
-				<select class="form-control" name="pelajaran" required>
-				<option value="0">- Pilih Pelajaran -</option>
-				 <?php $id = $_SESSION['user_id'];
-				 	$a = $this->Acuan_model->get_where2("tr_gurumapel",array("tmpegawai_id"=>$id))->result();
-				 	foreach ($a as $key) {
-				 		$key->tmpelajaran_id;
-				 		$b = $this->Acuan_model->get_mapel_byguru($key->tmpelajaran_id)->row();
-					 		// echo json_encode($b->nama);
-				 		echo"<option value='".$b->id."'>".$b->nama."</option>";
-				 	}
-				 ?>
+				<div class="form-group col-md-12">
+					<lable><b>Mata Pelajaran</b></lable>
+					<select class="form-control" name="pelajaran" required>
+						<option value="0">- Pilih Pelajaran -</option>
+						 <?php $id = $_SESSION['user_id'];
+						 	$a = $this->Acuan_model->get_where2("tr_gurumapel",array("tmpegawai_id"=>$id))->result();
+						 	foreach ($a as $key) {
+						 		$key->tmpelajaran_id;
+						 		$b = $this->Acuan_model->get_mapel_byguru($key->tmpelajaran_id)->row();
+							 		// echo json_encode($b->nama);
+						 		echo"<option value='".$b->id."'>".$b->nama."</option>";
+						 	}
+						 ?>
 					</select>	
+				</div> 
+				<div class="form-group col-md-12">
+					<lable><b>Tanggal Ujian</b></lable>
+					<input class="form-control" name="tanggal" type="date" required>
 				</div> 
 			 </div>
 			</div>

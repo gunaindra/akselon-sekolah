@@ -29,7 +29,7 @@ class Lihatnilaisiswa extends CI_Controller {
 	
 	public function grid(){
 		
-		  $iTotalRecords = $this->Model_lihatnilaisiswa->getdata(false)->num_rows();
+		  $iTotalRecords = $this->Model_lihatnilaisiswa->getdata2(false)->num_rows();
 		  
 		  $iDisplayLength = intval($_REQUEST['length']);
 		  $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
@@ -42,9 +42,9 @@ class Lihatnilaisiswa extends CI_Controller {
 		  $end = $iDisplayStart + $iDisplayLength;
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		  
-		  $datagrid = $this->Model_lihatnilaisiswa->getdata(true)->result_array();
+		  $datagrid = $this->Model_lihatnilaisiswa->getdata2(true)->result_array();
 
-        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'lihatnilai');
+        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'lihatnilaisiswa');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
@@ -52,26 +52,17 @@ class Lihatnilaisiswa extends CI_Controller {
                $actions = '';
 
                // non siswa can see this if allowed but siswa can only see his/her login details
-               if (!empty($privileges) && ($this->session->userdata['grup'] != 3 || ($this->session->userdata['grup'] == 3 && $this->session->userdata['grup'] == $val['id']))) {
-                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Akun" urlnya = "'.site_url("lihatnilai/akun").'"  datanya="'.$val['id'].'" ><i class="fa fa-user"></i></a>';
+               if (!empty($privileges) && ($this->session->userdata['grup'] != 4 || ($this->session->userdata['grup'] == 4 && $this->session->userdata['grup'] == $val['idsiswa']))) {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Nilai" urlnya = "'.site_url("lihatnilaisiswa/detailnilai").'"  datanya="'.$val['id'].'" ><i class="fa fa-book"></i></a>';
                }
 
-               if (isset($privileges->c_update) && $privileges->c_update == '1') {
-                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Foto Siswa" urlnya = "'.site_url("lihatnilai/formfoto").'"  datanya="'.$val['id'].'" ><i class="fa fa-camera"></i></a>';
-                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("lihatnilai/form").'"  datanya="'.$val['id'].'" ><i class="fa fa-pencil"></i></a>';
-               }
-
-               if (isset($privileges->c_delete) && $privileges->c_delete == '1') {
-                   $actions .= '<a href="javascript:;" class="btn btn-success hapus tooltips" data-container="body" data-placement="top" urlnya = "'.site_url("lihatnilai/hapus").'" title="Hapus Data" datanya="'.$val['id'].'"  ><i class="fa fa-trash-o"></i></a>';
-               }
 				
 				$no = $i++;
 				$records["data"][] = array(
-					$no,					
-					$val['pelajaran'],					
-					$val['nilai'],					
-					$val['status_nilai']
-
+					$no,	
+					$val["kodemapel"],				
+					$val["mapel"],
+					$actions
 				  );
 			  }
 		
@@ -103,14 +94,22 @@ class Lihatnilaisiswa extends CI_Controller {
 	}
 	
 	
-	public function akun(){
+	public function detailnilai(){
 		
 		 $id = $this->input->get_post("id",TRUE);
-			   
 		    if(!empty($id)){
-				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
+		    	$a = "ulangan";
+				$data['ulangan'] = $this->Acuan_model->get_nilai($id,$a);
+				$data['rata1'] =  $this->Acuan_model->get_nilai_rata($id,$a);
+				$b = "uts";
+				$data['uts'] = $this->Acuan_model->get_nilai($id,$b);
+				$data['rata2'] =  $this->Acuan_model->get_nilai_rata($id,$b);
+				$c = "uas";
+				$data['uas'] = $this->Acuan_model->get_nilai($id,$c);
+				$data['rata3'] =  $this->Acuan_model->get_nilai_rata($id,$c);
+				
 			}
-		 $this->load->view('akun',$data);
+		 $this->load->view('detailnilai',$data);
 	}
 	
 	public function save(){

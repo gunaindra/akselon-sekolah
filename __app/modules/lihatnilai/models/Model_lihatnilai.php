@@ -16,21 +16,13 @@ class Model_lihatnilai extends CI_Model {
 		$tmpelajaran_id = trim($this->input->get_post("tmpelajaran_id"));
 		$tmkelas_id	    = trim($this->input->get_post("tmkelas_id"));
 
-	    $this->db->select("nilai.id as id, ruang.nama as nm_ruang,siswa.nama as nm_siswa, nilai.tmnilai_siswa as  nilai, nilai.tmnilai_status as status_nilai");
+	    $this->db->select("nilai.id as id, nilai.tmpelajaran_id as idpel, ruang.nama as nm_ruang,siswa.nama as nm_siswa, nilai.tmnilai_siswa as  nilai, nilai.tmnilai_status as status_nilai, siswa.id as idsiswa");
         $this->db->from('tr_nilai as nilai');
         $this->db->join('tm_siswa as siswa','siswa.id=nilai.tmsiswa_id');
         $this->db->join('tm_ruang as ruang','ruang.id=nilai.tmruang_id');
 		$this->db->where("nilai.tmsekolah_id",$_SESSION['tmsekolah_id']);
 		$this->db->where('nilai.ajaran',$ajaran);
-		// $this->db->group_by('siswa.nama');
-
-
-		// $this->db->select("*");
-  //       $this->db->from('v_siswa');
-		// $this->db->where("tmsekolah_id",$_SESSION['tmsekolah_id']);
-		// $this->db->where("status",2);
-		// $this->db->where('ajaran',$ajaran);
-		
+		$this->db->group_by('siswa.id');
          if($paging==true){
 				     $this->db->limit($_REQUEST['length'],$_REQUEST['start']);
 					 

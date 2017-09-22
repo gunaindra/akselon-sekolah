@@ -59,6 +59,46 @@ class Acuan_model extends CI_Model {
 		return $this->db->get($table)->row();
 		
 	}
+
+	public function get_siswa($id){
+		$this->db->select("nama");
+		$this->db->from("v_siswa");
+		$this->db->where("id",$id);
+		return $this->db->get();
+	}
+	public function get_nilai($id,$status){
+		$this->db->from("tr_nilai");
+		$this->db->where("tmpelajaran_id",$id);
+		$this->db->where("tmnilai_status",$status);
+		return $this->db->get()->result();
+	}
+
+
+	public function get_nilai_rata($id,$status){
+		$this->db->select(" sum(tmnilai_siswa) as nilaiakhir, avg(tmnilai_siswa) as rata ");
+		$this->db->from("tr_nilai");
+		$this->db->where("tmpelajaran_id",$id);
+		$this->db->where("tmnilai_status",$status);
+		return $this->db->get()->result();
+	}
+
+	//get nilai by ortu
+	public function get_nilai_by($idpel,$idsiswa,$status){
+		$this->db->from("tr_nilai");
+		$this->db->where("tmpelajaran_id",$idpel);
+		$this->db->where("tmsiswa_id",$idsiswa);
+		$this->db->where("tmnilai_status",$status);
+		return $this->db->get()->result();
+	}
+	public function get_nilai_rata_by($idpel,$idsiswa,$status){
+		$this->db->select("sum(tmnilai_siswa) as nilaiakhir, avg(tmnilai_siswa) as rata ");
+		$this->db->from("tr_nilai");
+		$this->db->where("tmpelajaran_id",$idpel);
+		$this->db->where("tmsiswa_id",$idsiswa);
+		$this->db->where("tmnilai_status",$status);
+		return $this->db->get()->result();
+	}
+
 	public function get_wherearray($table,$where){
 		
 		$this->db->where($where);

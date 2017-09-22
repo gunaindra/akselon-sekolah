@@ -39,61 +39,54 @@
 			</div>
 	<div class="portlet-body">
 		<div class="row">
+			<?php if($_SESSION["grup"]=="7"){
+				$username = $_SESSION["nama"];
+				$anak = $this->Acuan_model->get_where2("v_siswa",array("username"=>$username))->row_array();
+			 ?>
 			<div class="col-md-12 col-sm-12">
-				<div clas="col-md-12 col-sm-12">
-					<div class="form-group col-sm-12 col-md-12">
-						<label class="col-md-3 control-label" style="text-align:left"> Nama Siswa :</label>
-						<div class="col-md-9">
-							<?php $id = $_SESSION['user_id']; 
-								$siswa = $this->Model_lihatnilaisiswa->get_siswa($id)->result();
-								foreach ($siswa as $key) {
-									echo $key->nama;?>
-						</div>
-			 		</div>
-			 		<div class="form-group col-sm-12 col-md-12">
-						<label class="col-md-3 control-label" style="text-align:left"> Kelas : </label>
-						<div class="col-md-9">
-							<?php
-								echo $this->Acuan_model->get_kondisi_a($key->tmkelas_id,"id","tm_kelas","nama");?>
-						</div>
-			 		</div>
-			 		<div class="form-group col-sm-12 col-md-12">
-						<label class="col-md-3 control-label" style="text-align:left"> Ruang : </label>
-						<div class="col-md-9">
-							<?php
-								echo $this->Acuan_model->get_kondisi_a($key->tmruang_id,"id","tm_ruang","nama");
-								}
-							?>
-						</div>
-			 		</div>
-				</div>		 
+				<div class="alert alert-info">
+					<h3>Informasi Siswa</h3>
+					<p>NIS : <b><?php echo $anak["nis"]; ?></b> </p>
+					<p>NAMA :  <b><?php echo $anak["nama"]; ?></b> </p>
+				</div>
 			</div>
+			<?php } ?>
 			<div class="col-md-12 col-sm-12">
-			  <div class="col-md-2">
-                  <?php if (isset($privileges->c_create) && $privileges->c_create == '1'): ?>
-                    <a href="javascript:void(0);" id="tambahdata"  urlnya="<?php echo site_url("datasiswa/form"); ?>" class="btn btn-success tooltips" data-container="body" data-placement="right" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Data</a>
-                  <?php endif; ?>
-			  </div>
-			  <div class="col-md-10">
+			  <div class="col-md-12">
+				<form class="navbar-form navbar-right" role="search" method="post" id="formcaridatatables" action="javascript:void(0)">
+					<div class="form-group">
+						     <select class="form-control onchange "  id="semester">
+							     <option value="">- Pilih Semester -</option>
+								    <?php 
+								 	for ($i=2017;$i<=2020;$i++) {?>
+								 		<option value='<?php echo $i; ?>' <?php echo (isset($dataform)) ?  ($dataform->semester==$i) ? "selected":"" :"" ?>><?php echo $i; ?></option>"
+
+								 		<?php
+								 	}
+								 ?>
+							  </select>
+					</div>
+					
+					<button type="submit" class="btn btn-success tooltips" data-container="body" data-placement="bottom" title="Cari" id="searchcustom"><span class="glyphicon glyphicon-search"></span></button>
+				</form>
 			 </div>
 			</div>
 		</div>
 
-
 	   <div class="table-container">
 		<table class="table table-striped table-bordered table-hover" id="datatableTable">
 
-				<thead>
-					<tr>
-						<th width="2%"> No </th>
-						<th> Pelajaran </th>
-						<th> Nilai </th>
-						<th> Status Nilai </th>
-				   </tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
+		<thead>
+			<tr>
+				<th width="2%"> No </th>
+				<th> Kode Mata Pelajaran </th>
+				<th> Pelajaran </th>
+				<th> Aksi </th>
+			</tr>
+		</thead>
+			<tbody>
+			</tbody>
+		</table>
 		  </div>
     </div>
 </div>
@@ -107,47 +100,12 @@
 					"serverSide": true,
 					"searching": false,
 					"responsive": true,
-					 "dom": 'Bfrtip',
-					"buttons": [
 					
-
-							{
-							extend: 'pdfHtml5',
-							exportOptions: {
-							 columns: [ 0, 1, 2, 3,4,5,6,7]
-							},
-							customize: function (doc) {
-							doc.content[1].table.widths = 
-								Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-						  }
-						},
-							{
-							extend: 'excelHtml5',
-							exportOptions: {
-							  columns: [ 0, 1, 2, 3,4,5,6,7]
-							}
-						},
-							{
-							extend: 'copyHtml5',
-							exportOptions: {
-							  columns: [ 0, 1, 2, 3,4,5,6,7]
-							}
-						},
-							{
-							extend: 'csvHtml5',
-							exportOptions: {
-							  columns: [ 0, 1, 2, 3,4,5,6,7]
-							}
-						},
-						
-						
-						'colvis'
-					],
 					"ajax":{
 						url :"<?php echo site_url("lihatnilaisiswa/grid"); ?>", 
 						type: "post", 
 						"data": function ( data ) {
-						data.tmpelajaran_id = $('#tmpelajaran_id').val();
+						data.semester= $('#semester').val();
 				
 						
 						

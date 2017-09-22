@@ -40,9 +40,9 @@ class Model_nilaisiswa extends CI_Model {
 		
 	
 	}
-	function save_nilai($data)
+	function save_nilai($table,$data)
 	{
-		   return $this->db->insert('tr_nilai', $data);
+		   return $this->db->insert($table, $data);
 
 	}
 	public function getdatasiswa($id){

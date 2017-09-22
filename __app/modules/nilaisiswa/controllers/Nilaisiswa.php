@@ -45,7 +45,7 @@ class Nilaisiswa extends CI_Controller {
 		  
 		  $datagrid = $this->Model_nilaisiswa->getdata(true)->result_array();
 
-        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'nilaisiswa');
+      	  $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'nilaisiswa');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
@@ -95,29 +95,15 @@ class Nilaisiswa extends CI_Controller {
 	}
 
 	public function listsiswa(){
-	
-	 $id = $this->input->get_post("id",TRUE);
-	 $data['datasiswa'] = array("id"=>$id);
-	 // $data = array();
-	 // $data['jenjang'] = $this->Acuan_model->get(array("table"=>"tm_jenjang","order"=>"urutan","by"=>"asc"),"tmsekolah_id='".$_SESSION['tmsekolah_id']."'")->result(); 
-	 //    if(!empty($id)){
-			
-		// 	$data['dataform'] = $this->Acuan_model->get_where("tm_ruang",array("id"=>$id));
-			
-		// 	$data['datasiswa'] = $this->Acuan_model->get_where2("tr_kelas",array("tmruang_id"=>$id))->result();
-		// 	$data['kelas']    = $this->Acuan_model->get(array("table"=>"tm_kelas","order"=>"urutan","by"=>"asc"),"tmjenjang_id='".$data['dataform']->tmjenjang_id."'")->result();
-		// }
-		// echo json_encode($data['datasiswa']);
-	 $this->load->view('list',$data);
+		$id = $this->input->get_post("id",TRUE);
+		$data['datasiswa'] = array("id"=>$id);
+		$this->load->view('list',$data);
 	}
 
 	 public function gridsiswa(){
 	 	  $id = $this->input->get_post("id",TRUE);
-		  // $iTotalRecords = $this->Model_nilaisiswa->getdata(false)->num_rows();
 		  $iTotalRecords = $this->Model_nilaisiswa->getdatasiswa($id)->num_rows();
-	 	  // $iTotalRecords = $this->Acuan_model->get_where2("tr_kelas",array("tmruang_id"=>$id))->num_rows();
-	 	  // echo json_encode($iTotalRecords);die;
-		  $iDisplayLength = intval($_REQUEST['length']);
+	 	  $iDisplayLength = intval($_REQUEST['length']);
 		  $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
 		  $iDisplayStart = intval($_REQUEST['start']);
 		  $sEcho = intval($_REQUEST['draw']);
@@ -127,12 +113,8 @@ class Nilaisiswa extends CI_Controller {
 
 		  $end = $iDisplayStart + $iDisplayLength;
 		  $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-		  
-		  // $datagrid = $this->Model_nilaisiswa->getdata(true)->result_array();
 		  $datagrid = $this->Model_nilaisiswa->getdatasiswa($id)->result_array();
-		  // echo json_encode($datagrid);die;
-
-        $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'nilaisiswa');
+		  $privileges = $this->Acuan_model->getPrivilege($this->session->userdata['grup'], 'nilaisiswa');
 		   
 		   $i= ($iDisplayStart +1);
 		   foreach($datagrid as $val) {
@@ -226,8 +208,8 @@ class Nilaisiswa extends CI_Controller {
   		$status =$this->input->get_post('nilaistatus');
   		$ajaran = $this->input->get_post('ajaran');
   		$sekolah = $this->input->get_post('sekolah');
-  // 		echo $pelajaran;
-		// die;
+  		$tanggal = $this->input->get_post('tanggal');
+  		$table = "tr_nilai";
         $this->form_validation->set_message('required', '{field} Di perlukan.');
        
 		$config = array(array('field' => 'nilai[]', 'label' => 'Nilai ', 'rules' => 'trim|required'));
@@ -254,9 +236,11 @@ class Nilaisiswa extends CI_Controller {
 						  		'tmpelajaran_id' =>$pelajaran,
 						  		'ajaran' =>$ajaran[$key],
 						  		'tmsekolah_id' =>$sekolah[$key],
+						  		'i_entry' =>$tanggal,
 						  );
-						// echo json_encode($data);
-						  $this->Model_nilaisiswa->save_nilai($data);
+
+
+							$this->Model_nilaisiswa->save_nilai($table,$data);
 						}
 				}
 			  

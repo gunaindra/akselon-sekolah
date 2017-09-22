@@ -84,14 +84,9 @@
 									<thead>
 										<tr>
 											<th width="2%"> No </th>
-											
 											<th> Ruang </th>
-									
 											<th> Nama </th>
-
-											<th> Nilai </th>
-
-											<th> Status Nilai </th>
+											<th width="15%"> Lihat Nilai </th>
 									   </tr>
 									</thead>
 									<tbody>
@@ -118,42 +113,6 @@
 					"serverSide": true,
 					"searching": false,
 					"responsive": true,
-					 "dom": 'Bfrtip',
-					"buttons": [
-					
-
-							{
-							extend: 'pdfHtml5',
-							exportOptions: {
-							 columns: [ 0, 1, 2, 3,4,5,6,7]
-							},
-							customize: function (doc) {
-							doc.content[1].table.widths = 
-								Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-						  }
-						},
-							{
-							extend: 'excelHtml5',
-							exportOptions: {
-							  columns: [ 0, 1, 2, 3,4,5,6,7]
-							}
-						},
-							{
-							extend: 'copyHtml5',
-							exportOptions: {
-							  columns: [ 0, 1, 2, 3,4,5,6,7]
-							}
-						},
-							{
-							extend: 'csvHtml5',
-							exportOptions: {
-							  columns: [ 0, 1, 2, 3,4,5,6,7]
-							}
-						},
-						
-						
-						'colvis'
-					],
 					"ajax":{
 						url :"<?php echo site_url("lihatnilai/grid"); ?>", 
 						type: "post", 
