@@ -85,7 +85,7 @@
 											</div>
 											 <div class="col-md-4">
 											 
-												<input type="text" readonly class="form-control" id="tgl_lahir" name="s[tgl_lahir]" value="<?php echo isset($dataform) ? (!empty($dataform->tgl_lahir)) ? $dataform->tgl_lahir : date("Y-m-d") : date("Y-m-d"); ?>">							
+												<input type="text" readonly class="form-control" id="tgl_lahir" name="s[tgl_lahir]" value="<?php echo isset($dataform) ? (!empty($dataform->tgl_lahir)) ? $dataform->tgl_lahir : date("d-m-Y") : date("d-m-Y"); ?>">							
 											    <script type="text/javascript">
 												 $(document).ready(function () {
 													 $('#tgl_lahir').datepicker({

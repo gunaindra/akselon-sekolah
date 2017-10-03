@@ -53,6 +53,10 @@ class Datasiswa extends CI_Controller {
 
                // non siswa can see this if allowed but siswa can only see his/her login details
                if (!empty($privileges) && ($this->session->userdata['grup'] != 3 || ($this->session->userdata['grup'] == 3 && $this->session->userdata['grup'] == $val['id']))) {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Detail Akun" urlnya = "'.site_url("datasiswa/detail").'"  datanya="'.$val['id'].'" ><i class="fa fa-file-text"></i></a>';
+               }
+
+                if (!empty($privileges) && ($this->session->userdata['grup'] != 3 || ($this->session->userdata['grup'] == 3 && $this->session->userdata['grup'] == $val['id']))) {
                    $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Akun" urlnya = "'.site_url("datasiswa/akun").'"  datanya="'.$val['id'].'" ><i class="fa fa-user"></i></a>';
                }
 
@@ -117,6 +121,16 @@ class Datasiswa extends CI_Controller {
 				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
 			}
 		 $this->load->view('akun',$data);
+	}
+
+	public function detail(){
+		
+		 $id = $this->input->get_post("id",TRUE);
+			   
+		    if(!empty($id)){
+				$data['dataform'] = $this->Acuan_model->get_where("v_siswa",array("id"=>$id));
+			}
+		 $this->load->view('detail',$data);
 	}
 	
 	public function save(){
