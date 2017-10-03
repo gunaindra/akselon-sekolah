@@ -51,6 +51,8 @@ class Kepegawaian extends CI_Controller {
                // enable/disable actions based on privileges
                $actions = '';
                if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Detail Pegawai" urlnya = "'.site_url("kepegawaian/akun").'"  datanya="'.$val['id'].'"><i class="fa fa-user"></i></a>';
+
                    $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("kepegawaian/form").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i></a>';
                }
 
@@ -66,8 +68,8 @@ class Kepegawaian extends CI_Controller {
 					$val['hp'],					
 					$val['email'],					
 					ucwords($val['status_pegawai']),	
-                    $val['username'],						
-                    $val['password'],
+                    // $val['username'],						
+                    // $val['password'],
                     $actions
 
 				  );
@@ -79,7 +81,16 @@ class Kepegawaian extends CI_Controller {
 		  
 		  echo json_encode($records);
 	}
-	
+
+	public function akun(){
+		
+		 $id = $this->input->get_post("id",TRUE);
+			   
+		    if(!empty($id)){
+				$data['dataform'] = $this->Acuan_model->get_where("tm_pegawai",array("id"=>$id));
+			}
+		 $this->load->view('akun',$data);
+	}
 	
 
 	
