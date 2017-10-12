@@ -59,6 +59,7 @@
 														 changeYear: true,
 														 autoclose: true,
 														 dateFormat: 'yy-mm-dd',
+														 yearRange: '1970:2050',
 																																
 													 });
 												});
