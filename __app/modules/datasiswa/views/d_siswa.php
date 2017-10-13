@@ -1,8 +1,8 @@
 <div class="table-responsive">
-											     <table class="table table-hover table-stripped table-bordered">
+<table class="table table-hover table-stripped table-bordered">
 											     	<tr>
-<td width="20%">NIS (Nomor Induk Sekolah)</td>
-<td>: <?php echo isset($dataform) ? $dataform->nis :"" ?></td>
+<td width="20%">NISN (Nomor Induk Sekolah Nasional)</td>
+<td>: <?php echo isset($dataform) ? $dataform->nisn :"" ?></td>
 </tr>
 <tr>
 <td width="20%">Nama Lengkap</td>
