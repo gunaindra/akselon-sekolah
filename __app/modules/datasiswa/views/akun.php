@@ -31,11 +31,6 @@
 									
 									<div class="tabbable-custom nav-justified">
 										<ul class="nav nav-tabs nav-justified">
-											<li class="active">
-												<a href="#detail" data-toggle="tab">
-												Detail Siswa
-												 </a>
-											</li>
 											<li>
 												<a href="#akunsiswa" data-toggle="tab">
 												 Akun Siswa  </a>
@@ -48,20 +43,6 @@
 										</ul>
 										
 										<div class="tab-content">
-
-										<div class="tab-pane active" id="detail">
-											  <div class="table-responsive">
-											     <table class="table ">
-												   
-												     <tr>
-												     	<?php $this->load->view("detail_siswa"); ?>
-
-													 </tr>
-												 </table>
-											  </div>
-												     
-											
-											</div>
 											<div class="tab-pane" id="akunsiswa">
 											  <div class="table-responsive">
 											     <table class="table table-hover table-stripped table-bordered">

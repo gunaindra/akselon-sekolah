@@ -1,7 +1,7 @@
 <div class="form-group">
-	<label class="col-md-3 control-label" style="text-align:left">NIS</label>
+	<label class="col-md-3 control-label" style="text-align:left">NISN</label>
 	<div class="col-md-9">
-		<label class="col-md-3 control-label"><?php echo $dataform->nis; ?></label>
+		<label class="col-md-3 control-label"><?php echo $dataform->nisn; ?></label>
 	</div>
 </div>
 
