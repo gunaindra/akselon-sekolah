@@ -67,8 +67,8 @@
 											     <table class="table table-hover table-stripped table-bordered">
 												   
 												     <tr>
-													    <td width="20%"> NIS (Nomor Induk Sekolah)</td>
-													    <td> <?php echo $dataform->nis; ?></td>
+													    <td width="20%"> NISN (Nomor Induk Sekolah)</td>
+													    <td> <?php echo $dataform->nisn; ?></td>
 													 </tr>
 													  <tr>
 													    <td> Password </td>

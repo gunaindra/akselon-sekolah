@@ -6,13 +6,13 @@ class Penerimaan_model extends CI_Model {
         parent::__construct();
     }
 
-    private $table ="akademik.tm_siswa";
+    private $table ="tm_siswa";
 
 	public function insert() {
             $ajaran 		= $this->Acuan_model->ajaran();
 		    $tmsiswa_id 	= $this->Acuan_model->id($this->table);
-			$id_penanggung  = $this->Acuan_model->id2("akademik.tm_penanggungjawab");
-			$id_kelas       = $this->Acuan_model->id2("akademik.tr_kelas");
+			$id_penanggung  = $this->Acuan_model->id2("tm_penanggungjawab");
+			$id_kelas       = $this->Acuan_model->id2("tr_kelas");
 			$nopendaftaran  = "P-0".$tmsiswa_id."/".date("m")."/".$ajaran;
             $this->db->set('d_entry', date('Y-m-d H:i:s'));
 			$this->db->set('tmsekolah_id', $_POST['tmsekolah_id']);
@@ -36,17 +36,17 @@ class Penerimaan_model extends CI_Model {
 			
 			$password =  strtoupper($this->Acuan_model->get_id(8));
 			
-		    $password = ($this->db->get_where("akademik.tm_penanggungjawab",array("password"=>$password))->num_rows() ==0) ? $password : strtoupper($this->Acuan_model->get_id(8));
+		    $password = ($this->db->get_where("tm_penanggungjawab",array("password"=>$password))->num_rows() ==0) ? $password : strtoupper($this->Acuan_model->get_id(8));
 			          
 		    $this->db->set('password', $password);
-			$this->db->insert("akademik.tm_penanggungjawab",$this->input->get_post("p"));
+			$this->db->insert("tm_penanggungjawab",$this->input->get_post("p"));
 			// end ortu
 			$this->db->set('d_entry', date('Y-m-d H:i:s'));
 			$this->db->set('tmsekolah_id', $_POST['tmsekolah_id']);
 			$this->db->set('id',$id_kelas);
 			$this->db->set('tmsiswa_id',$tmsiswa_id);
 			$this->db->set('ajaran',$ajaran);
-			$this->db->insert("akademik.tr_kelas",$this->input->get_post("k"));
+			$this->db->insert("tr_kelas",$this->input->get_post("k"));
 			
 			// end kelas
 			
@@ -63,7 +63,7 @@ class Penerimaan_model extends CI_Model {
 	public function save_persyaratan($data){
 		
 		
-		$this->db->insert("akademik.tr_persyaratan",$data);
+		$this->db->insert("tr_persyaratan",$data);
 		
 	}
 	

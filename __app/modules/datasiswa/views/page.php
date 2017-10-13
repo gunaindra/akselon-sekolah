@@ -38,8 +38,10 @@
 							</div>
 						</div>
 						<div class="portlet-body">
-							
-					
+							<?php $id=$_SESSION['grup'];
+							if ($id=="6") {
+							 	echo "Walikelas";
+							 } ?>
 							<div class="row">
 								<div class="col-md-12 col-sm-12">
 								  <div class="col-md-2">
@@ -49,6 +51,23 @@
 								  </div>
 								  <div class="col-md-10">
 									<form class="navbar-form navbar-right" role="search" method="post" id="formcaridatatables" action="javascript:void(0)">
+
+										<?php if($id=="6"){
+										$user_id=$_SESSION['user_id'];
+										$a = $this->Acuan_model->get_where("tr_walas",array("tmpegawai_id"=>$user_id));
+										$b = $this->Acuan_model->get_where("tm_ruang",array("id"=>$a->tmruang_id));
+										$ruang = $b->id;
+
+										?>
+										<div class="form-group">
+											  <select class="form-control tmruang_id" id="tmruang_id">
+												     <option value="<?php echo$ruang;?>" selected><?php echo $ruang; ?></option>
+													 
+												  </select>		
+										</div>
+										<?php 
+											}
+										if($id!="6"){ ?>
 										<div class="form-group">
 											     <select class="form-control onchange "  id="tmjenjang_id" url="<?php echo site_url("ruang/selectkelas"); ?>" target="tmkelas_id">
 												     <option value="">- Pilih Jenjang -</option>
@@ -75,7 +94,7 @@
 												  </select>		
 										</div>
 										
-										
+										<?php } ?>
 										<div class="form-group">
 											<input type="text" size="25" name="keyword" id="keyword" class="form-control" placeholder="By Nama Siswa" value="<?php echo isset($keyword) ? $keyword :""; ?>" placeholder=" ">
 											

@@ -54,10 +54,10 @@
 									 </div>
 									 
 									   <div class="form-group">
-											 <label class="col-md-3 control-label" style="text-align:left"> NIS  <span class="required">*</span></label>
+											 <label class="col-md-3 control-label" style="text-align:left"> NISN  <span class="required">*</span></label>
 											 <div class="col-md-9">
 											 
-												<input type="text" class="form-control" name="s[nis]" value="<?php echo isset($dataform) ? $dataform->nis :"" ?>">							
+												<input type="text" class="form-control" name="s[nisn]" value="<?php echo isset($dataform) ? $dataform->nisn :"" ?>">							
 											</div>
 									 </div>
 									 

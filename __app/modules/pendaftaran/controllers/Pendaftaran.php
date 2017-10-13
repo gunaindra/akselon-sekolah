@@ -34,7 +34,6 @@ class Pendaftaran extends CI_Controller {
 				$config = array(
 					array('field' => 'k[tmjenjang_id]', 'label' => 'Jenjang Pendidikan ', 'rules' => 'trim|required'),
 					array('field' => 'k[tmkelas_id]', 'label' => 'Kelas ', 'rules' => 'trim|required'),
-					
 					array('field' => 'f[nama]', 'label' => 'Nama ', 'rules' => 'trim|required'),
 					array('field' => 'f[nama_panggilan]', 'label' => 'Nama Panggilan', 'rules' => 'trim|required'),
 					array('field' => 'f[anakke]', 'label' => 'Anak Ke ', 'rules' => 'trim|required'),
@@ -67,48 +66,33 @@ class Pendaftaran extends CI_Controller {
 	}
 	
 	public function persyaratan(){
-		
-		
-	  $tmjenjang_id = $this->input->get_post("tmjenjang_id",true);
-	  
-	      if(!empty($tmjenjang_id)){
-			   $sekolah = $this->Acuan_model->sekolah();
-			   $persyaratan    = $this->Acuan_model->get(array("table"=>"tm_persyaratan","order"=>"persyaratan","by"=>"asc"),"tmsekolah_id='".$sekolah->id."'")->result();
-
-				 if(count($persyaratan) >0){
-					  $no=1;
-					 foreach($persyaratan as $row){
-						   ?>
-						 
-						   <tr>
-						      <td> <?php echo $no++; ?></td>
-						      <td> <?php echo $row->persyaratan; ?> <?php echo ($row->status==1) ? "<span class='required'> * </span>" :""; ?> </td>
-						      <td id="upload<?php echo $row->id; ?>">
-							 
-														
-														
-							  <div class="btn green btn-sm fileUpload">
-																	<i class="fa  fa-upload "></i>
-																	<span>
-																	Upload </span>
-																	<input type="file" name="files" <?php echo ($row->status==1) ? "required" :""; ?> id="files" class="uploadpersyaratan fileupload" data-id="<?php echo $row->id; ?>" persyaratan="<?php echo $row->persyaratan; ?>">
-													</div>
-							 </td>
-							</tr>
-						 
-						 
-						 <?php 
-					 }
-					 
-					 
-				 }
-		
-			  
-			  
-		  }
-	  
-		
-		
+		$tmjenjang_id = $this->input->get_post("tmjenjang_id",true);
+		echo $tmjenjang_id;
+	  	if(!empty($tmjenjang_id)){
+			$sekolah = $this->Acuan_model->sekolah();
+			$persyaratan    = $this->Acuan_model->get(array("table"=>"tm_persyaratan","order"=>"persyaratan","by"=>"asc"),"tmjenjang_id='".$tmjenjang_id."'")->result();
+			if(count($persyaratan) >0){
+				$no=1;
+				foreach($persyaratan as $row){ ?>
+					<tr>
+						<td> <?php echo $no++; ?></td>
+				      	<td> <?php echo $row->persyaratan; ?> <?php echo ($row->status==1) ? "<span class='required'> * </span>" :""; ?> </td>
+				     	<td id="upload<?php echo $row->id; ?>">
+					 		<div class="btn green btn-sm fileUpload">
+								<i class="fa  fa-upload "></i>
+								<span>Upload </span>
+									<input type="file" name="files" <?php echo ($row->status==1) ? "required" :""; ?> id="files" class="uploadpersyaratan fileupload" data-id="<?php echo $row->id; ?>" persyaratan="<?php echo $row->persyaratan; ?>">
+							</div>
+					 	</td>
+					</tr>
+				<?php }
+			}
+			else{ ?>
+				<tr>
+					<td colspan="3"> Tidak ada persyaratan</td>
+				</tr>
+			<?php }
+		}
 	}
 	
 		public function savepersyaratan(){

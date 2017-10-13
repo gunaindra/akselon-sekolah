@@ -5,12 +5,7 @@ class Model_datasiswa extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-
-    
-
-	
-	
-	 private $table ="tm_siswa";
+	private $table ="tm_siswa";
 
 		
 		
