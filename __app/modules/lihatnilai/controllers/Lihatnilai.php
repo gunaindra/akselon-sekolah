@@ -90,6 +90,9 @@ class Lihatnilai extends CI_Controller {
 				$c = "uas";
 				$data['uas'] = $this->Acuan_model->get_nilai_by($idpel,$idsiswa,$c);
 				$data['rata3'] =  $this->Acuan_model->get_nilai_rata_by($idpel,$idsiswa,$c);
+				$d = "tugas";
+				$data['tugas'] = $this->Acuan_model->get_nilai_by($idpel,$idsiswa,$d);
+				$data['rata4'] =  $this->Acuan_model->get_nilai_rata_by($idpel,$idsiswa,$d);
 				
 			}
 		 $this->load->view('detailnilai',$data);
