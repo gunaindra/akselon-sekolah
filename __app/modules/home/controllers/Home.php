@@ -99,13 +99,14 @@ class Home extends CI_Controller {
         $logged_in_user = $this->Acuan_model->get_where2("tm_pegawai",array("username"=>$username,"password"=>$password))->row_array();
         if(!empty($logged_in_user)){
         	$logged_in_user['status'] = 'staff';
+        	echo "staff";
         }
         else {
-            // if pegawai now exists search siswa
-            $logged_in_user = $this->Acuan_model->get_where2("tm_siswa",array("nis"=>$username,"password"=>$password))->row_array();
-             if(!empty($logged_in_user)){
+            $logged_in_user = $this->Acuan_model->get_where2("tm_siswa",array("nisn"=>$username,"password"=>$password))->row_array();
+            if(!empty($logged_in_user)){
 	            $logged_in_user['grup'] = 3;
 	            $logged_in_user['status'] = 'siswa';
+	            echo "siswa";
            	}else{
             	$logged_in_user = $this->Acuan_model->get_where2("tm_penanggungjawab",array("username"=>$username,"password"=>$password))->row_array();
             	$ortu = $this->Acuan_model->get_where2("v_siswa",array("username"=>$username,"passwordortu"=>$password))->row_array();
@@ -131,10 +132,6 @@ class Home extends CI_Controller {
 				$this->session->set_userdata($session);
 		   
 		         redirect(base_url()."home/dashboard");
-			   
-			   
-				   
-				   
 				   
 			   }else{
 				  
