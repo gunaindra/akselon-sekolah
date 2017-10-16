@@ -120,7 +120,7 @@ class Lihatnilaisiswa extends CI_Controller {
 					array('field' => 'k[tmjenjang_id]', 'label' => 'Jenjang Pendidikan ', 'rules' => 'trim|required'),
 					array('field' => 'k[tmkelas_id]', 'label' => 'Kelas ', 'rules' => 'trim|required'),
 					array('field' => 'k[tmruang_id]', 'label' => 'Ruang ', 'rules' => 'trim|required'),
-					array('field' => 's[nis]', 'label' => 'NIS ', 'rules' => 'trim|required'),
+					array('field' => 's[nisn]', 'label' => 'NISN ', 'rules' => 'trim|required'),
 					array('field' => 's[nama]', 'label' => 'Nama ', 'rules' => 'trim|required'),
 					array('field' => 's[nama_panggilan]', 'label' => 'Nama Panggilan', 'rules' => 'trim|required'),
 					array('field' => 's[anakke]', 'label' => 'Anak Ke ', 'rules' => 'trim|required'),

@@ -137,7 +137,7 @@ class Nilaisiswa extends CI_Controller {
 					 <input type="hidden" name="jenjang[]" value="'.$val['tmjenjang_id'].'">
 					 <input type="hidden" name="ajaran[]" value="'.$val['ajaran'].'">
 					 <input type="hidden" name="sekolah[]" value="'.$val['tmsekolah_id'].'">
-					 <input type="hidden" id="nama_id" name="nama_id[]" value="'.$val['id'].'">'.$val['nis'],					
+					 <input type="hidden" id="nama_id" name="nama_id[]" value="'.$val['id'].'">'.$val['nisn'],					
 					$val['nama'],
 					'<input type="text" name="nilai[]" id="nilai">',
                     $actions

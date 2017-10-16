@@ -205,9 +205,7 @@
 										</div>
 									</div>
 						</div>
-</div>
-						
-							<?php echo form_close(); ?>
+</div><?php echo form_close(); ?>
 						
 						
 				

@@ -27,15 +27,7 @@
 			<?php if($_SESSION["grup"]=="7"){
 				$username = $_SESSION["nama"];
 				$anak = $this->Acuan_model->get_where2("v_siswa",array("username"=>$username))->row_array();
-			 ?>
-			<div class="col-md-12 col-sm-12">
-				<div class="alert alert-info">
-					<h3>Informasi Siswa</h3>
-					<p>NIS : <b><?php echo $anak["nis"]; ?></b> </p>
-					<p>NAMA :  <b><?php echo $anak["nama"]; ?></b> </p>
-				</div>
-			</div>
-			<?php } ?>
+			} ?>
 			<div class="col-md-12 col-sm-12">
 			  <div class="col-md-12 alert">
 			  	<div class="col-md-6">

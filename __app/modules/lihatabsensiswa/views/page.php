@@ -46,7 +46,7 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="alert alert-info">
 					<h3>Informasi Siswa</h3>
-					<p>NIS : <b><?php echo $anak["nis"]; ?></b> </p>
+					<p>NIS : <b><?php echo $anak["nisn"]; ?></b> </p>
 					<p>NAMA :  <b><?php echo $anak["nama"]; ?></b> </p>
 				</div>
 			</div>
