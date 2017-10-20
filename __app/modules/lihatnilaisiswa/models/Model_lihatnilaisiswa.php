@@ -60,6 +60,49 @@ class Model_lihatnilaisiswa extends CI_Model {
 	
 	}
 
+	public function data(){
+		if($_SESSION['grup']=="7"){
+			$username = $_SESSION["nama"];
+			$anak = $this->Acuan_model->get_where2("v_siswa",array("username"=>$username))->row_array();
+			$id = $anak['id'];
+		}else{
+			$id = $_SESSION['user_id'];
+		}
+	    $this->db->select("c.nama as mapel,c.id as id,b.id as idsiswa, c.id as kodemapel");
+        $this->db->from("tr_jadwal as a"); 
+        $this->db->join("v_siswa as b","a.tmruang_id = b.tmruang_id");
+        $this->db->join("tm_pelajaran as c","a.tmpelajaran_id = c.id");
+		$this->db->where("b.id",$id);
+		$this->db->group_by("a.tmpelajaran_id,b.id");
+
+		return $this->db->get();
+	}
+
+	public function getnilai($siswaid,$pelajaran_id,$status){
+		$this->db->select("SUM(tmnilai_siswa) as nilai");
+		$this->db->from("tr_nilai");
+		$this->db->where("tmsiswa_id",$siswaid);
+		$this->db->where("tmnilai_status",$status);
+		$this->db->where("tmpelajaran_id",$pelajaran_id);
+		return $this->db->get();
+	}
+
+	public function getnilaitotal($siswaid,$pelajaran_id){
+		$this->db->select("SUM(tmnilai_siswa) as nilai");
+		$this->db->from("tr_nilai");
+		$this->db->where("tmsiswa_id",$siswaid);
+		$this->db->where("tmpelajaran_id",$pelajaran_id);
+		return $this->db->get();
+	}
+
+	public function getnilairata($siswaid,$pelajaran_id){
+		$this->db->select("AVG(tmnilai_siswa) as nilai");
+		$this->db->from("tr_nilai");
+		$this->db->where("tmsiswa_id",$siswaid);
+		$this->db->where("tmpelajaran_id",$pelajaran_id);
+		return $this->db->get();
+	}
+
 	public function get_siswa($id){
 		$this->db->select("*");
 		$this->db->from("v_siswa");

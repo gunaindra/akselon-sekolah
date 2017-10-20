@@ -14,7 +14,9 @@ class Model_lihatnilai extends CI_Model {
 		$ajaran 		= $this->Acuan_model->ajaran();
 		$keyword 		= trim($this->input->get_post("keyword"));
 		$tmpelajaran_id = trim($this->input->get_post("tmpelajaran_id"));
-		$tmruang_id	    = trim($this->input->get_post("tmkelas_id"));
+		$tmjenjang_id   = trim($this->input->get_post("tmjenjang_id"));
+		$tmkelas_id	    = trim($this->input->get_post("tmkelas_id"));
+		$tmruang_id	    = trim($this->input->get_post("tmruang_id"));
 		// echo json_encode($tmkelas_id);
 	    $this->db->select("nilai.id as id, nilai.tmpelajaran_id as idpel, ruang.nama as nm_ruang,siswa.nama as nm_siswa, nilai.tmnilai_siswa as  nilai, nilai.tmnilai_status as status_nilai, siswa.id as idsiswa");
         $this->db->from('tr_nilai as nilai');
@@ -31,6 +33,8 @@ class Model_lihatnilai extends CI_Model {
 	    if($keyword !=""){ $this->db->where("UPPER(siswa.nama) LIKE '%".strtoupper($keyword)."%'"); }
 	    if($tmpelajaran_id !=""){ $this->db->where("nilai.tmpelajaran_id",$tmpelajaran_id); }
 	    if($tmruang_id !=""){ $this->db->where("nilai.tmruang_id",$tmruang_id); }
+	    if($tmjenjang_id !=""){ $this->db->where("nilai.tmjenjang_id",$tmjenjang_id); }
+	    if($tmkelas_id !=""){ $this->db->where("nilai.tmkelas_id",$tmkelas_id); }
 		
 		
 		return $this->db->get();

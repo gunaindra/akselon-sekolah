@@ -56,12 +56,16 @@ class Lihatnilai extends CI_Controller {
                if (!empty($privileges) && ($this->session->userdata['grup'] != 3 || ($this->session->userdata['grup'] == 3 && $this->session->userdata['grup'] == $val['id']))) {
                    $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data Akun" urlnya = "'.site_url("lihatnilai/detailnilai").'"  datanya="'.$array.'" ><i class="fa fa-book"></i></a>';
                }
-
+               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("gurumapel/formedit").'"  datanya="'.$val['id'].'"><i class="fa fa-pencil"></i></a>';
+               }
+               
 				$no = $i++;
 				$records["data"][] = array(
 					$no,					
 					$val['nm_ruang'],					
 					$val['nm_siswa'],					
+					$val['nilaisiswa'],					
 					$actions
 				  );
 			  }
