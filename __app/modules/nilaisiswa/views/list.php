@@ -30,7 +30,7 @@
 			  <div class="col-md-12">
 				<div class="form-group col-md-12">
 					<lable><b>Jenis Nilai</b></lable>
-					<select class="form-control" name="nilaistatus" required>
+					<select class="form-control" name="nilaistatus" required="required">
 						<option value="0">- Pilih Jenis Nilai -</option>
 						<option value="ULANGAN">- ULANGAN -</option>
 						<option value="TUGAS">- TUGAS -</option>
@@ -38,9 +38,26 @@
 						<option value="UAS">- UAS -</option>
 					</select>	
 				</div>
+				<?php
+					if($_SESSION["grup"]==1){ ?>
+					<div class="form-group col-md-12">
+						<lable><b>Mata Pelajaran</b></lable>
+						<select class="form-control" name="pelajaran" required="required">
+							<option value="0">- Pilih Pelajaran -</option>
+							 <?php 
+							 	$b = $this->Acuan_model->get_mapel();
+							 	foreach ($b as $b) {
+							 		echo"<option value='".$b->id."'>".$b->nama."</option>";
+							 	}
+							 ?>
+						</select>	
+					</div> 
+				<?php }
+					else{
+				 ?>
 				<div class="form-group col-md-12">
 					<lable><b>Mata Pelajaran</b></lable>
-					<select class="form-control" name="pelajaran" required>
+					<select class="form-control" name="pelajaran" required="required">
 						<option value="0">- Pilih Pelajaran -</option>
 						 <?php $id = $_SESSION['user_id'];
 						 	$a = $this->Acuan_model->get_where2("tr_gurumapel",array("tmpegawai_id"=>$id))->result();
@@ -53,9 +70,10 @@
 						 ?>
 					</select>	
 				</div> 
+				<?php } ?>
 				<div class="form-group col-md-12">
 					<lable><b>Tanggal Ujian</b></lable>
-					<input class="form-control" name="tanggal" type="date" required>
+					<input class="form-control" name="tanggal" type="date" required="required">
 				</div> 
 			 </div>
 			</div>

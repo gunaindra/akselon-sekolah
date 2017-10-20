@@ -45,6 +45,18 @@
 								  </div>
 								  <div class="col-md-10">
 									<form class="navbar-form navbar-right" role="search" method="post" id="formcaridatatables" action="javascript:void(0)">
+										<?php 
+										 if($_SESSION["grup"]==3){ 
+
+										 $a = $this->Acuan_model->get_siswa2($_SESSION["user_id"])->result();
+										 foreach ($a as $key) { ?>
+										 	<input type="hidden" id="tmjenjang_id" value="<?php echo $key->tmjenjang_id; ?>">
+										 	<input type="hidden" id="tmkelas_id" value="<?php echo $key->tmkelas_id; ?>">
+										 	<input type="hidden" id="tmruang_id" value="<?php echo $key->tmruang_id; ?>">
+										 <?php }
+										}
+										 else{
+										 ?>
 										<div class="form-group">
 											     <select class="form-control onchange "  id="tmjenjang_id" url="<?php echo site_url("ruang/selectkelas"); ?>" target="tmkelas_id">
 												     <option value="">- Pilih Jenjang -</option>
@@ -74,6 +86,7 @@
 										
 										
 										<button type="submit" class="btn btn-success tooltips" data-container="body" data-placement="bottom" title="Cari" id="searchcustom"><span class="glyphicon glyphicon-search"></span></button>
+										<?php } ?>
 									</form>
 								 </div>
 								</div>

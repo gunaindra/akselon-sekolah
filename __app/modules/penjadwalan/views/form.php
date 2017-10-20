@@ -209,8 +209,7 @@
 								<div class="alert alert-info">
 									<b> Keterangan </b>
 									<ol type="square">
-									  <li> Silahkan Buat Tagihan Siswa</li>
-									  <li> Item Tagihan di ambil dari master Item Tagihan</li>
+									  <li>Berikut adalah jadwal pelajaran </li>
 									 </ol>
 								</div>
 								  <div class="form-actions">
