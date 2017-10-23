@@ -65,7 +65,6 @@ class Lihatnilai extends CI_Controller {
 					$no,					
 					$val['nm_ruang'],					
 					$val['nm_siswa'],					
-					$val['nilaisiswa'],					
 					$actions
 				  );
 			  }

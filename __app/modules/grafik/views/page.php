@@ -147,132 +147,112 @@ $(function () {
   <div class="col-md-12">
   
 <div class="portlet box red">
-						<div class="portlet-title">
-							<div class="caption">
-							<i class="	 icon-bar-chart  font-white-sharp"></i>
-								 <?php echo $title; ?>
-							</div>
-							<div class="tools">
-								<a href="javascript:;" class="collapse">
-								</a>
-								
-								<a href="javascript:;" class="remove">
-								</a>
-								
-								
-							</div>
-							<div class="actions">
-								
-								<a class="btn btn-icon-only btn-default btn-sm fullscreen" href="javascript:;" data-original-title="" title="">
-								</a>
-								
-							</div>
-						</div>
-						<div class="portlet-body" id="headerawal">
-						
-							<div class="tabbable-custom nav-justified">
-								<ul class="nav nav-tabs nav-justified">
-									<li class="active">
-										<a href="#tab_1_1_1" data-toggle="tab">
-										Statistik Grafik </a>
-									</li>
-									<li>
-										<a href="#tab_1_1_2" data-toggle="tab">
-										Statistik Tabel </a>
-									</li>
-									
-								</ul>
-								<div class="tab-content">
-									<div class="tab-pane active" id="tab_1_1_1">
-										
-										<br>
-										<div id="container_grafik"  class="grafikdiv"></div>
-										<div id="container_Pie"   class="grafikdiv"></div>
-							
-							
-							
-									</div>
-									<div class="tab-pane" id="tab_1_1_2">
-										
-										
-										 <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="3%"> No </th>
-                                        <th>   <?php echo $header; ?></th>
-                                        <th> Jumlah </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                        if(json_encode($grid)==0){?>
-                                            <tr>
-                                                <td colspan="4"><center>No Record(s)</center> </td>
-                                            </tr>
-                                        <?php }else{
-                                    ?>
-                                    <?php if ($grid): ?>
-                                        <?php $i=1; 
-                                        $total=0;
-                                        foreach ($grid as $val): ?>
-                                            <tr>
-                                                <td> <?php echo $i; ?> </td>
-                                                <td> <?php echo $val['INDEXES']; ?> </td>
-                                                <td> <?php echo $val['Jumlah']; ?> </td>
-                                            </tr>
-                                        <?php $i++; $total = $total+$val['Jumlah']; endforeach; ?>
-                                    <?php endif; ?>
-
-                                     <tr>
-                                        <td colspan="2" align="right"> Subtotal </td>
-                                       
-                                        <td> <?php echo $total ?> </td>
-                                    </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                        </div>
-										
-										
-										
-									</div>
-									
-								</div>
-							</div>
-							
-						</div>
-						
-
-
-
-					</div>
-				</div>
-				
-				</div>
+	<div class="portlet-title">
+		<div class="caption">
+		<i class="	 icon-bar-chart  font-white-sharp"></i>
+			 <?php echo $title; ?>
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse">
+			</a>
 			
-	 <script>
-          
-             function changeden(){
-                var chartsel = $("#grafik_chart").val();
+			<a href="javascript:;" class="remove">
+			</a>
+			
+			
+		</div>
+		<div class="actions">
+			
+			<a class="btn btn-icon-only btn-default btn-sm fullscreen" href="javascript:;" data-original-title="" title="">
+			</a>
+			
+		</div>
+	</div>
+    <div class="portlet-body" id="headerawal">
+    	<div class="tabbable-custom nav-justified">
+    		<ul class="nav nav-tabs nav-justified">
+    			<li class="active">
+    				<a href="#tab_1_1_1" data-toggle="tab">
+    				Statistik Grafik </a>
+    			</li>
+    			<li>
+    				<a href="#tab_1_1_2" data-toggle="tab">
+    				Statistik Tabel </a>
+    			</li>
+    		</ul>
+    		<div class="tab-content">
+    			<div class="tab-pane active" id="tab_1_1_1">
+                    <br>
+    				<div id="container_grafik"  class="grafikdiv"></div>
+    				<div id="container_Pie"   class="grafikdiv"></div>
+    	        </div>
+    			<div class="tab-pane" id="tab_1_1_2">
+    			    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="3%"> No </th>
+                                    <th>   <?php echo $header; ?></th>
+                                    <th> Jumlah </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                                if(empty($grid)){?>
+                                    <tr>
+                                        <td colspan="4"><center>No Record(s)</center> </td>
+                                    </tr>
+                                <?php }else{
+                            ?>
+                            <?php if ($grid): ?>
+                                <?php $i=1; 
+                                $total=0;
+                                foreach ($grid as $val): ?>
+                                    <tr>
+                                        <td> <?php echo $i; ?> </td>
+                                        <td> <?php echo $val['INDEXES']; ?> </td>
+                                        <td> <?php echo $val['Jumlah']; ?> </td>
+                                    </tr>
+                                <?php $i++; $total = $total+$val['Jumlah']; endforeach; ?>
+                            <?php endif; ?>
+                                <tr>
+                                    <td colspan="2" align="right"> Subtotal </td>
+                                    <td> <?php echo $total ?> </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>    				
+    			</div>    			
+    		</div>
+    	</div>
+    </div>
+</div>
+</div>
+</div>
+			
+<script>
+  
+     function changeden(){
+        var chartsel = $("#grafik_chart").val();
 
-                var style = "display:block";
-                $("#container_grafik").attr("style","display:none;");
-                $("#container_Pie").attr("style","display:none;");
-                $("#container_line").attr("style","display:none;");
-                switch(chartsel){
-                    case "1" : 
-                            $("#container_grafik").attr("style",style);
-                        break;
-                    case "3" :
-                            $("#container_Pie").attr("style",style);
-                        break;
-                    case "2" : 
-                            $("#container_line").attr("style",style);
-                        break;
-                }
-            }
-        </script>
+        var style = "display:block";
+        $("#container_grafik").attr("style","display:none;");
+        $("#container_Pie").attr("style","display:none;");
+        $("#container_line").attr("style","display:none;");
+        switch(chartsel){
+            case "1" : 
+                    $("#container_grafik").attr("style",style);
+                break;
+            case "3" :
+                    $("#container_Pie").attr("style",style);
+                break;
+            case "2" : 
+                    $("#container_line").attr("style",style);
+                break;
+        }
+    }
+</script>
 <script src="<?php echo base_url(); ?>__statics/js/grafik/grafiksatu.js"></script>
 <script src="<?php echo base_url(); ?>__statics/js/grafik/3d.js"></script>
 <script src="<?php echo base_url(); ?>__statics/js/grafik/download.js"></script>
