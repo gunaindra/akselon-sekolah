@@ -89,13 +89,24 @@
 				<th> Kode Mata Pelajaran </th>
 				<th> Pelajaran </th>
 				<th> Semester </th>
+				<th> Absen  </th>
 				<th> Aksi </th>
 			</tr>
 		</thead>
 			<tbody>
 			</tbody>
 		</table>
-		  </div>
+		</div>
+		<div class="clear"><br></div>
+			<div class="alert alert-info">
+				<b> Keterangan </b>
+				<ol type="square">
+				  <li>H  : Hadir</li>
+				  <li>A  : Alfa/Tidak Hadir tanpa Keterangan</li>
+				  <li>I  : Ijin</li>
+				  <li>S  : Sakit</li>
+				</ol>
+			</div>
     </div>
 </div>
 

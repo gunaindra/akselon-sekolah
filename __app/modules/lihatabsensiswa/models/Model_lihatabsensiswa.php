@@ -67,7 +67,7 @@ class Model_lihatabsensiswa extends CI_Model {
 		$idjadwal 		= trim($this->input->get_post("idjadwal"));
 		$status 		= trim($this->input->get_post("status"));
 		
-		$this->db->select("a.date as tanggal, a.status as status, c.nama as pelajaran");
+		$this->db->select("a.created_at as tanggal, a.status as status, c.nama as pelajaran");
 		$this->db->from("tr_absensisiswajadwal as a");
 		$this->db->join("tr_jadwal as b","a.tr_jadwal_id = b.id");
 		$this->db->join("tm_pelajaran as c","b.tmpelajaran_id = c.id");

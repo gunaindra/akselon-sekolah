@@ -52,16 +52,29 @@ class lihatabsensiswa extends CI_Controller {
                $array  = "$val[idsiswa],$val[kodemapel],$val[idjadwal]";
                // non siswa can see this if allowed but siswa can only see his/her login details
                if (!empty($privileges) && ($this->session->userdata['grup'] != 4 || ($this->session->userdata['grup'] == 4 && $this->session->userdata['grup'] == $val['idsiswa']))) {
-                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Data absen" urlnya = "'.site_url("lihatabsensiswa/detailabsen").'"  datanya="'.$array.'" ><i class="fa fa-book"></i></a>';
+                   $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Lihat Detail absen" urlnya = "'.site_url("lihatabsensiswa/detailabsen").'"  datanya="'.$array.'" ><i class="fa fa-book"></i></a>';
                }
 
 				
 				$no = $i++;
+				$a="
+				<table class='table table-striped table-bordered table-hover'>
+					<tr>
+						<td>H</td><td>A</td><td>I</td><td>S</td>
+					</tr>
+					<tr>
+						<td>".$a=$this->Model_lihatabsensiswa->get_absen_row($array,"hadir")->num_rows()."</td>
+						<td>".$a=$this->Model_lihatabsensiswa->get_absen_row($array,"absen")->num_rows()."</td>
+						<td>".$a=$this->Model_lihatabsensiswa->get_absen_row($array,"ijin")->num_rows()."</td>
+						<td>".$a=$this->Model_lihatabsensiswa->get_absen_row($array,"sakit")->num_rows()."</td>
+					</tr>
+				</table>";
 				$records["data"][] = array(
 					$no,	
 					$val["kodemapel"],				
 					$val["mapel"],
 					$val["semester"],
+					$a,
 					$actions
 				  );
 			  }
@@ -99,7 +112,7 @@ class lihatabsensiswa extends CI_Controller {
 				$records["data"][] = array(
 					$no,	
 					$val["pelajaran"],			
-					$this->Acuan_model->formattanggalstring($val["tanggal"]),
+					$this->Acuan_model->formattimestamp($val["tanggal"]),
 					$val["status"]
 				  );
 			  }
