@@ -23,35 +23,49 @@
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-highlight">
                     <thead>
-                        <th>Nis</th>
+                        <th>NISN</th>
                         <th>Nama</th>
                         <th>Status</th>
                     </thead>
                     <tbody>
                     <?php foreach ($siswa as $sis) : ?>
                         <tr>
-                            <td><?php echo $sis->nis; ?></td>
+                            <td><?php echo $sis->NISN; ?></td>
                             <td><?php echo $sis->nama; ?></td>
                             <td>
                                 <label class="radio-inline">
                                     <input type="radio" name="status[<?php echo $sis->id; ?>]" value="hadir">Hadir
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="status[<?php echo $sis->id; ?>]" value="absen">Absen
+                                    <input type="radio" name="status[<?php echo $sis->id; ?>]" value="absen">Absen/tanpa keterangan
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="status[<?php echo $sis->id; ?>]" value="ijin">Ijin
                                 </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="status[<?php echo $sis->id; ?>]" value="sakit">Sakit
+                                </label> 
                             </td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
+
+            <div class="clear"><br></div>
+            <div class="alert alert-info">
+                <b> Keterangan </b>
+                <ol type="square">
+                  <li> Sebelum klik submit isi terlebih dahulu seluruh absen siswa</li>
+                 </ol>
+            </div>
             <div class="form-actions">
                 <div class="row">
                     <div class="col-md-3 navbar-right">
                         <input type="hidden" name="jadwal_id" value="<?php echo $jadwal_id; ?>">
+                        <input type="hidden" name="ajaran" value="<?php echo $sis->ajaran; ?>">
+                        <input type="hidden" name="idsekolah" value="<?php echo $_SESSION['tmsekolah_id'];  ?>">
+
                         <button type="submit" class="btn green" id="absen-siswa-submit"><i class="fa fa-save"></i> Submit</button>
                         <button type="button" class="btn default" id="cancel"><i class="fa fa-repeat "></i> Batal</button>
                     </div>

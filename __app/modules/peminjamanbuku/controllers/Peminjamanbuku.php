@@ -93,7 +93,7 @@ class Peminjamanbuku extends CI_Controller {
 					$val['jenjang'],					
 					$val['kelas'],					
 					$val['ruang'],					
-					$val['nis'],
+					$val['nisn'],
 					$val['nama'],					
 					
 					'

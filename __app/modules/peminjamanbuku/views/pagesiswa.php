@@ -48,7 +48,7 @@
 													<th> Jenjang </th>
 													<th> Kelas </th>
 													<th> Ruang </th>
-													<th> Nis </th>													
+													<th> Nisn</th>													
 													<th> Nama   </th>	
 													<th width="10%"> Pilih </th>
 											   </tr>

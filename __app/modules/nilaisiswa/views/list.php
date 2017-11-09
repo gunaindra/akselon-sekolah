@@ -40,21 +40,24 @@
 				</div>
 				<?php
 					if($_SESSION["grup"]==1){ ?>
+
 					<div class="form-group col-md-12">
-						<lable><b>Mata Pelajaran</b></lable>
-						<select class="form-control" name="pelajaran" required="required">
-							<option value="0">- Pilih Pelajaran -</option>
-							 <?php 
-							 	$b = $this->Acuan_model->get_mapel();
-							 	foreach ($b as $b) {
-							 		echo"<option value='".$b->id."'>".$b->nama."</option>";
-							 	}
-							 ?>
-						</select>	
-					</div> 
+						<select class="form-control onchange" name="pegawai" id="tmpegawai_id" url="<?php echo site_url("nilaisiswa/selectpelajaran"); ?>" target="tmpelajaran_id">
+					    	<option value="">- Pilih Guru -</option>
+						    <?php foreach($guru as $row){?>
+						   		<option value='<?php echo $row->id; ?>' <?php echo (isset($dataform)) ?  ($dataform->tmpegawai_id==$row->id) ? "selected":"" :"" ?>><?php echo $row->nama; ?></option>"
+						   	<?php } ?>
+					  	</select>
+					</div>
+					<div class="form-group col-md-12" >
+					<select class="form-control tmpelajaran_id" name="pelajaran" id="tmpelajaran_id" >
+					     <option value="">- Pilih Pelajaran -</option>
+					  </select>		
+					</div>
 				<?php }
 					else{
 				 ?>
+				<input type="hidden" name="pegawai" value="<?php echo $_SESSION['user_id']; ?>">
 				<div class="form-group col-md-12">
 					<lable><b>Mata Pelajaran</b></lable>
 					<select class="form-control" name="pelajaran" required="required">
@@ -75,6 +78,7 @@
 					<lable><b>Tanggal Ujian</b></lable>
 					<input class="form-control" name="tanggal" type="date" required="required">
 				</div> 
+				
 			 </div>
 			</div>
 		</div>

@@ -66,6 +66,12 @@ class Acuan_model extends CI_Model {
 		$this->db->where("id",$id);
 		return $this->db->get();
 	}
+	public function get_siswa2($id){
+		$this->db->select("*");
+		$this->db->from("v_siswa");
+		$this->db->where("id",$id);
+		return $this->db->get();
+	}
 	public function get_nilai($id,$status){
 		$this->db->from("tr_nilai");
 		$this->db->where("tmpelajaran_id",$id);
@@ -400,7 +406,7 @@ class Acuan_model extends CI_Model {
 	
 	}
 	
-		public function get_jabatan(){
+	public function get_jabatan(){
 		
 		$this->db->order_by("id","asc");
 		$sql = $this->db->get("tm_jabatan")->result();
@@ -408,6 +414,11 @@ class Acuan_model extends CI_Model {
 	
 	}
 	
+	public function get_pengumuman(){
+		$sql = $this->db->get("tm_pengumuman")->result();
+		return $sql;
+	}
+
 	public function get_kondisi($id,$where,$table,$kolom){
 		
 		$this->db->where($where,$id);

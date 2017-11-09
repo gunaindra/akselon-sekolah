@@ -119,17 +119,20 @@ class Model_data extends CI_Model {
         $post['date'] = date('Y-m-d');
         $post['tmguru_id'] = $this->session->userdata['user_id'];
         $post['start'] = date('Y-m-d H:i:s');
+	    $tmsekolah_id = $this->session->userdata['tmsekolah_id'];
 
 	    $where = [
 	        'date' => $post['date'],
             'tr_jadwal_id' => $post['jadwal_id'],
-            'tmguru_id' => $post['tmguru_id']
+            'tmguru_id' => $post['tmguru_id'],
+            'tmsekolah_id' => $tmsekolah_id
         ];
 
 	    $data = [
             'date' => $post['date'],
 	        'tr_jadwal_id' => $post['jadwal_id'],
 	        'tmguru_id' => $post['tmguru_id'],
+	        'tmsekolah_id' => $tmsekolah_id,
 	        'start' => $post['start'],
         ];
 
@@ -149,12 +152,16 @@ class Model_data extends CI_Model {
             $where = [
                 'date' => $post['date'],
                 'tr_jadwal_id' => $post['jadwal_id'],
+                'tmsekolah_id' => $post['idsekolah'],
+                'semester' => $post['ajaran'],
                 'tm_siswa_id' => $key
             ];
 
             $data = [
                 'date' => $post['date'],
                 'tr_jadwal_id' => $post['jadwal_id'],
+                'tmsekolah_id' => $post['idsekolah'],
+                'semester' => $post['ajaran'],
                 'tm_siswa_id' => $key,
                 'status' => $value,
             ];

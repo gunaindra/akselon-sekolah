@@ -6,6 +6,7 @@ if(count($datagrid) >0){
 	   <thead>
 	   <tr>
 	     <th>No</th>
+	     <th>Kode Jadwal</th>
 	     <th>Hari </th>
 	     <th>Jam </th>
 	     <th>Mata Pelajaran </th>
@@ -23,6 +24,7 @@ if(count($datagrid) >0){
 		?>
 	     <tr id="row<?php echo $row->id; ?>">
 			 <td><?php echo $no++; ?></td>
+			 <td><?php echo $row->id; ?></td>
              <td><?php echo $row->nama_hari; ?></td>
              <td><?php echo $row->jam; ?></td>
              <td><?php echo $row->pelajaran; ?></td>

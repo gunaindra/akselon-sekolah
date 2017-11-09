@@ -57,7 +57,13 @@ class Model_nilaisiswa extends CI_Model {
 	
 	}
 	
-	
+	public function getpelajaran($id){
+		$this->db->select("*");
+		$this->db->from("tr_gurumapel as a");
+		$this->db->join("tm_pelajaran as b","a.tmpelajaran_id=b.id");
+		$this->db->where("a.tmpegawai_id",$id);
+		return $this->db->get()->result();
+	}
 
 	
 	 public function insert() {

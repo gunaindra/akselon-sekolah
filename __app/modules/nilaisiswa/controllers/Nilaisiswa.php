@@ -53,7 +53,7 @@ class Nilaisiswa extends CI_Controller {
 
                // enable/disable actions based on privileges
                $actions = '';
-               if (isset($privileges->c_update) && $privileges->c_update == '1') {
+               if (isset($privileges->c_create) && $privileges->c_create == '1') {
                    // $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="Ubah Data" urlnya = "'.site_url("nilaisiswa/form").'"  datanya="'.$val['id_ruang'].'" ><i class="fa fa-pencil"></i></a>';
                    $actions .= '<a href="javascript:;" class="btn btn-success ubah tooltips" data-container="body" data-placement="top" title="List Siswa" urlnya = "'.site_url("nilaisiswa/listsiswa").'"  datanya="'.$val['id_ruang'].'" ><i class="fa fa-plus"></i></a>';
                }
@@ -95,7 +95,9 @@ class Nilaisiswa extends CI_Controller {
 	}
 
 	public function listsiswa(){
+		$a = "4";
 		$id = $this->input->get_post("id",TRUE);
+		$data['guru']    = $this->Acuan_model->get(array("table"=>"tm_pegawai","order"=>"id","by"=>"asc"),"grup='".$a."'")->result(); 
 		$data['datasiswa'] = array("id"=>$id);
 		$this->load->view('list',$data);
 	}
@@ -205,6 +207,7 @@ class Nilaisiswa extends CI_Controller {
   		$ruang =$this->input->get_post('ruang');
   		$nilai = $this->input->get_post('nilai');
   		$pelajaran = $this->input->get_post('pelajaran');
+  		$pegawai = $this->input->get_post('pegawai');
   		$status =$this->input->get_post('nilaistatus');
   		$ajaran = $this->input->get_post('ajaran');
   		$sekolah = $this->input->get_post('sekolah');
@@ -234,6 +237,7 @@ class Nilaisiswa extends CI_Controller {
 						  		'tmnilai_siswa' =>$nilai[$key],
 						  		'tmnilai_status' =>$status,
 						  		'tmpelajaran_id' =>$pelajaran,
+						  		'tmpegawai_id' =>$pegawai,
 						  		'ajaran' =>$ajaran[$key],
 						  		'tmsekolah_id' =>$sekolah[$key],
 						  		'i_entry' =>$tanggal,
@@ -274,6 +278,26 @@ class Nilaisiswa extends CI_Controller {
 	
 	// onchange
 	
+	public function selectpelajaran(){
+		
+		$tmpegawai_id = $this->input->get_post("id");
+		$pelajaran    = $this->Model_nilaisiswa->getpelajaran($tmpegawai_id);
+		  if(count($pelajaran) >0){
+			  echo "<option value=''>-Pilih Pelajaran-</option>";
+			  
+			  foreach($pelajaran as $row){
+				  
+				  echo "<option value='".$row->id."'>".$row->nama."</option>";
+			  }
+			  
+		  }else{
+			  
+			     echo "<option value=''>Tidak ditemukan</option>";
+		  }
+		  
+		
+	}
+
 	public function selectkelas(){
 		
 		$tmjenjang_id = $this->input->get_post("id");
